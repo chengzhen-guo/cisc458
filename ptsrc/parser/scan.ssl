@@ -46,6 +46,13 @@ Input :
 		lHash			'#'
 		lBang			'!'
 		lOrBar			'|'
+		doubleOrBar		'||'
+		plusEquals		'+='
+		minusEquals		'-='
+		starEquals		'*='
+		slashEquals		'/='	
+		percentEquals	'%='
+		doubleEquals	'=='
         lEndFile
         lastCharClass = lEndFile;
 
