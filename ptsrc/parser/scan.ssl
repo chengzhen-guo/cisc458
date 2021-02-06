@@ -49,7 +49,8 @@ Output :
         %   Tokens pDiv through pRepeat are keywords which will be 
         %   separated from user defined identifiers by the Screener.
         %   This Scanner treats them all as identifiers.
-        firstKeywordToken = pDiv
+		pOr
+        firstKeywordToken = pOr
         pOr
         pAnd
         pNot
