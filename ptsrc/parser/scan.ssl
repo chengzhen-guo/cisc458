@@ -46,13 +46,13 @@ Input :
 		lHash			'#'
 		lBang			'!'
 		lOrBar			'|'
-		doubleOrBar		'||'
-		plusEquals		'+='
-		minusEquals		'-='
-		starEquals		'*='
-		slashEquals		'/='	
-		percentEquals	'%='
-		doubleEquals	'=='
+		lDoubleOrBar	'||'
+		lPlusEquals		'+='
+		lMinusEquals	'-='
+		lStarEquals		'*='
+		lSlashEquals	'/='	
+		lPercentEquals	'%='
+		lDoubleEquals	'=='
         lEndFile
         lastCharClass = lEndFile;
 
