@@ -41,6 +41,11 @@ Input :
         lCarriageReturn
         lTab
         lNewPage 
+		lSlash			'/'
+		lPercent		'%'
+		lHash			'#'
+		lBang			'!'
+		lOrBar			'|'
         lEndFile
         lastCharClass = lEndFile;
 
