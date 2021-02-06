@@ -165,10 +165,7 @@ Scan :
                         @AlternateComment
                 ]
             | '(':
-                [
-                    | *:
-                        .pLeftParen
-                ]
+                .pLeftParen
             | ')':
                 .pRightParen
             | '[':
