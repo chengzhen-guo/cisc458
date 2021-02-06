@@ -51,7 +51,6 @@ Output :
         %   This Scanner treats them all as identifiers.
 		pOr
         firstKeywordToken = pOr
-        pOr
         pAnd
         pNot
         pThen
