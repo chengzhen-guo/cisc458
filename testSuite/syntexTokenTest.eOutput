@@ -1,0 +1,10 @@
+ .pPlusEquals
+ .pMinusEquals
+ .pStarEquals
+ .pSlashEquals
+ .pPercentEquals
+ .pDoubleEquals
+ .pNewLine
+ .pColon
+ .pEquals
+ .pEndFile
