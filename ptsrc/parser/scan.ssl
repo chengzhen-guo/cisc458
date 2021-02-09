@@ -68,6 +68,7 @@ Output :
         pIf
         pWhile
         pRepeat
+        % The followings are new Like keyword tokens.
         pChoose
         pElseif
         pFun

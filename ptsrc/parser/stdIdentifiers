@@ -48,9 +48,13 @@ false
 % Predeclared procedures and functions
 reset
 rewrite
+% Replaced write with put
 put
+% Replaced write with put
 putln
+% Replaced read with get
 get
+% Replaced readln with getln
 getln
 chr
 ord
