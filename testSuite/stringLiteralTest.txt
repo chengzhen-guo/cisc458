@@ -1,0 +1,6 @@
+Purpose: 
+1. Check if double quote string literals work properly and compound tokens pStringLiteral are generated corresponding to the string literals. 
+2. Check if single quote string literals emit #eIllegalChar 
+ 
+Result:
+Strings wrapped in double quotes can be correctly read by the scanner, emitting a .StringLiteral token with the actual text content of the string. While strings wrapped in single quotes are no longer accepted, causing emission of a #eIllegalChar. 

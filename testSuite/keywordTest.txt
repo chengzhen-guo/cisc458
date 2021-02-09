@@ -1,0 +1,9 @@
+Purpose:
+1. All added Like keywords and predefined identifiers can be emitted properly.
+2. The old PT keywords and identifiers are emitted as regular pIdentifier token text.
+
+Result:
+In the expected output. Like keywords,for example 'elseIf', can be emitted as 'pElseif' token. Like predefined identifiers,for instance 'put', can be scanned as token texts 'put' for future parsing.
+For those old keywords and predefined identifiers for the old PT, they will be emitted as regular pIdentifiers with token text.
+In the actual output, which you can find in .eOutput file, the new added keywords are recognized as keywords, and are correctly screened to their tokens.
+The removed PT keyword e.g. 'array' is now recognized as a text. This shows the keywords removal&addition was successful.
