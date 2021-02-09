@@ -1,0 +1,18 @@
+ .pSlash
+ .pPercent
+ .pHash
+ #eIllegalChar
+ .pOrBar
+ .pNewLine
+ .pPlusEquals
+ .pMinusEquals
+ .pStarEquals
+ .pSlashEquals
+ .pPercentEquals
+ .pDoubleEquals
+ .pNewLine
+  .pStringLiteral
+  % Output token text ''
+ #eIllegalChar
+ #eIllegalChar
+ .pEndFile

@@ -1,0 +1,52 @@
+  .pIdentifier (screened to pChoose)
+  .pIdentifier (screened to pElseif)
+  .pIdentifier (screened to pFun)
+  .pIdentifier (screened to pIs)
+  .pIdentifier (screened to pLike)
+  .pIdentifier (screened to pPkg)
+  .pIdentifier (screened to pPublic)
+  .pIdentifier (screened to pUsing)
+  .pIdentifier (screened to pVal)
+  .pIdentifier (screened to pWhen)
+ .pNewLine
+  .pIdentifier
+  % Output token text 'array'
+  .pIdentifier
+  % Output token text 'begin'
+  .pIdentifier
+  % Output token text 'case'
+  .pIdentifier
+  % Output token text 'const'
+  .pIdentifier
+  % Output token text 'div'
+  .pIdentifier
+  % Output token text 'do'
+  .pIdentifier
+  % Output token text 'mod'
+  .pIdentifier
+  % Output token text 'procedure'
+  .pIdentifier
+  % Output token text 'program'
+  .pIdentifier
+  % Output token text 'type'
+  .pIdentifier
+  % Output token text 'until'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'read'
+  .pIdentifier
+  % Output token text 'readln'
+  .pIdentifier
+  % Output token text 'write'
+  .pIdentifier
+  % Output token text 'writeln'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'get'
+  .pIdentifier
+  % Output token text 'getln'
+  .pIdentifier
+  % Output token text 'put'
+  .pIdentifier
+  % Output token text 'putln'
+ .pEndFile
