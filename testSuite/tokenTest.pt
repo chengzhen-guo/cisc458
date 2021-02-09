@@ -1,2 +1,4 @@
 choose elseif fun is like pkg public using val when
 array begin case const div do mod procedure program type until
+read readln write writeln
+get getln put putln
