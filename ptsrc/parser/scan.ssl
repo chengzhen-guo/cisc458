@@ -41,6 +41,18 @@ Input :
         lCarriageReturn
         lTab
         lNewPage 
+		lSlash			'/'
+		lPercent		'%'
+		lHash			'#'
+		lBang			'!'
+		lOrBar			'|'
+		lDoubleOrBar	'||'
+		lPlusEquals		'+='
+		lMinusEquals	'-='
+		lStarEquals		'*='
+		lSlashEquals	'/='	
+		lPercentEquals	'%='
+		lDoubleEquals	'=='
         lEndFile
         lastCharClass = lEndFile;
 
@@ -49,30 +61,29 @@ Output :
         %   Tokens pDiv through pRepeat are keywords which will be 
         %   separated from user defined identifiers by the Screener.
         %   This Scanner treats them all as identifiers.
-        pDiv 
-        firstKeywordToken = pDiv
-        pMod
-        pOr
+		pOr
+        firstKeywordToken = pOr
         pAnd
         pNot
         pThen
         pElse
         pOf
         pEnd
-        pUntil
-        pDo
-        pArray
         pFile
-        pProgram
-        pConst
         pVar
-        pType
-        pProcedure
-        pBegin
         pIf
-        pCase
         pWhile
         pRepeat
+		pChoose
+		pElseif
+		pFun
+		pIs
+		pLike
+		pPkg
+		pPublic
+		pusing
+		pVal
+		pWhen
         lastKeywordToken = pRepeat
 
         % Scanner tokens -
@@ -146,13 +157,15 @@ Scan :
             | lTab:
             | ';':
                 .pSemicolon
-            | '(':
-                [
+			| '/':
+				[
+                    | '/':
+                        @Comment
                     | '*':
                         @AlternateComment
-                    | *:
-                        .pLeftParen
                 ]
+            | '(':
+                .pLeftParen
             | ')':
                 .pRightParen
             | '[':
@@ -209,8 +222,6 @@ Scan :
                     | *:
                         .pGreater
                 ]
-            | '{':
-                @Comment
             | '*':
                 .pStar
             | lNewPage:
@@ -278,10 +289,8 @@ Comment :
         % Discard the contents of a comment
 
         {[
-            | '}':
-                >
             | lNewLine:
-                .pNewLine
+                >
             | lEndFile:         % comment must be closed before EOF
                 #eCommentEOF
                 .pEndFile
@@ -294,7 +303,7 @@ AlternateComment :
         {[
             | '*':
                 [
-                    | ')':
+                    | '/':
                         >
                     | *:
                 ]
