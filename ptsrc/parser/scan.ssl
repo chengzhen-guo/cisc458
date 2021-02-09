@@ -365,6 +365,7 @@ Comment :
 
         {[
             | lNewLine:
+                .pNewLine
                 >
             | lEndFile:         % comment must be closed before EOF
                 #eCommentEOF
