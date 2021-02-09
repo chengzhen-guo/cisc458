@@ -41,27 +41,21 @@ Input :
         lCarriageReturn
         lTab
         lNewPage 
-		lSlash			'/'
-		lPercent		'%'
-		lHash			'#'
-		lBang			'!'
-		lOrBar			'|'
-		lDoubleOrBar	'||'
-		lPlusEquals		'+='
-		lMinusEquals	'-='
-		lStarEquals		'*='
-		lSlashEquals	'/='	
-		lPercentEquals	'%='
-		lDoubleEquals	'=='
         lEndFile
-        lastCharClass = lEndFile;
+        % The followings are new Like character classes.
+        lSlash          '/'
+        lPercent        '%'
+        lHash           '#'
+        lBang           '!'
+        lOrBar          '|'
+        lastCharClass = lOrBar;
 
 Output :
         % Keyword tokens -
-        %   Tokens pDiv through pRepeat are keywords which will be 
+        %   Tokens pOr through pWhen are keywords which will be 
         %   separated from user defined identifiers by the Screener.
         %   This Scanner treats them all as identifiers.
-		pOr
+        pOr 
         firstKeywordToken = pOr
         pAnd
         pNot
@@ -74,17 +68,17 @@ Output :
         pIf
         pWhile
         pRepeat
-		pChoose
-		pElseif
-		pFun
-		pIs
-		pLike
-		pPkg
-		pPublic
-		pusing
-		pVal
-		pWhen
-        lastKeywordToken = pRepeat
+        pChoose
+        pElseif
+        pFun
+        pIs
+        pLike
+        pPkg
+        pPublic
+        pUsing
+        pVal
+        pWhen
+        lastKeywordToken = pWhen
 
         % Scanner tokens -
         %   These are the tokens actually recognized by the Scanner itself.
@@ -104,7 +98,7 @@ Output :
         pPlus
         pMinus
         pStar
-        pColonEquals
+        % Removed pColonEquals
         pDot
         pComma
         pSemicolon
@@ -120,7 +114,20 @@ Output :
         pLeftBracket
         pRightBracket
         pDotDot
-        lastSyntaxToken = pDotDot;
+        % The followings are new Like syntax tokens.
+        pSlash
+        pPercent
+        pHash
+        pBang
+        pOrBar
+        pDoubleOrBar
+        pPlusEquals
+        pMinusEquals
+        pStarEquals
+        pSlashEquals
+        pPercentEquals
+        pDoubleEquals
+        lastSyntaxToken = pDoubleEquals;
 
 Error :
         eIllegalChar = 5
@@ -157,12 +164,19 @@ Scan :
             | lTab:
             | ';':
                 .pSemicolon
-			| '/':
-				[
-                    | '/':
-                        @Comment
+            
+            % Added the slash equals /=, like comments // and /*, 
+            % or emit pSlash if not any above.
+            | '/':
+                [
+                    | '=':
+                        .pSlashEquals
                     | '*':
                         @AlternateComment
+                    | '/':
+                        @Comment
+                    | *:
+                        .pSlash
                 ]
             | '(':
                 .pLeftParen
@@ -174,13 +188,11 @@ Scan :
                 .pRightBracket
             | ',':
                 .pComma
+
+            % Removed the old PT colon equals operator, replaced by
+            % a single equal.
             | ':':
-                [
-                    | '=':
-                        .pColonEquals
-                    | *:
-                        .pColon
-                ]
+                .pColon
             | lDigit:
                 oBufferSave
                 @Integer
@@ -191,14 +203,31 @@ Scan :
                         @Identifier
                     | *:
                 ]
+
+            % Added the Like double equal operator.
             | '=':
-                .pEquals
+                [
+                    | '=':
+                        .pDoubleEquals
+                    | *:
+                        .pEquals
+                ]
             | '+':
-                .pPlus
+                [
+                    | '=':
+                        .pPlusEquals
+                    | *:
+                        .pPlus
+                ]
             | lQuote:
                 @StringLiteral
             | '-':
-                .pMinus
+                [
+                    | '=':
+                        .pMinusEquals
+                    | *:
+                        .pMinus
+                ]
             | '.':
                 [
                     | '.':
@@ -206,10 +235,10 @@ Scan :
                     | *:
                         .pDot
                 ]
+            
+            % Removed old PT not equal operator <>.
             | '<':
                 [
-                    | '>':
-                        .pNotEqual
                     | '=':
                         .pLessEqual
                     | *:
@@ -222,8 +251,53 @@ Scan :
                     | *:
                         .pGreater
                 ]
+
+            % Added the Like *= operator, or emit
+            % the pStar token if anything else.
             | '*':
-                .pStar
+                [
+                    | '=':
+                        .pStarEquals
+                    | *:
+                        .pStar
+                ]
+
+            % Added the Like %= operator, or emit
+            % the pPercent token if anything else.
+            | '%':
+                [
+                    | '=':
+                        .pPercentEquals
+                    | *:
+                        .pPercent
+                ]
+
+            % Added emission of pPercent token if if
+            % a # is seen.
+            | '#':
+                .pHash
+            
+            % Added Like not equal operator !=, otherwise ! followed by
+            % any other symbol will be illeagal, as the bang ! itself
+            % is not a syntax token.
+            | '!':
+                [
+                    | '=':
+                        .pNotEqual
+                    | *:
+                        ?
+                        #eIllegalChar
+                ]
+
+            % Added the Like || operator, or emit
+            % the pOrBar token if anything else.
+            | '|':
+                [
+                    | '|':
+                        .pDoubleOrBar
+                    | *:
+                        .pOrBar
+                ]
             | lNewPage:
             | lEndFile:
                 .pEndFile
@@ -303,6 +377,7 @@ AlternateComment :
         {[
             | '*':
                 [
+                    % Changed the closing comment symbol *} to */
                     | '/':
                         >
                     | *:
