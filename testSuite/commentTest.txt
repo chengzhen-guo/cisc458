@@ -1,0 +1,9 @@
+Purpose: 
+1. Verify the comment operators // and /* */ work properly.
+2. Ensure { } and (* *) are not able to use in Like.  
+3. Check if the right number of pNewLine tokens is generated. 
+
+Result:
+Single line comments leading by // are accepted correctly (ignored), with a new line token emitted at the end. Multi-line comments wrapped in /* */ are ignored as well, however the number of .pNewLine token emitted dose not match with the number output by scanning the same content with the original PT Pascal scanner. For example, if provided with a comment wrapped in /* */, in a single line (with no new line after the end of the closing comment */: 
+/* This is a test comment. */ 
+The original PT scanner will output a .pNewLine token, while the output from the Like scanner does not. The team examined the source code and compared it closely with the Like code, but could not find where the .pNewLine token is emitted in the PT scanner.  Comments wrtten in the old PT style will now no longer be accepted, causing errors. 

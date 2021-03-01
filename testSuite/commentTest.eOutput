@@ -1,0 +1,24 @@
+  .pNewLine
+  .pNewLine
+ .pNewLine
+ #eIllegalChar
+  .pIdentifier (screened to pNot)
+  .pIdentifier
+  % Output token text 'a'
+  .pIdentifier
+  % Output token text 'comment'
+ #eIllegalChar
+ .pNewLine
+ .pLeftParen
+ .pStar
+  .pIdentifier
+  % Output token text 'also'
+  .pIdentifier (screened to pNot)
+  .pIdentifier
+  % Output token text 'a'
+  .pIdentifier
+  % Output token text 'comment'
+ .pNewLine
+ .pStar
+ .pRightParen
+ .pEndFile

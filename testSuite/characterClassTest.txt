@@ -1,0 +1,8 @@
+Purpose:
+1. Test whether Like characters are accepted.
+2. Test whether Unused characters are being discarded.
+
+Result:
+The expactation is that Like characters should be accepted by the scanner and unused characters should not be recognized as the original identifiers.
+Added charaters: /, %, #, and |, are being recognized as identifiers, ! are not recognized.
+The double quote is been recognized string literal identifier, while the single quote are being recognized as eIllegalChar.

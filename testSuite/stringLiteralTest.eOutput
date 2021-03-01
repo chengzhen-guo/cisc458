@@ -1,0 +1,16 @@
+  .pStringLiteral
+  % Output token text 'This is a string literal'
+ .pNewLine
+ #eIllegalChar
+  .pIdentifier
+  % Output token text 'this'
+  .pIdentifier (screened to pIs)
+  .pIdentifier
+  % Output token text 'a'
+  .pIdentifier (screened to pNot)
+  .pIdentifier
+  % Output token text 'string'
+  .pIdentifier
+  % Output token text 'literal'
+ #eIllegalChar
+ .pEndFile

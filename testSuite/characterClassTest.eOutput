@@ -1,0 +1,11 @@
+ .pSlash
+ .pPercent
+ .pHash
+ #eIllegalChar
+ .pOrBar
+ .pNewLine
+  .pStringLiteral
+  % Output token text ''
+ #eIllegalChar
+ #eIllegalChar
+ .pEndFile
