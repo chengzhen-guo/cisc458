@@ -16,33 +16,36 @@
 Input :
         % Keywords must be first both here and in stdIdentifiers,
         % and they must appear in the exact same order
-
-        pDiv                    'div'
-        firstKeywordToken = pDiv
-        pMod                    'mod'
+        %==============================================
+        % Removed div, mod, until, do, array, program,
+        %         const, type, procedure, begin, case.      
         pOr                     'or'
+        firstKeywordToken = pOr
         pAnd                    'and'
         pNot                    'not'
         pThen                   'then'
         pElse                   'else'
         pOf                     'of'
         pEnd                    'end'
-        pUntil                  'until'
-        pDo                     'do'
-        pArray                  'array'
         pFile                   'file'
-        pProgram                'program'
-        pConst                  'const'
         pVar                    'var'
-        pType                   'type'
-        pProcedure              'procedure'
-        pBegin                  'begin'
         pIf                     'if'
-        pCase                   'case'
         pWhile                  'while'
         pRepeat                 'repeat'
-        lastKeywordToken = pRepeat 
-
+        % The followings are new like keywords.
+        pChoose                 'choose'
+        pElseif                 'elseif'
+        pFun                    'fun'
+        pIs                     'is'
+        pLike                   'like'
+        pPkg                    'pkg'
+        pPublic                 'public'
+        pUsing                  'using'
+        pVal                    'val'
+        pWhen                   'when'
+        lastKeywordToken = pWhen 
+        %============================================= 
+        
         % Scanner tokens -
         %   These are the tokens actually recognized by the Scanner itself.
 
@@ -56,18 +59,21 @@ Input :
 
         % Non-compound tokens - 
         %   These tokens simply represent themselves.
+        %=============================================
+        % Non-compound tokens - 
+        %   These tokens simply represent themselves.
         pNewLine
         pEndFile
         pPlus                   '+'
         pMinus                  '-'
         pStar                   '*'
-        pColonEquals            ':='
+        % Removed pColonEquals.
         pDot                    '.'
         pComma                  ','
         pSemicolon              ';'
         pColon                  ':'
         pEquals                 '='
-        pNotEqual               '<>'
+        pNotEqual               '!='
         pLess                   '<'
         pLessEqual              '<='
         pGreaterEqual           '>='
@@ -77,7 +83,21 @@ Input :
         pLeftBracket            '['
         pRightBracket           ']'
         pDotDot                 '..'
-        lastSyntaxToken = pDotDot;
+        % The followings are new like non-compound tokens.
+        pSlash                  '/'
+        pPercent                '%'
+        pHash                   '#'
+        pBang                   '!'
+        pOrBar                  '|'
+        pDoubleOrBar            '||'
+        pPlusEquals             '+='
+        pMinusEquals            '-='
+        pStarEquals             '*='
+        pSlashEquals            '/='
+        pPercentEquals          '%='
+        pDoubleEquals           '=='
+        lastSyntaxToken = pDoubleEquals;
+        %=============================================
 
 Output :
         sIdentifier 
@@ -86,12 +106,13 @@ Output :
         sInteger
         sStringLiteral
         lastCompoundSemanticToken = sStringLiteral
-
+        %=============================================
         sProgram
         sParmBegin
         sParmEnd
         sConst
-        sType
+        % Replaced sType with sLike
+        sLike
         sVar
         sProcedure
         sBegin
@@ -133,13 +154,23 @@ Output :
         sNot
         sNewLine
         sEndOfFile
-        lastSemanticToken = sEndOfFile;
+        % The followings are new Like parser output tokens.
+        sPackage
+        sPublic
+        sConcatenate
+        sRepeatString
+        sSubstring
+        sLength
+        sInitialValue
+        sCaseElse
+        lastSemanticToken = sCaseElse;
+        %=============================================
 
 
 rules
 
 Program :
-        'program'  .sProgram
+        'using'  .sProgram
         % program name
         pIdentifier
         % program parameters
