@@ -188,8 +188,9 @@ Block :
         .sBegin
         {[
             | 'pkg':
-                .sPackage 'is'
+                .sPackage
                 pIdentifier .sIdentifier
+                'is'
                 @Block  ';'
             | 'public':
                 [
