@@ -9,17 +9,6 @@ choose i of
         var c = 1;
 end;
 
-var x = 1;
-var x = 1;
-var x = 1;
-var x = 1;
-var x = 1;
-var x = 1;
-var x = 1;
-var x = 1;
-var x = 1;
-var x = 1;
-
 choose j of
     when 42, 43 then
         var d = 1;

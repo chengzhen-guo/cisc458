@@ -463,7 +463,7 @@ CaseStmt :
             | 'else':
                 .sCaseEnd
                 .sCaseElse
-                @Block ';'
+                @Block 'end' ';'
                 >
             | 'end':
                 .sCaseEnd
