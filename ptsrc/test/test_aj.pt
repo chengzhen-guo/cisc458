@@ -9,7 +9,7 @@ choose i of
         var c = 1;
 end;
 
-choose i of
+choose j of
     when 42, 43 then
         var d = 1;
     when 44 then

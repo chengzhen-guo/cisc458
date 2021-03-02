@@ -236,7 +236,7 @@ Block :
             | 'repeat':
                 @RepeatStmt 
             | *:
-                >            
+                >
         ]}
         .sEnd;
 
@@ -390,22 +390,6 @@ ProcedureHeading :
         'is'
         .sParmEnd;
 
-Statement :
-        [
-            | pIdentifier:
-                @AssignmentOrCallStmt
-            | 'if':
-                @IfStmt
-            | 'while':
-                @WhileStmt
-            | 'choose':
-                @CaseStmt
-            | 'repeat':
-                @RepeatStmt
-            | *:
-                .sNullStmt
-        ];
-
 AssignmentOrCallStmt :
         [
             | '=':
@@ -473,8 +457,6 @@ CaseStmt :
         @Expression
         .sExpnEnd
         'of'
-        'when'
-        @CaseAlternative
         {[
             | 'when':
                 @CaseAlternative
