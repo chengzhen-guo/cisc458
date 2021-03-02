@@ -331,8 +331,6 @@ LikeClause :
                 .sArray
                 @SimpleType  ']'
                 ':' 'like' .sLike  @SimpleType
-        ]
-        [
             | ':':
                 [
                     | 'like':
