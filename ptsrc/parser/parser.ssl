@@ -213,7 +213,7 @@ Block :
                 @IfStmt
             | 'while':
                 @WhileStmt
-            | 'case':
+            | 'choose':
                 @CaseStmt
             | 'repeat':
                 @RepeatStmt 
