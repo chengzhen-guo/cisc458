@@ -196,12 +196,11 @@ Block :
                         .sConst
                         @ConstantDefinitions
                         .sPublic
-                        @ValueOrLike
                     | 'var':
                         .sVar
                         @VariableDeclarations
                         .sPublic
-                        @ValueOrLike
+                        @ValueOrLike ';'
                     | 'fun':
                         .sProcedure
                         % procedure name
@@ -213,11 +212,10 @@ Block :
             | 'val':
                 .sConst
                 @ConstantDefinitions
-                @ValueOrLike
             | 'var':
                 .sVar
                 @VariableDeclarations
-                @ValueOrLike
+                @ValueOrLike ';'
             | 'fun':
                 .sProcedure
                 % procedure name
@@ -251,6 +249,11 @@ ConstantDefinitions :
             |';':
                 >
         ]};
+
+
+VariableDeclarations :
+        % Accept one or more variable declarations.
+        pIdentifier  .sIdentifier;
 
 ConstantValue :
         [
@@ -328,11 +331,6 @@ OptionallySignedIntegerConstant :
             | *:
                 @UnsignedIntegerConstant
         ];
-
-VariableDeclarations :
-        % Accept one or more variable declarations.
-        pIdentifier  .sIdentifier
-        ';';
 
 ValueOrLike :
         [
