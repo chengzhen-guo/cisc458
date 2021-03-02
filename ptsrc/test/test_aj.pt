@@ -1,10 +1,10 @@
 using input, output;
 
 public var a : like 1;
-public val b : like 1;
+public val d = 1;
 
 var c : like 1;
-val d : like 1;
+val d = 1;
 
 var N : like integer;
 
