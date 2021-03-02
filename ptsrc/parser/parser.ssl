@@ -190,15 +190,34 @@ Block :
         % programmer sanity. 
         .sBegin
         {[
+            | 'public':
+                [
+                    | 'val':
+                        .sConst
+                        @ConstantDefinitions
+                        .sPublic
+                        @ValueOrLike
+                    | 'var':
+                        .sVar
+                        @VariableDeclarations
+                        .sPublic
+                        @ValueOrLike
+                    | 'fun':
+                        .sProcedure
+                        % procedure name
+                        pIdentifier  .sIdentifier
+                        @ProcedureHeading
+                        @Block  ';'
+                ]
+                
             | 'val':
                 .sConst
                 @ConstantDefinitions
-            | 'like':
-                .sLike
-                @TypeDefinitions
+                @ValueOrLike
             | 'var':
                 .sVar
                 @VariableDeclarations
+                @ValueOrLike
             | 'fun':
                 .sProcedure
                 % procedure name
@@ -313,7 +332,7 @@ OptionallySignedIntegerConstant :
 VariableDeclarations :
         % Accept one or more variable declarations.
         pIdentifier  .sIdentifier
-        @ValueOrLike  ';';
+        ';';
 
 ValueOrLike :
         [
