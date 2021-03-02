@@ -16,6 +16,7 @@
 Input :
         % Keywords must be first both here and in stdIdentifiers,
         % and they must appear in the exact same order
+
         %==============================================
         % Removed div, mod, until, do, array, program,
         %         const, type, procedure, begin, case.      
@@ -44,8 +45,8 @@ Input :
         pVal                    'val'
         pWhen                   'when'
         lastKeywordToken = pWhen 
-        %============================================= 
-        
+        %=============================================
+
         % Scanner tokens -
         %   These are the tokens actually recognized by the Scanner itself.
 
@@ -57,8 +58,6 @@ Input :
         pStringLiteral
         lastCompoundInputToken = pStringLiteral
 
-        % Non-compound tokens - 
-        %   These tokens simply represent themselves.
         %=============================================
         % Non-compound tokens - 
         %   These tokens simply represent themselves.
@@ -166,7 +165,6 @@ Output :
         lastSemanticToken = sCaseElse;
         %=============================================
 
-
 rules
 
 Program :
@@ -185,16 +183,15 @@ Program :
         }
         ')'
         .sParmEnd
-        ';'  @Block  '.';
+        ';'  @Block;
 
 Block :
         % Strictly speaking, standard Pascal requires that declarations
         % appear only in the order consts, types, vars, procedures.
         % We allow arbitrary intermixing of these instead to preserve
         % programmer sanity. 
-        .sBegin       
-        {            
-            [
+        .sBegin
+        {[
             | 'val':
                 .sConst
                 @ConstantDefinitions
@@ -209,36 +206,32 @@ Block :
                 % procedure name
                 pIdentifier  .sIdentifier
                 @ProcedureHeading
-                @Block  ';'                   
-            | 'end':
-                >
+                @Block  ';'
+            | pIdentifier:
+                @AssignmentOrCallStmt
+            | 'if':
+                @IfStmt
+            | 'while':
+                @WhileStmt
+            | 'case':
+                @CaseStmt
+            | 'repeat':
+                @RepeatStmt 
             | *:
-                [
-                    | pIdentifier:
-                        @AssignmentOrCallStmt
-                    | 'if':
-                        @IfStmt
-                    | 'while':
-                        @WhileStmt
-                    | 'case':
-                        @CaseStmt
-                    | 'repeat':
-                        @RepeatStmt                    
-                ]    
+                >            
         ]}
         .sEnd;
 
 ConstantDefinitions :
         % Accept one or more named constant definitions
         pIdentifier  .sIdentifier
-        '=' @ConstantValue
+        '=' @ConstantValue 
         {[
-            |','
-                pIdentifier .sIdentifier
+            |',':
+                pIdentifier
+                .sIdentifier
                 '=' @ConstantValue
-            |';'
-                >
-            | *:
+            |';':
                 >
         ]};
 
@@ -265,6 +258,49 @@ UnsignedIntegerConstant :
                 .sInteger
         ];
 
+TypeDefinitions :
+        % Accept one or more named type definitions.
+        pIdentifier  .sIdentifier
+        '='  @TypeBody  ';'
+        {[
+            | pIdentifier:
+                .sIdentifier
+                '='  @TypeBody  ';'
+            | *:
+                >
+        ]};
+
+TypeBody :
+        [
+            | '[':
+                .sArray
+                @SimpleType  ']'
+                'of'  @SimpleType
+            | 'file':
+                .sFile
+                'of'  @SimpleType
+            | *:
+                @SimpleType
+        ];
+
+SimpleType :
+        % A simple type is a named type (possibly predefined)
+        % or a subrange type specification
+        [
+            | pIdentifier:
+                .sIdentifier
+                [
+                    | '..':
+                        .sRange         %% this may be unnecessary
+                        @OptionallySignedIntegerConstant
+                    | *:
+                ]
+            | *:
+                @OptionallySignedIntegerConstant
+                '..'  .sRange
+                @OptionallySignedIntegerConstant
+        ];
+
 OptionallySignedIntegerConstant :
         [
             | '-':
@@ -279,14 +315,38 @@ OptionallySignedIntegerConstant :
 VariableDeclarations :
         % Accept one or more variable declarations.
         pIdentifier  .sIdentifier
-        ':'  @TypeBody  ';'
-        {[
-            | pIdentifier:
-                .sIdentifier
-                ':'  @TypeBody  ';'
+        @ValueOrLike  ';';
+
+ValueOrLike :
+        [
+            |'=':
+                .sInitialValue
+                @Expression
+                .sExpnEnd
+            |*:
+                @LikeClause
+        ];
+
+LikeClause :
+        [        
+            | '[':
+                .sArray
+                @SimpleType  ']'
+                ':' 'like' .sLike  @SimpleType
+            | 'file':
+                .sFile
+                @SimpleType
+            | 'like':
+                .sLike
+                [
+                    |pVar:
+                        .sVar
+                    |*:
+                        @OptionallySignedIntegerConstant
+                ]
             | *:
-                >
-        ]};
+                @SimpleType       
+        ];
 
 ProcedureHeading :
         % Accept zero or more procedure formal parameter declarations.
@@ -316,9 +376,25 @@ ProcedureHeading :
         ';'
         .sParmEnd;
 
+Statement :
+        [
+            | pIdentifier:
+                @AssignmentOrCallStmt
+            | 'if':
+                @IfStmt
+            | 'while':
+                @WhileStmt
+            | 'choose':
+                @CaseStmt
+            | 'repeat':
+                @RepeatStmt
+            | *:
+                .sNullStmt
+        ];
+
 AssignmentOrCallStmt :
         [
-            | ':=':
+            | '=':
                 .sAssignmentStmt
                 .sIdentifier    % identifier accepted in the Statement rule
                 @Expression
@@ -329,7 +405,7 @@ AssignmentOrCallStmt :
                 .sSubscript
                 @Expression
                 .sExpnEnd
-                ']'  ':='
+                ']'  '='
                 @Expression
                 .sExpnEnd
             | *:
@@ -365,28 +441,16 @@ CallStmt :
         ]
         .sParmEnd;
 
-BeginStmt :
-        .sBegin
-        {
-            @Block
-            [
-                | ';':
-                | 'end':
-                    .sEnd
-                    >
-            ]
-        };
-
 IfStmt :
         .sIfStmt
         @Expression
         .sExpnEnd
         'then'  .sThen
-        @Block
+        @Statement
         [
             | 'else':
                 .sElse
-                @Block
+                @Statement
             | *:
         ];
 
@@ -425,22 +489,22 @@ CaseAlternative :
             ]
         }
         .sLabelEnd
-        ':'  @Block;
+        ':'  @Statement;
 
 WhileStmt :
         .sWhileStmt
         @Expression
         .sExpnEnd
-        'do'
-        @Block;
+        %'do'
+        @Statement;
 
 RepeatStmt :
         .sRepeatStmt
         {
-            @Block
+            @Statement
             [
                 | ';':
-                | 'until':
+                | 'while':
                     .sRepeatEnd
                     >
             ]
@@ -453,7 +517,7 @@ Expression :
         [
             | '=':
                 @SimpleExpression  .sEq
-            | '<>':
+            | '!=':
                 @SimpleExpression  .sNE
             | '<':
                 @SimpleExpression  .sLT
@@ -491,9 +555,9 @@ Term :
         {[
             | '*':
                 @Factor  .sMultiply
-            | 'div':
+            | '/':
                 @Factor  .sDivide
-            | 'mod':
+            | '%':
                 @Factor  .sModulus
             | 'and':
                 .sInfixAnd  @Factor  .sAnd
