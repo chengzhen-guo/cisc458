@@ -1,10 +1,12 @@
 using input, output;
 
-choose j of
+choose i of
     when 42, 43 then
-        var d = 1;
+        var a = 1;
     when 44 then
-        var e = 1;
+        var b = 1;
+    else
+        var c = 1;
 end;
 
 var x = 1;
@@ -18,11 +20,9 @@ var x = 1;
 var x = 1;
 var x = 1;
 
-choose i of
+choose j of
     when 42, 43 then
-        var a = 1;
+        var d = 1;
     when 44 then
-        var b = 1;
-    else
-        var c = 1;
+        var e = 1;
 end;
