@@ -473,18 +473,13 @@ CaseStmt :
         @Expression
         .sExpnEnd
         'of'
+        'when'
         @CaseAlternative
         {[
-            | ',':
-                % since case alternatives cannot be null, allow
-                % for the common situation of an extra semicolon
-                % at the end of the list of case alternatives.
-                [
-                    | 'end':
-                        >
-                    | *:
-                        @CaseAlternative
-                ]
+            | 'when':
+                @CaseAlternative
+            | 'else':
+                @Block
             | 'end':
                 >
         ]}
@@ -492,8 +487,7 @@ CaseStmt :
 
 CaseAlternative :
         % A case alternative is a statement labelled by
-        % one or more optionally signed integer constants
-        'when'
+        % one or more optionally signed integer constants        
         {
             @OptionallySignedIntegerConstant
             [
