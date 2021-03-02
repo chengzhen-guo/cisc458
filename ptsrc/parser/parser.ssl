@@ -487,22 +487,28 @@ CaseAlternative :
 WhileStmt :
         .sWhileStmt
         @Expression
+        .sNot
         .sExpnEnd
-        %'do'
         @Block;
 
-RepeatStmt :
-        .sRepeatStmt
+RepeatStmt :        
         {
-            @Block
             [
-                | ';':
                 | 'while':
-                    .sRepeatEnd
-                    >
+                    @WhileStmt
+                | *:
+                    .sRepeatStmt
+                    @Block
+                    [
+                        | ';':
+                        | 'while':
+                            .sRepeatEnd
+                            >
+                    ]
             ]
         }
         @Expression
+        .sNot
         .sExpnEnd;
 
 Expression :
