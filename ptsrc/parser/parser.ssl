@@ -169,9 +169,6 @@ rules
 
 Program :
         'using'  .sProgram
-        % program name
-        pIdentifier
-        % program parameters
         {
             pIdentifier  .sIdentifier
             [
