@@ -7,6 +7,16 @@ choose j of
         var e = 1;
 end;
 
+var x = 1;
+var x = 1;
+var x = 1;
+var x = 1;
+var x = 1;
+var x = 1;
+var x = 1;
+var x = 1;
+var x = 1;
+var x = 1;
 
 choose i of
     when 42, 43 then
