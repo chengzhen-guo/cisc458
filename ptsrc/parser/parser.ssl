@@ -460,11 +460,11 @@ IfStmt :
         @Expression
         .sExpnEnd
         'then'  .sThen
-        @Statement
+        @Block
         [
             | 'else':
                 .sElse
-                @Statement
+                @Block
             | *:
         ];
 
@@ -503,19 +503,19 @@ CaseAlternative :
             ]
         }
         .sLabelEnd
-        ':'  @Statement;
+        ':'  @Block;
 
 WhileStmt :
         .sWhileStmt
         @Expression
         .sExpnEnd
         %'do'
-        @Statement;
+        @Block;
 
 RepeatStmt :
         .sRepeatStmt
         {
-            @Statement
+            @Block
             [
                 | ';':
                 | 'while':

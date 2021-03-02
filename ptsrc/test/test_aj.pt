@@ -1,5 +1,7 @@
 using input, output;
 
-pkg M is
-    var a = 1;
+if x == y then
+    DeclarationsAndStatements1
+else
+    DeclarationsAndStatements2
 end;
