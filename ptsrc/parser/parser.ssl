@@ -201,7 +201,7 @@ Block :
                         pIdentifier .sIdentifier .sPublic
                         @VariableDeclarations
                     | 'fun':
-                        .sVar
+                        .sProcedure
                         pIdentifier .sIdentifier .sPublic
                         @ProcedureHeading
                         @Block  ';'
@@ -385,7 +385,7 @@ ProcedureHeading :
                 ')'
             | *:
         ]
-        ';'
+        'is'
         .sParmEnd;
 
 Statement :

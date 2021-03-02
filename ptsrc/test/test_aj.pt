@@ -1,10 +1,13 @@
 using input, output;
 
-public var x : like 1;
+public var a : like 1;
+public val b : like 1;
 
-public var integer : like 1;
+var c : like 1;
+val d : like 1;
+
 var N : like integer;
 
 public fun f is
-    var x;
+    a = 1;
 end;
