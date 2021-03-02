@@ -172,7 +172,6 @@ Program :
         % program name
         pIdentifier
         % program parameters
-        '('
         {
             pIdentifier  .sIdentifier
             [
@@ -181,7 +180,6 @@ Program :
                     >
             ]
         }
-        ')'
         .sParmEnd
         ';'  @Block;
 
@@ -333,16 +331,16 @@ LikeClause :
                 .sArray
                 @SimpleType  ']'
                 ':' 'like' .sLike  @SimpleType
-            | 'file':
-                .sFile
-                @SimpleType
-            | 'like':
-                .sLike
+        ]
+        [
+            | ':':
                 [
-                    |pVar:
-                        .sVar
-                    |*:
-                        @OptionallySignedIntegerConstant
+                    | 'like':
+                        .sLike
+                        @ConstantValue
+                    | 'file':
+                        .sFile
+                        @SimpleType
                 ]
             | *:
                 @SimpleType       
