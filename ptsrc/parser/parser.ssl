@@ -187,6 +187,10 @@ Block :
         % programmer sanity. 
         .sBegin
         {[
+            | 'pkg':
+                .sPackage
+                pIdentifier .sIdentifier
+                @Block  ';'
             | 'public':
                 [
                     | 'val':
