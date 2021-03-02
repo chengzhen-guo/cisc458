@@ -194,28 +194,29 @@ Block :
                 [
                     | 'val':
                         .sConst
+                        pIdentifier .sIdentifier .sPublic
                         @ConstantDefinitions
-                        .sPublic
                     | 'var':
                         .sVar
+                        pIdentifier .sIdentifier .sPublic
                         @VariableDeclarations
-                        .sPublic
-                        @ValueOrLike ';'
                     | 'fun':
-                        .sProcedure
-                        % procedure name
-                        pIdentifier  .sIdentifier
+                        .sVar
+                        pIdentifier .sIdentifier .sPublic
                         @ProcedureHeading
                         @Block  ';'
                 ]
-                
             | 'val':
                 .sConst
+                pIdentifier .sIdentifier
                 @ConstantDefinitions
+            | 'like':
+                .sLike
+                @TypeDefinitions
             | 'var':
                 .sVar
+                pIdentifier .sIdentifier
                 @VariableDeclarations
-                @ValueOrLike ';'
             | 'fun':
                 .sProcedure
                 % procedure name
@@ -239,7 +240,6 @@ Block :
 
 ConstantDefinitions :
         % Accept one or more named constant definitions
-        pIdentifier  .sIdentifier
         '=' @ConstantValue 
         {[
             |',':
@@ -249,11 +249,6 @@ ConstantDefinitions :
             |';':
                 >
         ]};
-
-
-VariableDeclarations :
-        % Accept one or more variable declarations.
-        pIdentifier  .sIdentifier;
 
 ConstantValue :
         [
@@ -331,6 +326,10 @@ OptionallySignedIntegerConstant :
             | *:
                 @UnsignedIntegerConstant
         ];
+
+VariableDeclarations :
+        % Accept one or more variable declarations.
+        @ValueOrLike  ';';
 
 ValueOrLike :
         [
