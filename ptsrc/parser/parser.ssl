@@ -498,7 +498,7 @@ RepeatStmt :
             | *:
                 .sRepeatStmt
                 @Block
-                'while'
+                ';' 'while'
                 .sRepeatEnd
         ]
         @Expression
