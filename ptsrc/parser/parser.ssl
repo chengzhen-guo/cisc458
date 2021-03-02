@@ -492,21 +492,15 @@ WhileStmt :
         @Block;
 
 RepeatStmt :        
-        {
-            [
-                | 'while':
-                    @WhileStmt
-                | *:
-                    .sRepeatStmt
-                    @Block
-                    [
-                        | ';':
-                        | 'while':
-                            .sRepeatEnd
-                            >
-                    ]
-            ]
-        }
+        [
+            | 'while':
+                @WhileStmt
+            | *:
+                .sRepeatStmt
+                @Block
+                'while'
+                .sRepeatEnd
+        ]
         @Expression
         .sNot
         .sExpnEnd;
