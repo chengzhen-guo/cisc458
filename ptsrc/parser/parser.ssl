@@ -463,10 +463,9 @@ CaseStmt :
             | 'else':
                 .sCaseEnd
                 .sCaseElse
-                @Block
-                'end;'
+                @Block ';'
                 >
-            | 'end;':
+            | 'end':
                 .sCaseEnd
                 >
         ]};
@@ -483,7 +482,7 @@ CaseAlternative :
             ]
         }
         .sLabelEnd
-        'then'  @Block;
+        'then'  @Block ';';
 
 WhileStmt :
         .sWhileStmt
