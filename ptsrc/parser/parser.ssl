@@ -482,15 +482,11 @@ CaseStmt :
                 [
                     | 'end':
                         >
-                    | 'else':
-                        @Block
                     | *:
                         @CaseAlternative
                 ]
             | 'end':
                 >
-            | 'else':
-                @Block
         ]}
         .sCaseEnd;
 
