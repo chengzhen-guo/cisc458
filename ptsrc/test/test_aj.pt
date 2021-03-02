@@ -1,3 +1,5 @@
+using input, output;
+
 public var x : like 1;
 
 public var integer : like 1;
