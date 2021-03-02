@@ -475,25 +475,29 @@ CaseStmt :
         'of'
         @CaseAlternative
         {[
-            | ';':
+            | ',':
                 % since case alternatives cannot be null, allow
                 % for the common situation of an extra semicolon
                 % at the end of the list of case alternatives.
                 [
                     | 'end':
                         >
+                    | 'else':
+                        @Block
                     | *:
                         @CaseAlternative
                 ]
             | 'end':
                 >
+            | 'else':
+                @Block
         ]}
         .sCaseEnd;
 
 CaseAlternative :
         % A case alternative is a statement labelled by
         % one or more optionally signed integer constants
-
+        'when'
         {
             @OptionallySignedIntegerConstant
             [
@@ -503,7 +507,7 @@ CaseAlternative :
             ]
         }
         .sLabelEnd
-        ':'  @Block;
+        'then'  @Block;
 
 WhileStmt :
         .sWhileStmt
