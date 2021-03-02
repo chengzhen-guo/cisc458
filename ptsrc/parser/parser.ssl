@@ -464,6 +464,8 @@ CaseStmt :
                 .sCaseEnd
                 .sCaseElse
                 @Block
+                'end'
+                >
             | 'end':
                 .sCaseEnd
                 >
