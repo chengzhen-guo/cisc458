@@ -1,0 +1,7 @@
+Purpose: 
+
+Test if var assignment with lie clause generate sLike token. 
+
+Result: 
+
+Matched as expected. 

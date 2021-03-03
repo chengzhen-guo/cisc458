@@ -1,0 +1,7 @@
+Purpose: 
+
+Test whether the if statement will generate sIfStmt token and followed by correct sIdentifier , sThen, sBegin,…, sEnd tokens. 
+
+Result: 
+
+Matched as expected. 

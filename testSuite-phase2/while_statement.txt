@@ -1,0 +1,7 @@
+Purpose: 
+
+Test if repeat while...end statement can generate sWhileStmt token. 
+
+Result: 
+
+Matched as expected. 

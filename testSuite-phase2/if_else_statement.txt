@@ -1,0 +1,9 @@
+Purpose: 
+
+Test whether the if statement will generate correct tokens, and else will generate sElse followed by sBegin...sEnd. 
+
+followed by correct sIdentifier tokens. 
+
+Result: 
+
+Matched as expected. 

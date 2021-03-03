@@ -1,0 +1,7 @@
+Purpose: 
+
+Test if a single var assignment generate correct tokens and if multiple var assignments are separated by commas. 
+
+Result: 
+
+Matched as expected. 
