@@ -239,15 +239,12 @@ Block :
 StringOperation :
         [
             | '|':
-                .sStringLiteral
                 pStringLiteral .sStringLiteral
                 .sConcatenate
             | '||':
-                .sStringLiteral
                 pInteger .sInteger
                 .sRepeatString
             | '/':
-                .sStringLiteral
                 pInteger .sInteger
                 ':' pInteger .sInteger
                 .sSubstring
