@@ -511,7 +511,8 @@ RepeatStmt :
                 @WhileStmt
             | *:
                 .sRepeatStmt
-                @Block
+                @Block                
+                'while'
                 .sRepeatEnd
                 @Expression
                 .sNot
