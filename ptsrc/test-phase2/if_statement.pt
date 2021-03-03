@@ -1,0 +1,11 @@
+using output;
+
+if x == y then
+    var x = 1;
+end;
+
+if x == y then
+    var x = 1;
+else
+    var x = 1;
+end;

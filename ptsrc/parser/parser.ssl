@@ -220,8 +220,6 @@ Block :
                 @Block
             | pIdentifier:
                 @AssignmentOrCallStmt
-            | pStringLiteral:
-                @StringOperation
             | 'if':
                 @IfStmt
             | 'choose':
