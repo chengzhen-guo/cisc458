@@ -1,9 +1,9 @@
 using input, output;
 
 if x == y then
-    var i = 1;
+    DeclarationsAndStatements1
 else
-    var j = 1;
+    DeclarationsAndStatements2
 end;
 
 
