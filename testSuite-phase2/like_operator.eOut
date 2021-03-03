@@ -14,6 +14,24 @@
   .sVar
    .sIdentifier
     .sInitialValue
+        .sInteger
+        .sInteger
+       .sDivide
+    .sExpnEnd
+   % .sNewLine
+   % .sNewLine
+  .sVar
+   .sIdentifier
+    .sInitialValue
+        .sInteger
+        .sInteger
+       .sModulus
+    .sExpnEnd
+   % .sNewLine
+   % .sNewLine
+  .sVar
+   .sIdentifier
+    .sInitialValue
         .sIdentifier
         .sIdentifier
      .sEq

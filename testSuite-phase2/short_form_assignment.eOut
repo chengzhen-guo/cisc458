@@ -12,6 +12,7 @@
    .sExpnEnd
   % .sNewLine
   % .sNewLine
+  .sNullStmt
    .sAssignmentStmt
    .sIdentifier
    .sIdentifier
@@ -20,6 +21,7 @@
    .sExpnEnd
   % .sNewLine
   % .sNewLine
+  .sNullStmt
    .sAssignmentStmt
    .sIdentifier
    .sIdentifier
@@ -28,6 +30,7 @@
    .sExpnEnd
   % .sNewLine
   % .sNewLine
+  .sNullStmt
    .sAssignmentStmt
    .sIdentifier
    .sIdentifier
@@ -36,10 +39,12 @@
    .sExpnEnd
   % .sNewLine
   % .sNewLine
+  .sNullStmt
    .sAssignmentStmt
    .sIdentifier
    .sIdentifier
        .sInteger
    .sModulus
    .sExpnEnd
+  .sNullStmt
   .sEnd

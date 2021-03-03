@@ -1,5 +1,8 @@
  .sProgram
  .sIdentifier
  .sParmEnd
+ % .sNewLine
+ % .sNewLine
   .sBegin
+  .sNullStmt
   .sEnd

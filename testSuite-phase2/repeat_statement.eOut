@@ -4,23 +4,6 @@
  % .sNewLine
  % .sNewLine
   .sBegin
-    .sWhileStmt
-        .sIdentifier
-        .sIdentifier
-     .sEq
-    .sNot
-    .sExpnEnd
-     .sBegin
-     % .sNewLine
-     .sVar
-      .sIdentifier
-       .sInitialValue
-           .sInteger
-       .sExpnEnd
-      % .sNewLine
-     % .sNewLine
-     % .sNewLine
-     .sEnd
   % .sNewLine
    .sRepeatStmt
     .sBegin
@@ -37,4 +20,5 @@
     .sEq
    .sNot
    .sExpnEnd
+  .sNullStmt
   .sEnd

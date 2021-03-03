@@ -15,17 +15,4 @@
     .sInteger
    .sIdentifier
     .sInteger
-   % .sNewLine
-   % .sNewLine
-  .sVar
-   .sIdentifier
-    .sInitialValue
-        .sInteger
-    .sExpnEnd
-   % .sNewLine
-  .sVar
-   .sIdentifier
-    .sInitialValue
-        .sInteger
-    .sExpnEnd
   .sEnd
