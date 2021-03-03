@@ -1,9 +1,11 @@
 using input, output;
 
-repeat
+if x == y then
     var i = 1;
-while i <= nelements;
-
-repeat while j != nelements;
+else
     var j = 1;
 end;
+
+
+
+var x = 1;

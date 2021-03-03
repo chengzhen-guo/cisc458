@@ -191,40 +191,33 @@ Block :
                 .sPackage
                 pIdentifier .sIdentifier
                 'is'
-                @Block  ';'
+                @Block
             | 'public':
                 [
                     | 'val':
                         .sConst
-                        pIdentifier .sIdentifier .sPublic
-                        @ConstantDefinitions
+                        @PublicConstantDefinitions
                     | 'var':
                         .sVar
-                        pIdentifier .sIdentifier .sPublic
-                        @VariableDeclarations
+                        @PublicVariableDeclarations
                     | 'fun':
                         .sProcedure
                         pIdentifier .sIdentifier .sPublic
                         @ProcedureHeading
-                        @Block  ';'
+                        @Block
                 ]
             | 'val':
                 .sConst
-                pIdentifier .sIdentifier
                 @ConstantDefinitions
-            | 'like':
-                .sLike
-                @TypeDefinitions
             | 'var':
                 .sVar
-                pIdentifier .sIdentifier
                 @VariableDeclarations
             | 'fun':
                 .sProcedure
                 % procedure name
-                pIdentifier  .sIdentifier
+                pIdentifier .sIdentifier
                 @ProcedureHeading
-                @Block  ';'
+                @Block
             | pIdentifier:
                 @AssignmentOrCallStmt
             | 'if':
@@ -234,7 +227,11 @@ Block :
             | 'choose':
                 @CaseStmt
             | 'repeat':
-                @RepeatStmt 
+                @RepeatStmt
+            | ';':
+            | 'end':
+                ';'
+                >
             | *:
                 >
         ]}
@@ -251,6 +248,30 @@ ConstantDefinitions :
             |';':
                 >
         ]};
+
+PublicConstantDefinitions :
+        % Accept one or more named constant definitions
+        pIdentifier .sIdentifier .sPublic
+        '=' @ConstantValue 
+        {[
+            |',':
+                pIdentifier
+                .sIdentifier
+                .sPublic
+                '=' @ConstantValue
+            |';':
+                >
+        ]};
+
+VariableDeclarations :
+        % Accept one or more variable declarations.
+        pIdentifier .sIdentifier
+        @ValueOrLike  ';';
+
+PublicVariableDeclarations :
+        % Accept one or more variable declarations.
+        pIdentifier .sIdentifier .sPublic
+        @ValueOrLike  ';';
 
 ConstantValue :
         [
@@ -328,10 +349,6 @@ OptionallySignedIntegerConstant :
             | *:
                 @UnsignedIntegerConstant
         ];
-
-VariableDeclarations :
-        % Accept one or more variable declarations.
-        @ValueOrLike  ';';
 
 ValueOrLike :
         [
@@ -463,7 +480,7 @@ CaseStmt :
             | 'else':
                 .sCaseEnd
                 .sCaseElse
-                @Block 'end' ';'
+                @Block
                 >
             | 'end':
                 .sCaseEnd
@@ -482,7 +499,7 @@ CaseAlternative :
             ]
         }
         .sLabelEnd
-        'then'  @Block ';';
+        'then'  @Block;
 
 WhileStmt :
         .sWhileStmt
@@ -491,16 +508,17 @@ WhileStmt :
         .sExpnEnd
         @Block;
 
-RepeatStmt :        
-        [
-            | 'while':
-                @WhileStmt
-            | *:
-                .sRepeatStmt
-                @Block
-                ';' 'while'
-                .sRepeatEnd
-        ]
+RepeatStmt :
+        .sRepeatStmt
+        {
+            @Block
+            [
+                | ';':
+                | 'while':
+                    .sRepeatEnd
+                    >
+            ]
+        }
         @Expression
         .sNot
         .sExpnEnd;
