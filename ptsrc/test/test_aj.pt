@@ -3,6 +3,14 @@ using input, output;
 
 repeat while (factor <= maxprimes / 2)
     multiple = factor + factor;
+    repeat while multiple <= maxprimes
+        flagset (multiple, notprime);
+        multiple += factor;
+    end;
+    repeat
+        factor += 1;
+        flagget (factor, isprime);
+    while (factor <= maxprimes / 2) and not isprime;
 end;
 
 var x = 1;
