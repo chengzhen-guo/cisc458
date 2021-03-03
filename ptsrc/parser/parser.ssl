@@ -181,7 +181,7 @@ Program :
         ';'  @Block;
 
 Block :
-        % Strictly speaking, standard Pascal requires that declarations
+        % Strictly speaking, standard Like requires that declarations
         % appear only in the order consts, types, vars, procedures.
         % We allow arbitrary intermixing of these instead to preserve
         % programmer sanity. 
@@ -236,9 +236,11 @@ Block :
         .sEnd;
 
 Statement :
-    @Block;
+        % Moved all functionality to Block.
+        @Block;
 
 StringOperation :
+        % String operations including Concatenate, Repeat, and Substring.
         [
             | '|':
                 pStringLiteral .sStringLiteral
@@ -254,7 +256,7 @@ StringOperation :
         ];
 
 ConstantDefinitions :
-        % Accept one or more named constant definitions
+        % Accept one or more named constant definitions.
         pIdentifier .sIdentifier
         '=' @ConstantValue 
         {[
@@ -267,7 +269,7 @@ ConstantDefinitions :
         ]};
 
 PublicConstantDefinitions :
-        % Accept one or more named constant definitions
+        % Accept one or more named constant definitions marked as public.
         pIdentifier .sIdentifier .sPublic
         '=' @ConstantValue 
         {[
@@ -281,12 +283,12 @@ PublicConstantDefinitions :
         ]};
 
 VariableDeclarations :
-        % Accept one or more variable declarations.
+        % Accept only one variable declarations can assign value or use like to assign type.
         pIdentifier .sIdentifier
         @ValueOrLike  ';';
 
 PublicVariableDeclarations :
-        % Accept one or more variable declarations.
+        % Accept only one variable declarations can assign value or use like to assign type marked as public.
         pIdentifier .sIdentifier .sPublic
         @ValueOrLike  ';';
 
@@ -325,6 +327,7 @@ OptionallySignedIntegerConstant :
         ];
 
 ValueOrLike :
+        % Allow variables to assign value or declare type with like statement.
         [
             |'=':
                 .sInitialValue
@@ -335,6 +338,7 @@ ValueOrLike :
         ];
 
 LikeClause :
+        % Created a new rule LikeClause, which allows for an array bound (e.g., var x [5] : like 1; ) followed by a colon
         [        
             | '[':
                 .sArray
@@ -380,6 +384,7 @@ ProcedureHeading :
         .sParmEnd;
 
 AssignmentOrCallStmt :
+        % Added like assignment operations.
         [
             | '=':
                 .sAssignmentStmt
@@ -487,7 +492,7 @@ CaseStmt :
             | 'else':
                 .sCaseEnd
                 .sCaseElse
-                @Statement
+                @Statement % allow if statment
                 >
             | *:
                 .sCaseEnd
@@ -509,12 +514,14 @@ CaseAlternative :
         'then'  @Statement;
 
 WhileStmt :
+        % repeat while statement.
         .sWhileStmt
         @Expression
         .sExpnEnd
         @Statement;
 
 RepeatStmt :
+        % repeat statement ends with a while condition.
         [
             | 'while':
                 @WhileStmt
@@ -529,6 +536,7 @@ RepeatStmt :
         ];
 
 Expression :
+        % Changed to Like operators.
         @SimpleExpression
         [
             | '==':
@@ -551,7 +559,7 @@ SimpleExpression :
             | '+':
                 @Term
             | '-':
-                @Term  .sNegate            
+                @Term  .sNegate
             | *:
                 @Term
         ]
@@ -567,6 +575,7 @@ SimpleExpression :
         ]};
 
 Term :
+        % Changed to Like operators divide and modulus.
         @Factor
         {[
             | '*':
@@ -582,6 +591,7 @@ Term :
         ]};
 
 Factor :
+        % Added string operation rule calling and string length handling.
         [
             | pIdentifier:
                 .sIdentifier
