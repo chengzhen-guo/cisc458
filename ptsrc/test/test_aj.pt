@@ -2,7 +2,7 @@ using input, output;
 
 
 repeat
-    factor += 1;
+    factor = 1;
 while factor <= maxprimes / 2;
 
 var x = 1;
