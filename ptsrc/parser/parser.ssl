@@ -308,24 +308,6 @@ UnsignedIntegerConstant :
                 .sInteger
         ];
 
-SimpleType :
-        % A simple type is a named type (possibly predefined)
-        % or a subrange type specification
-        [
-            | pIdentifier:
-                .sIdentifier
-                [
-                    | '..':
-                        .sRange         %% this may be unnecessary
-                        @OptionallySignedIntegerConstant
-                    | *:
-                ]
-            | *:
-                @OptionallySignedIntegerConstant
-                '..'  .sRange
-                @OptionallySignedIntegerConstant
-        ];
-
 OptionallySignedIntegerConstant :
         [
             | '-':
@@ -351,7 +333,7 @@ LikeClause :
         [        
             | '[':
                 .sArray
-                @SimpleType  ']'
+                @ConstantValue  ']'
                 ':' 'like' .sLike  @ConstantValue
             | ':':
                 [
@@ -360,10 +342,10 @@ LikeClause :
                         @ConstantValue
                     | 'file':
                         .sFile
-                        @SimpleType
+                        @ConstantValue
                 ]
             | *:
-                @SimpleType       
+                @ConstantValue       
         ];
 
 ProcedureHeading :
