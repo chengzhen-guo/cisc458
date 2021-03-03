@@ -191,7 +191,7 @@ Block :
                 .sPackage
                 pIdentifier .sIdentifier
                 'is'
-                @Block
+                @Statement
             | 'public':
                 [
                     | 'val':
@@ -204,7 +204,7 @@ Block :
                         .sProcedure
                         pIdentifier .sIdentifier .sPublic
                         @ProcedureHeading
-                        @Block
+                        @Statement
                 ]
             | 'val':
                 .sConst
@@ -217,7 +217,7 @@ Block :
                 % procedure name
                 pIdentifier .sIdentifier
                 @ProcedureHeading
-                @Block
+                @Statement
             | pIdentifier:
                 @AssignmentOrCallStmt
             | 'if':
@@ -234,6 +234,9 @@ Block :
                 >
         ]}
         .sEnd;
+
+Statement :
+    @Block;
 
 StringOperation :
         [
@@ -465,11 +468,11 @@ IfStmt :
         @Expression
         .sExpnEnd
         'then'  .sThen
-        @Block
+        @Statement
         [
             | 'else':
                 .sElse
-                @Block
+                @Statement
             | *:
         ];
 
@@ -484,7 +487,7 @@ CaseStmt :
             | 'else':
                 .sCaseEnd
                 .sCaseElse
-                @Block
+                @Statement
                 >
             | *:
                 .sCaseEnd
@@ -503,13 +506,13 @@ CaseAlternative :
             ]
         }
         .sLabelEnd
-        'then'  @Block;
+        'then'  @Statement;
 
 WhileStmt :
         .sWhileStmt
         @Expression
         .sExpnEnd
-        @Block;
+        @Statement;
 
 RepeatStmt :
         [
@@ -517,7 +520,7 @@ RepeatStmt :
                 @WhileStmt
             | *:
                 .sRepeatStmt
-                @Block                
+                @Statement                
                 'while'
                 .sRepeatEnd
                 @Expression
