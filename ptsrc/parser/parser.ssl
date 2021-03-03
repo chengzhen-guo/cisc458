@@ -254,7 +254,7 @@ StringOperation :
                 pInteger .sInteger
                 ':' pInteger .sInteger
                 .sSubstring
-        ]
+        ];
 
 ConstantDefinitions :
         % Accept one or more named constant definitions
