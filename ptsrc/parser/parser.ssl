@@ -266,13 +266,13 @@ ConstantDefinitions :
 PublicConstantDefinitions :
         % Accept one or more named constant definitions
         pIdentifier .sIdentifier .sPublic
-        '=' @ConstantValue 
+        '=' @ConstantValue @LikeClause
         {[
             |',':
                 pIdentifier
                 .sIdentifier
                 .sPublic
-                '=' @ConstantValue
+                '=' @ConstantValue @LikeClause
             |';':
                 >
         ]};
