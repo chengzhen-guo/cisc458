@@ -1,14 +1,23 @@
 using input, output;
 
+"hi " | "there"
 
-i += 10;
 
-i -= 10;
 
-i *= 10;
 
-i /= 10;
+"hi " || 4
 
-i %= 10;
+
+
+
+
+"Hi there" / 4 : 6
+
+
+# "Jim"
+
+
+# "Jim" == 3
+
 
 var x = 1;

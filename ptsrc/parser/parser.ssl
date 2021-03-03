@@ -220,6 +220,11 @@ Block :
                 @Block
             | pIdentifier:
                 @AssignmentOrCallStmt
+            | pStringLiteral:
+                @StringOperation
+            | '#':
+                pStringLiteral .sStringLiteral
+                .sLength
             | 'if':
                 @IfStmt
             | 'choose':
@@ -233,6 +238,23 @@ Block :
                 >
         ]}
         .sEnd;
+
+StringOperation :
+        [
+            | '|':
+                .sStringLiteral
+                pStringLiteral .sStringLiteral
+                .sConcatenate
+            | '||':
+                .sStringLiteral
+                pInteger .sInteger
+                .sRepeatString
+            | '/':
+                .sStringLiteral
+                pInteger .sInteger
+                ':' pInteger .sInteger
+                .sSubstring
+        ]
 
 ConstantDefinitions :
         % Accept one or more named constant definitions
