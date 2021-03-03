@@ -10,6 +10,6 @@
    .sVar
       .sInteger
    .sParmEnd
-   .sBegin
-   .sEnd
+    .sBegin
+    .sEnd
   .sEnd

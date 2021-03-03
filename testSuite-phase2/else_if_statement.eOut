@@ -11,42 +11,42 @@
    .sExpnEnd
    % .sNewLine
    .sThen
-    .sBegin
-    .sVar
-     .sIdentifier
-      .sInitialValue
-          .sInteger
-      .sExpnEnd
-     % .sNewLine
-    .sEnd
+     .sBegin
+     .sVar
+      .sIdentifier
+       .sInitialValue
+           .sInteger
+       .sExpnEnd
+      % .sNewLine
+     .sEnd
    % .sNewLine
    .sElse
-    .sBegin
-     .sIfStmt
-         .sIdentifier
-         .sIdentifier
-      .sEq
-     .sExpnEnd
-     % .sNewLine
-     .sThen
-      .sBegin
-      .sVar
-       .sIdentifier
-        .sInitialValue
-            .sInteger
-        .sExpnEnd
-       % .sNewLine
-      .sEnd
-     % .sNewLine
-     .sElse
-      .sBegin
-      .sVar
-       .sIdentifier
-        .sInitialValue
-            .sInteger
-        .sExpnEnd
-       % .sNewLine
+     .sBegin
+      .sIfStmt
+          .sIdentifier
+          .sIdentifier
+       .sEq
+      .sExpnEnd
       % .sNewLine
-      .sEnd
-    .sEnd
+      .sThen
+        .sBegin
+        .sVar
+         .sIdentifier
+          .sInitialValue
+              .sInteger
+          .sExpnEnd
+         % .sNewLine
+        .sEnd
+      % .sNewLine
+      .sElse
+        .sBegin
+        .sVar
+         .sIdentifier
+          .sInitialValue
+              .sInteger
+          .sExpnEnd
+         % .sNewLine
+        % .sNewLine
+        .sEnd
+     .sEnd
   .sEnd

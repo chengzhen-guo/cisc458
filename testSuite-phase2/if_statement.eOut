@@ -11,12 +11,12 @@
    .sExpnEnd
    % .sNewLine
    .sThen
-    .sBegin
-    .sVar
-     .sIdentifier
-      .sInitialValue
-          .sInteger
-      .sExpnEnd
-     % .sNewLine
-    .sEnd
+     .sBegin
+     .sVar
+      .sIdentifier
+       .sInitialValue
+           .sInteger
+       .sExpnEnd
+      % .sNewLine
+     .sEnd
   .sEnd

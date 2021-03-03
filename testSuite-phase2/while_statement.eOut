@@ -9,14 +9,14 @@
         .sIdentifier
      .sEq
     .sExpnEnd
-     .sBegin
-     % .sNewLine
-     .sNullStmt
-     .sVar
-      .sIdentifier
-       .sInitialValue
-           .sInteger
-       .sExpnEnd
+      .sBegin
       % .sNewLine
-     .sEnd
+      .sNullStmt
+      .sVar
+       .sIdentifier
+        .sInitialValue
+            .sInteger
+        .sExpnEnd
+       % .sNewLine
+      .sEnd
   .sEnd

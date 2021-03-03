@@ -12,24 +12,24 @@
       .sInteger
     .sLabelEnd
     % .sNewLine
-     .sBegin
-     .sVar
-      .sIdentifier
-       .sInitialValue
-           .sInteger
-       .sExpnEnd
-      % .sNewLine
-     .sEnd
+      .sBegin
+      .sVar
+       .sIdentifier
+        .sInitialValue
+            .sInteger
+        .sExpnEnd
+       % .sNewLine
+      .sEnd
       .sInteger
     .sLabelEnd
     % .sNewLine
-     .sBegin
-     .sVar
-      .sIdentifier
-       .sInitialValue
-           .sInteger
-       .sExpnEnd
-      % .sNewLine
-     .sEnd
+      .sBegin
+      .sVar
+       .sIdentifier
+        .sInitialValue
+            .sInteger
+        .sExpnEnd
+       % .sNewLine
+      .sEnd
    .sCaseEnd
   .sEnd

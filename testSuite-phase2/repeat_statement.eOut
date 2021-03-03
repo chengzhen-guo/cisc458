@@ -6,14 +6,14 @@
   .sBegin
   % .sNewLine
    .sRepeatStmt
-    .sBegin
-    .sVar
-     .sIdentifier
-      .sInitialValue
-          .sInteger
-      .sExpnEnd
-     % .sNewLine
-    .sEnd
+     .sBegin
+     .sVar
+      .sIdentifier
+       .sInitialValue
+           .sInteger
+       .sExpnEnd
+      % .sNewLine
+     .sEnd
    .sRepeatEnd
        .sIdentifier
        .sIdentifier
