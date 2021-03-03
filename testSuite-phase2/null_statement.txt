@@ -1,6 +1,6 @@
 Purpose: 
 
-Test if a single semicolon generate a sNullStmt token. 
+Test if a single semicolon generates a sNullStmt token. 
 
 Result: 
 
