@@ -14,42 +14,18 @@
   .sBegin
   .sVar
    .sIdentifier
-     .sArray
-        .sIdentifier
-      .sRange
-        .sIdentifier
-     .sLike
-        .sIdentifier
-      .sRange
-        .sIdentifier
         .sIdentifier
       .sRange
         .sIdentifier
    % .sNewLine
   .sVar
    .sIdentifier
-     .sArray
-        .sIdentifier
-      .sRange
-        .sIdentifier
-     .sLike
-        .sIdentifier
-      .sRange
-        .sIdentifier
         .sIdentifier
       .sRange
         .sIdentifier
    % .sNewLine
   .sVar
    .sIdentifier
-     .sArray
-        .sIdentifier
-      .sRange
-        .sIdentifier
-     .sLike
-        .sIdentifier
-      .sRange
-        .sIdentifier
         .sIdentifier
       .sRange
         .sIdentifier
@@ -66,6 +42,11 @@
       .sIdentifier
      .sLike
       .sIdentifier
+   % .sNewLine
+   % .sNewLine
+   % .sNewLine
+  .sVar
+   .sIdentifier
         .sIdentifier
       .sRange
         .sIdentifier
@@ -74,44 +55,12 @@
    % .sNewLine
   .sVar
    .sIdentifier
-     .sArray
-        .sIdentifier
-      .sRange
-        .sIdentifier
-     .sLike
-        .sIdentifier
-      .sRange
-        .sIdentifier
-        .sIdentifier
-      .sRange
-        .sIdentifier
-   % .sNewLine
-   % .sNewLine
-   % .sNewLine
-  .sVar
-   .sIdentifier
-     .sArray
-        .sIdentifier
-      .sRange
-        .sIdentifier
-     .sLike
-        .sIdentifier
-      .sRange
-        .sIdentifier
         .sIdentifier
       .sRange
         .sIdentifier
    % .sNewLine
   .sVar
    .sIdentifier
-     .sArray
-        .sIdentifier
-      .sRange
-        .sIdentifier
-     .sLike
-        .sIdentifier
-      .sRange
-        .sIdentifier
         .sIdentifier
       .sRange
         .sIdentifier
@@ -128,9 +77,6 @@
       .sIdentifier
      .sLike
       .sIdentifier
-        .sIdentifier
-      .sRange
-        .sIdentifier
    % .sNewLine
   .sVar
    .sIdentifier
@@ -138,20 +84,9 @@
       .sIdentifier
      .sLike
       .sIdentifier
-        .sIdentifier
-      .sRange
-        .sIdentifier
    % .sNewLine
   .sVar
    .sIdentifier
-     .sArray
-        .sIdentifier
-      .sRange
-        .sIdentifier
-     .sLike
-        .sIdentifier
-      .sRange
-        .sIdentifier
         .sIdentifier
       .sRange
         .sIdentifier
@@ -159,70 +94,30 @@
    % .sNewLine
   .sVar
    .sIdentifier
-     .sArray
-        .sIdentifier
-      .sRange
-        .sIdentifier
-     .sLike
-        .sIdentifier
-      .sRange
-        .sIdentifier
         .sIdentifier
       .sRange
         .sIdentifier
    % .sNewLine
   .sVar
    .sIdentifier
-     .sArray
-        .sIdentifier
-      .sRange
-        .sIdentifier
-     .sLike
-        .sIdentifier
-      .sRange
-        .sIdentifier
         .sIdentifier
       .sRange
         .sIdentifier
    % .sNewLine
   .sVar
    .sIdentifier
-     .sArray
-        .sIdentifier
-      .sRange
-        .sIdentifier
-     .sLike
-        .sIdentifier
-      .sRange
-        .sIdentifier
         .sIdentifier
       .sRange
         .sIdentifier
    % .sNewLine
   .sVar
    .sIdentifier
-     .sArray
-        .sIdentifier
-      .sRange
-        .sIdentifier
-     .sLike
-        .sIdentifier
-      .sRange
-        .sIdentifier
         .sIdentifier
       .sRange
         .sIdentifier
    % .sNewLine
   .sVar
    .sIdentifier
-     .sArray
-        .sIdentifier
-      .sRange
-        .sIdentifier
-     .sLike
-        .sIdentifier
-      .sRange
-        .sIdentifier
         .sIdentifier
       .sRange
         .sIdentifier
