@@ -222,9 +222,6 @@ Block :
                 @AssignmentOrCallStmt
             | pStringLiteral:
                 @StringOperation
-            | '#':
-                pStringLiteral .sStringLiteral
-                .sLength
             | 'if':
                 @IfStmt
             | 'choose':
@@ -599,7 +596,7 @@ SimpleExpression :
             | '+':
                 @Term
             | '-':
-                @Term  .sNegate
+                @Term  .sNegate            
             | *:
                 @Term
         ]
@@ -643,6 +640,10 @@ Factor :
                 .sNot
             | pStringLiteral:
                 .sStringLiteral
+                @StringOperation
+            | '#':
+                pStringLiteral .sStringLiteral
+                .sLength
             | 'file':
                 .sFile '(' @Expression ')'
                 .sExpnEnd

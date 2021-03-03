@@ -1,23 +1,21 @@
 using input, output;
 
-"hi " | "there"
+var x = "hi " | "there"
 
 
 
 
-"hi " || 4
+var x = "hi " || 4
 
 
 
 
 
-"Hi there" / 4 : 6
+var x = "Hi there" / 4 : 6
 
 
-# "Jim"
+var x = # "Jim"
 
-
-# "Jim" == 3
 
 
 var x = 1;
