@@ -246,6 +246,7 @@ StringOperation :
                 pInteger .sInteger
                 ':' pInteger .sInteger
                 .sSubstring
+            | *:
         ];
 
 ConstantDefinitions :
