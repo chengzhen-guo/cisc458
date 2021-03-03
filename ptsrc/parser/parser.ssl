@@ -253,12 +253,12 @@ StringOperation :
 ConstantDefinitions :
         % Accept one or more named constant definitions
         pIdentifier .sIdentifier
-        @ValueOrLike
+        '=' @ConstantValue 
         {[
             |',':
                 pIdentifier
                 .sIdentifier
-                @ValueOrLike
+                '=' @ConstantValue
             |';':
                 >
         ]};
@@ -266,13 +266,13 @@ ConstantDefinitions :
 PublicConstantDefinitions :
         % Accept one or more named constant definitions
         pIdentifier .sIdentifier .sPublic
-        @ValueOrLike
+        '=' @ConstantValue 
         {[
             |',':
                 pIdentifier
                 .sIdentifier
                 .sPublic
-                @ValueOrLike
+                '=' @ConstantValue
             |';':
                 >
         ]};
