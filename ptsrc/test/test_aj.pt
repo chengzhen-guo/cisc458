@@ -1,22 +1,8 @@
 using input, output;
 
-if x == 42 then
-    DeclarationsAndStatements1
-else
-    if y == 71 then
-        DeclarationsAndStatements2
-    else
-        DeclarationsAndStatements3
-    end;
-end;
 
-choose i of
-    when 42, 43 then
-        DeclarationsAndStatements1
-    when 44 then
-        DeclarationsAndStatements2
-    else
-        DeclarationsAndStatements3
+repeat while (factor <= maxprimes / 2)
+    multiple = factor + factor;
 end;
 
 var x = 1;

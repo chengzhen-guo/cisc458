@@ -222,8 +222,6 @@ Block :
                 @AssignmentOrCallStmt
             | 'if':
                 @IfStmt
-            | 'while':
-                @WhileStmt
             | 'choose':
                 @CaseStmt
             | 'repeat':
@@ -508,19 +506,18 @@ WhileStmt :
         @Block;
 
 RepeatStmt :
-        .sRepeatStmt
-        {
-            @Block
-            [
-                | ';':
-                | 'while':
-                    .sRepeatEnd
-                    >
-            ]
-        }
-        @Expression
-        .sNot
-        .sExpnEnd;
+        [
+            | 'while':
+                @WhileStmt
+            | *:
+                .sRepeatStmt
+                @Block
+                'while'
+                .sRepeatEnd
+                @Expression
+                .sNot
+                .sExpnEnd;
+        ];
 
 Expression :
         @SimpleExpression
