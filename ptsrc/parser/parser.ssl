@@ -524,7 +524,6 @@ CaseAlternative :
 WhileStmt :
         .sWhileStmt
         @Expression
-        .sNot
         .sExpnEnd
         @Block;
 
