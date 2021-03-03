@@ -516,7 +516,7 @@ RepeatStmt :
                 .sRepeatEnd
                 @Expression
                 .sNot
-                .sExpnEnd;
+                .sExpnEnd
         ];
 
 Expression :
