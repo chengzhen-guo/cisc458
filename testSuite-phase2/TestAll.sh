@@ -1,5 +1,5 @@
 #!/bin/bash
-del *.eOut
+rm *.eOut
 for i in *.pt
 do
     echo "=== pti $i ==="
