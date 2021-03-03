@@ -1,0 +1,7 @@
+Purpose: 
+
+Test if function declarations can generate sProcedure, sIdentifier, sParmEnd and followed by sBegin...sEnd. 
+
+Result: 
+
+Matched as expected. 

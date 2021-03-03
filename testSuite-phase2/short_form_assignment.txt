@@ -1,0 +1,19 @@
+Purpose: 
+
+Test if the parsing of the like short form assignment is correct, outputting the semantic token stream for a regular assignment. 
+
+Result: 
+
+The output matches the expected, with the general forme of : 
+
+.sAssignmentStmt 
+
+   .sIdentifier 
+
+   .sIdentifier 
+
+       .sInteger 
+
+   <Related operation token> (.sAdd, .sSubtract, .sMultiply etx.) 
+
+   .sExpnEnd  

@@ -1,0 +1,7 @@
+Purpose: 
+
+Test if a single semicolon generate a sNullStmt token. 
+
+Result: 
+
+Matched as expected. 
