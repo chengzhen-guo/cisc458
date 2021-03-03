@@ -3,6 +3,6 @@ using input, output;
 
 repeat
     factor += 1;
-while (factor <= maxprimes / 2) and not isprime;
+while factor <= maxprimes / 2;
 
 var x = 1;
