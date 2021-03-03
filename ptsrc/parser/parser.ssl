@@ -250,6 +250,7 @@ StringOperation :
 
 ConstantDefinitions :
         % Accept one or more named constant definitions
+        pIdentifier .sIdentifier
         '=' @ConstantValue 
         {[
             |',':
