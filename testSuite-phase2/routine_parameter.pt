@@ -1,5 +1,5 @@
 using output;
 
-if x == y then
+fun F (var i, var j) is
     var x = 1;
 end;
