@@ -411,6 +411,36 @@ AssignmentOrCallStmt :
                 .sIdentifier    % identifier accepted in the Statement rule
                 @Expression
                 .sExpnEnd
+            | '+=':
+                .sAssignmentStmt
+                .sIdentifier    % identifier accepted in the Statement rule
+                @Expression
+                .sAdd
+                .sExpnEnd
+            | '-=':
+                .sAssignmentStmt
+                .sIdentifier    % identifier accepted in the Statement rule
+                @Expression
+                .sSubtract
+                .sExpnEnd
+            | '*=':
+                .sAssignmentStmt
+                .sIdentifier    % identifier accepted in the Statement rule
+                @Expression
+                .sMultiply
+                .sExpnEnd
+            | '/=':
+                .sAssignmentStmt
+                .sIdentifier    % identifier accepted in the Statement rule
+                @Expression
+                .sDivide
+                .sExpnEnd
+            | '%=':
+                .sAssignmentStmt
+                .sIdentifier    % identifier accepted in the Statement rule
+                @Expression
+                .sModulus
+                .sExpnEnd
             | '[':
                 .sAssignmentStmt
                 .sIdentifier

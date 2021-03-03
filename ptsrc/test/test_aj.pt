@@ -1,18 +1,8 @@
 using input, output;
 
 
-repeat
-    factor = 1;
-while factor <= maxprimes / 2;
+i += 10;
 
-repeat while factor <= maxprimes / 2
-    factor = 1;
-end;
-
-repeat while factor <= maxprimes / 2
-    repeat
-        factor = 1;
-    while factor <= maxprimes / 2;
-end;
+i -= 10;
 
 var x = 1;
