@@ -404,10 +404,7 @@ ProcedureHeading :
                         | *:
                             pIdentifier  .sIdentifier
                     ]
-                    ':'
-                    % type identifier
-                    pIdentifier  .sIdentifier
-                    @ValueOrLike
+                    @ValueOrLike                    
                     [
                         | ',':                            
                         | *:
