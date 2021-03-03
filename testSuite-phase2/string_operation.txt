@@ -1,0 +1,20 @@
+Purpose: 
+
+Test if new Like string operations: Concatenation, Repeat String, Substring, and Length can be parsed to emit corresponding semantic tokens. 
+
+Result: 
+
+The output matches the expected result, with a general form of: 
+
+.sAssignmentStmt 
+
+.sIdentifer   % corresponds to ‘i =’ 
+
+< Related operation token > 
+
+.sExpnEnd 
+
+In the <Related operation token> various number of sStringLiteral tokens and sInteger tokens were emitted according to the instruction, 
+followed by a corresponding semantic token (sConcatenate, sRepeatString, sSubstring, sLength). In Concatenate (s | s), two sStringLiteral tokens were emitted;
+In Repeat String ( s || n), one sStringLiteral token and one sInteger token were emitted; In Substring, one sStringLiteral token and two sInteger tokens were emitted;
+In Length, only a StringLiteral token was emitted. 
