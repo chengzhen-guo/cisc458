@@ -227,6 +227,7 @@ Block :
             | 'repeat':
                 @RepeatStmt
             | ';':
+                .sNullStmt
             | 'end':
                 ';' >
             | *:
