@@ -5,4 +5,14 @@ repeat
     factor = 1;
 while factor <= maxprimes / 2;
 
+repeat while factor <= maxprimes / 2
+    factor = 1;
+end;
+
+repeat while factor <= maxprimes / 2
+    repeat
+        factor = 1;
+    while factor <= maxprimes / 2;
+end;
+
 var x = 1;
