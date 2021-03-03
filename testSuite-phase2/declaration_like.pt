@@ -1,4 +1,4 @@
 using output;
 
 var x : like 1;
-val x : like 1;
+val x = 1 : like 1;
