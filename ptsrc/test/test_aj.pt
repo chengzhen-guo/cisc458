@@ -1,14 +1,8 @@
 using input, output;
 
 
-repeat while (factor <= maxprimes / 2)
-    multiple = factor + factor;
-    repeat while multiple <= maxprimes
-        multiple += factor;
-    end;
-    repeat
-        factor += 1;
-    while (factor <= maxprimes / 2) and not isprime;
-end;
+repeat
+    factor += 1;
+while (factor <= maxprimes / 2) and not isprime;
 
 var x = 1;
