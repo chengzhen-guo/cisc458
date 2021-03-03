@@ -253,12 +253,12 @@ StringOperation :
 ConstantDefinitions :
         % Accept one or more named constant definitions
         pIdentifier .sIdentifier
-        '=' @ConstantValue 
+        '=' @ConstantValue @LikeClause
         {[
             |',':
                 pIdentifier
                 .sIdentifier
-                '=' @ConstantValue
+                '=' @ConstantValue @LikeClause
             |';':
                 >
         ]};
