@@ -528,7 +528,7 @@ CaseStmt :
                 .sCaseElse
                 @Block
                 >
-            | 'end':
+            | *:
                 .sCaseEnd
                 >
         ]};
