@@ -808,8 +808,6 @@ Block :
                 @ProcedureDefinition
             | sConst:
                 @ConstantDefinitions
-            | sLike: % change
-                @TypeDefinitions
             | sVar:
                 @VariableDeclarations
             | sAssignmentStmt:
@@ -898,33 +896,6 @@ ConstantValue :         % push the value and type of the constant value
                 @StringLiteral  % pushes type and value, enters address
         ];
 
-TypeDefinitions :       % process named type definitions
-        {[
-            | sIdentifier:
-                oSymbolStkPushLocalIdentifier
-                [ oSymbolStkChooseKind
-                    | syUndefined:
-                    | syExternal:
-                        % Program parameters must be declared as file variables
-                        #eExternalDeclare        % ignore this declaration
-                    | *:
-                        #eMultiplyDefined
-                        % The new definition will obscure the old one
-                ]
-                oSymbolStkSetKind(syType)
-
-                % Accepts a type specification and pushes its type to the Type Stack.
-                % Creates type table entries for the type and any new subtypes as necessary.
-                @TypeBody
-
-                oSymbolStkEnterTypeReference
-                oTypeStkPop
-                oSymbolTblEnter
-                oSymbolStkPop
-            | *:
-                >
-        ]};
-
 TypeBody :
         % Accept a type specification and push a Type Stack entry for it.
         % Enter it and any new index or component subtypes into the Type Table as necessary. 
@@ -951,9 +922,10 @@ TypeTblEnterIfNew:
 
 IndexType :
         % Accept and fill in index bounds of array type stack entry
-        @SimpleType     % pushes index type
+        oValuePush(one)
+        oValuePushInteger
         [ oTypeStkChooseKind
-            | tpSubrange:
+            | tpInteger:
                 oValuePushTypeStkLowerBound
                 oValuePushTypeStkUpperBound
             | *:
@@ -991,6 +963,7 @@ ComponentType :
 
 SimpleType :
         % Accept a simple type and push a type stack entry for it.
+        sLike
         [
             | sIdentifier:
                 oSymbolStkPushIdentifier
@@ -1106,7 +1079,7 @@ SubrangeUpperBound :
         ];
 
 VariableDeclarations :
-        {[
+        [
             | sIdentifier:
                 oSymbolStkPushLocalIdentifier
 
@@ -1120,13 +1093,18 @@ VariableDeclarations :
 
                 % Accepts a type specification and pushes its type to the Type Stack.
                 % Creates type table entries for the type and any new subtypes as necessary.
-                @TypeBody
+                [
+                    | sInitialValue:
+                        @EmitStore
+                    | *:
+                        @TypeBody
+                ]
                 @EnterVariableAttributes
                 oTypeStkPop
                 oSymbolStkPop
             | *:
                 >
-        ]};
+        ];
 
 EnterVariableAttributes :
         % Enter the type on top of the Type Stack as the type of 
