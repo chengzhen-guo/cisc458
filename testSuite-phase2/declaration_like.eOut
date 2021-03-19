@@ -8,4 +8,9 @@
    .sIdentifier
      .sLike
       .sInteger
+   % .sNewLine
+  .sVar
+   .sIdentifier
+     .sLike
+     .sIdentifier
   .sEnd
