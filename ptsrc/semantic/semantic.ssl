@@ -1101,9 +1101,7 @@ VariableDeclarations :
                     | sInitialValue:
                         .tInitialValue
                         @Expression             % Pushes symbol and type stack entries for the expression
-                        @EmitAssign             % Emit code to perform the assignment
-                        .tInitEnd
-                        %oTypeStkPop  oSymbolStkPop      % Expression
+                        oTypeStkPop  oSymbolStkPop      % Expression
                     | *:
                         @TypeBody
                 ]                
