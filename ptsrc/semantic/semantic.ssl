@@ -1107,7 +1107,7 @@ VariableDeclarations :
                         oEmitValue
                         oValuePop                        
                         @EmitStore
-                        oSymbolStkPop
+                        oTypeStkPop  oSymbolStkPop
                     | *:
                         @TypeBody
                 ]                
