@@ -192,6 +192,7 @@ Block :
                 pIdentifier .sIdentifier
                 'is'
                 @Statement
+                'end' ';'
             | 'public':
                 [
                     | 'val':
@@ -204,7 +205,9 @@ Block :
                         .sProcedure
                         pIdentifier .sIdentifier .sPublic
                         @ProcedureHeading
+                        'is' 
                         @Statement
+                        'end' ';'
                 ]
             | 'val':
                 .sConst
@@ -225,11 +228,14 @@ Block :
             | 'choose':
                 @CaseStmt
             | 'repeat':
-                @RepeatStmt
+                [
+                    | 'while':
+                        @WhileStmt
+                    | *:
+                        @RepeatStmt
+                ]
             | ';':
                 .sNullStmt
-            | 'end':
-                ';' >
             | *:
                 >
         ]}
@@ -239,48 +245,32 @@ Statement :
         % Moved all functionality to Block.
         @Block;
 
-StringOperation :
-        % String operations including Concatenate, Repeat, and Substring.
-        [
-            | '|':
-                pStringLiteral .sStringLiteral
-                .sConcatenate
-            | '||':
-                pInteger .sInteger
-                .sRepeatString
-            | '/':
-                pInteger .sInteger
-                ':' pInteger .sInteger
-                .sSubstring
-            | *:
-        ];
-
 ConstantDefinitions :
         % Accept one or more named constant definitions.
         pIdentifier .sIdentifier
         '=' @ConstantValue 
         {[
-            |',':
+            | ',':
                 pIdentifier
                 .sIdentifier
                 '=' @ConstantValue
-            |';':
+            | *:
                 >
-        ]};
+        ]} ';';
 
 PublicConstantDefinitions :
         % Accept one or more named constant definitions marked as public.
         pIdentifier .sIdentifier .sPublic
         '=' @ConstantValue 
         {[
-            |',':
+            | ',':
                 pIdentifier
                 .sIdentifier
                 .sPublic
                 '=' @ConstantValue
-            |';':
+            | *:
                 >
-        ]};
+        ]} ';';
 
 VariableDeclarations :
         % Accept only one variable declarations can assign value or use like to assign type.
@@ -329,32 +319,34 @@ OptionallySignedIntegerConstant :
 ValueOrLike :
         % Allow variables to assign value or declare type with like statement.
         [
-            |'=':
+            | '=':
                 .sInitialValue
                 @Expression
                 .sExpnEnd
-            |*:
+            | *:
                 @LikeClause
         ];
 
 LikeClause :
-        % Created a new rule LikeClause, which allows for an array bound (e.g., var x [5] : like 1; ) followed by a colon
-        [        
+        [
             | '[':
-                .sArray
-                @ConstantValue  ']'
-                ':' 'like' .sLike  @ConstantValue
-            | ':':
-                [
-                    | 'like':
-                        .sLike
-                        @ConstantValue
-                    | 'file':
-                        .sFile
-                        @ConstantValue
-                ]
+                .sArray @ConstantValue
+                ']'
             | *:
-                @ConstantValue       
+        ]
+        ':' 
+        [
+            | 'file':
+                .sFile
+            | *:
+        ]
+        'like'
+        .sLike 
+        [
+            | pIdentifier:
+                .sIdentifier
+            | *:
+                @ConstantValue
         ];
 
 ProcedureHeading :
@@ -370,7 +362,7 @@ ProcedureHeading :
                         | *:
                             pIdentifier  .sIdentifier
                     ]
-                    @ValueOrLike                    
+                    @LikeClause                    
                     [
                         | ',':                            
                         | *:
@@ -380,7 +372,6 @@ ProcedureHeading :
                 ')'
             | *:
         ]
-        'is'
         .sParmEnd;
 
 AssignmentOrCallStmt :
@@ -437,7 +428,7 @@ AssignmentOrCallStmt :
                 .sExpnEnd
             | *:
                 @CallStmt
-        ];
+        ] ';';
 
 CallStmt :
         .sCallStmt
@@ -475,10 +466,19 @@ IfStmt :
         'then'  .sThen
         @Statement
         [
-            | 'else':
-                .sElse
-                @Statement
+            | 'elseif':
+                .sElse 
+                .sBegin
+                @IfStmt
+                .sEnd
             | *:
+			[
+				| 'else':
+                    .sElse
+                    @Statement
+				| *:
+			]
+            'end' ';'
         ];
 
 CaseStmt :
@@ -486,18 +486,22 @@ CaseStmt :
         @Expression
         .sExpnEnd
         'of'
+        'when'
+        @CaseAlternative 
         {[
             | 'when':
-                @CaseAlternative
-            | 'else':
-                .sCaseEnd
-                .sCaseElse
-                @Statement % allow if statment
-                >
+                @CaseAlternative 
             | *:
-                .sCaseEnd
                 >
-        ]};
+        ]}
+        .sCaseEnd
+        [
+            | 'else':
+                .sCaseElse
+                @Statement
+            | *:
+        ]
+        'end' ';';
 
 CaseAlternative :
         % A case alternative is a statement labelled by
@@ -519,21 +523,22 @@ WhileStmt :
         @Expression
         .sExpnEnd
         @Statement;
+        'end' ';';
 
 RepeatStmt :
-        % repeat statement ends with a while condition.
-        [
-            | 'while':
-                @WhileStmt
-            | *:
-                .sRepeatStmt
-                @Statement                
-                'while'
-                .sRepeatEnd
-                @Expression
-                .sNot
-                .sExpnEnd
-        ];
+        .sRepeatStmt
+        {
+            @Statement
+            [
+                | 'while':
+                    .sRepeatEnd
+                    >
+            ]
+        }
+        @Expression 
+	    ';'
+        .sNot
+        .sExpnEnd;
 
 Expression :
         % Changed to Like operators.
@@ -570,6 +575,10 @@ SimpleExpression :
                 @Term  .sSubtract
             | 'or':
                 .sInfixOr  @Term  .sOr
+            | '|':
+                @Term  .sConcatenate
+            | '||':
+                @Term  .sRepeatString
             | *:
                 >
         ]};
@@ -581,7 +590,13 @@ Term :
             | '*':
                 @Factor  .sMultiply
             | '/':
-                @Factor  .sDivide
+                @Factor  
+                [
+                    | ':':
+                        @Factor .sSubstring
+                    | *:
+                        .sDivide
+                ]
             | '%':
                 @Factor  .sModulus
             | 'and':
@@ -605,7 +620,6 @@ Factor :
                 .sNot
             | pStringLiteral:
                 .sStringLiteral
-                @StringOperation
             | '#':
                 pStringLiteral .sStringLiteral
                 .sLength
