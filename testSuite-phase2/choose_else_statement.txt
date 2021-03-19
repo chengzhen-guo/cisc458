@@ -1,0 +1,7 @@
+Purpose: 
+
+Test if the choose statement with the optional else in Like will output the same token stream as the PT Pascal for the parts before the else alternative, and a sCaseElse token followed by the statement inside of the else (with sBigin and sEnd tokens). 
+
+Result: 
+
+The output matches the expected output. 

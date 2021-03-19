@@ -1,0 +1,11 @@
+using output;
+
+var i = 1;
+
+var i = 1 / 1;
+
+var i = 1 % 1;
+
+var i = x == y;
+
+var i = x != y;

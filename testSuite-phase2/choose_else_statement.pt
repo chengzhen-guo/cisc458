@@ -1,0 +1,10 @@
+using output;
+
+choose i of
+    when 42, 43 then
+        var x = 1;
+    when 44 then
+        var x = 1;
+    else
+        var x = 1;
+end;

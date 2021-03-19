@@ -1,0 +1,21 @@
+using input, output;
+
+var x = "hi " | "there";
+
+
+
+
+var x = "hi " || 4;
+
+
+
+
+
+var x = "Hi there" / 4 : 6;
+
+
+var x = # "Jim";
+
+
+
+var x = 1;

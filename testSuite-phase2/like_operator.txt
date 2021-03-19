@@ -1,0 +1,7 @@
+Purpose: 
+
+Test if the change the syntax of the PT operators to the corresponding Like operators described in the Like language specification are made correctly, more specifically, the ‘/’ in Like should output the same token as ‘div’ does in PT Pascal, ‘%’ in place of the ‘mod’, ‘=’ in place of the ‘:=’, ‘!=’ in place of ‘<>’. 
+
+Result:  
+
+The output tokens of the new Like operators matches the old PT Pascal operator tokens. ‘/’ outputs sDivide; ‘%’ outputs sModulus; ‘=’ outputs sEq; ‘!=’ outputs sNE;  

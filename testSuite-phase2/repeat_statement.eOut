@@ -1,0 +1,24 @@
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+ % .sNewLine
+  .sBegin
+  % .sNewLine
+   .sRepeatStmt
+     .sBegin
+     .sVar
+      .sIdentifier
+       .sInitialValue
+           .sInteger
+       .sExpnEnd
+      % .sNewLine
+     .sEnd
+   .sRepeatEnd
+       .sIdentifier
+       .sIdentifier
+    .sEq
+   .sNot
+   .sExpnEnd
+  .sNullStmt
+  .sEnd

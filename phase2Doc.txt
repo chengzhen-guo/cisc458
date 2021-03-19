@@ -1,0 +1,165 @@
+Token definition 
+
+1. Parser.ssl, Input section: removed tokens pDiv, pMod, pUntil, pDo, pArray, pProgram, pConst, pType, pProcedure, pBegin, pCase, because they are no longer used in like. 
+
+2. Parser.ssl, Input section: added tokens pChoose, pElseif, pFun, pLike, pPkg 'pkg', pPublic , pUsing , pVal , pWhen , pWhen, because those new input tokens can be used in like. 
+
+3. Parser.ssl, Input section: set the token pOr to be firstKeywordToken, and set the token pWhen to be lastKeywordToken, according to updated version to the input tokens. 
+
+4. Parser.ssl, Input non-compound token section: removed token pColonEquals, and changed pNotEqual token from ‘<>’ to ‘!=’ because that’s how they are currently compatible with like. 
+
+5. Parser.ssl, non-compound tokens of input section: added new non-compound tokens pSlash, pPercent, pHash, pBang, pOrBar, pDoubleOrBar, pPlusEquals, pMinusEquals, pStarEquals, pSlashEquals, pPercentEquals, pDoubleEquals, because they are new non-compound tokens of like parser. 
+
+6. Parser.ssl, non-compound tokens of input section: set the token pDoubleEquals to be lastSyntaxToken according to updated version of non-compound tokens. 
+
+7. Parser.ssl, Output section: replaced token sType with sLike, becaue sType is no longer used in like. 
+
+8. Parser.ssl, Output section: added tokens sPackage, sPublic, sConcatenate, sRepeatString, sSubstring, sLength, sInitialValue, sCaseElse, because they are new output token of like scanner. 
+
+9. Parser.ssl, Output section: set sCaseElse as lastSemanticToken according to the updated version of output tokens. 
+
+10. Parser.pt: pasted content from parser.dev 
+
+ 
+
+Programs 
+
+1. Parser.ssl, Program rule: replaced ‘program’ with ‘using’, because like program starts with using instead of program. 
+
+2. Parser.ssl, Program rule: removed ‘(’ and ‘)’, because the output in like program is not bound with brackets. 
+
+3. Parser.ssl, Program rule: Removed the ‘.’ input at the end of the program, as Like programs end with EOF instead of a period. 
+
+4. Parser.ssl, statement rule: replaced ‘case’ with ‘choose’ since the keyword case is no longer used in case statement of like. After that, moved the body of statement rule to block rule in order to make block rule can accept both declaration and statements.  
+
+5. Parser.ssl, Block rule: added .sBegin token at the beginning of block rule and sEnd tokend at the end of block rule, because it is necessary to make sure a block call is always associated with both sBegin token and sEnd token. 
+
+ 
+
+Declarations 
+
+1. Parser.ssl: removed TypeDefinitions, TypeBody and SimpleType rule. 
+
+2. Parser.ssl, ConstantDefinitions rule: removed the seperator between constants, ‘;’, replaced with ‘,’.  
+
+3. Parser.ssl, PublicConstantDefinitions rule: similar to ConstantDefinition, added .sPublic after the identifiers. 
+
+4. Parser.ssl, VariableDefinitions rule: remove the loop to allow only one variable at a time replaced the the TypeBody call with ValueOrLike. 
+
+5. Parser.ssl, PublicVariableDefinitions rule: similar to VariableDefinition, added .sPublic after the identifier. 
+
+6. Parser.ssl, Factor rule: added options, pStringLiteral and #, for Like string operation. 
+
+ 
+
+ValueOrLike 
+
+1.  In the VariableDeclarations and PublicVariableDeclarations ruls, replaced the call to TypeBody for the type of the variable with call to a new rule named ValueOrLike. 
+
+2. The Like language accepts either an initial value (e.g. var x = 1;) or a like clause (e.g., var x : like 1; ) for declarations. So in the new ValueOrLike  rule it accepts either an equal sign ‘=’, emits a sInitialValue token and call the expression rule followed by a sExpnEnd token, for the initial value case, or alternatively calls the LikeClause rule to handle the second case. 
+
+ 
+
+LikeClause 
+
+1. Created a new rule LikeClause, which allows for an array bound (e.g., var x [5] : like 1; ) followed by a colon, an optional file keyword (e.g. var x : filelike output; ), the keyword like, and a variable or constant, which can be either a constant or variable. The rule has three alternatives. 
+
+2. If the first keyword is ‘[‘, which indicates it is an array declaration, a sArray token is emitted followed by a call to the ConstantValue rule, then it checks for the next input to see if they match ‘] : like’, as the declaration should follow the form of “var x [5] : like 1;”, lastly a call to ConstantValue to get the last value.  
+
+3. If the first keyword is ‘:’, the next can be either just with the keyword ‘like’ or with an optional ‘file’ in the middle, tokens related to the two are emitted then a call to ConstantValue to get value. 
+
+4. Other cases will be just a call to the ConstantValue rule. 
+
+ 
+
+Routines 
+
+1. Parser.ssl, ProcedureHeading rule: replaced ‘;’ with ‘is’ according to the function format in like. 
+
+2. Parser.ssl, Block rule: Replaced ‘procedure’ with ‘fun’ in order to make fun as one of the statement alternatives. 
+
+3. Parser.ssl, Block rule: added ‘public’ as one of the keyword alternatives, and copy the options ‘val’, ‘var’, ‘fun’ inside the public case, because only val, var and function can be public in like. Added token .sPublic after .sIdentifier in public fun option. The reason of designed a public alternative here is that .sPublic is always generated after .sIdentifier.  
+
+4. Parser.ssl, PublicConstantDefinitions rule: copied ConstantDefinitions rule, and then added .sPublic after .sIdentifier. 
+
+Parser.ssl, PublicVariableDeclarations: copied VariableDeclarations rule and then added .sPublic after .sIdentifier. 
+
+The reason of designing these two new rules are that there could be multiple variables or constant, and we need to also make sure .sPublic is generated after .sIdentifier. 
+
+ 
+
+Packages 
+
+1. Parser.ssl, Block rule: added ‘pkg’ as one of the keyword alternatives. Inside of the pkg option, added a step for identifier, and then added ‘is’ according to the format of package. Added @statement rule at the end to recursively continue to process statements or declarations. 
+
+ 
+
+Statement Sequences 
+
+1. Parser.ssl: Replaced the statement rule with @Block so that anywhere the statement rule is called, the block is rule also called afterwards. 
+
+ 
+
+Statements 
+
+1. Parser.ssl: removed BeginStmt rule, because the sBegin and sEnd tokens had already been added into the Block rule. 
+
+Other statements are covered in the following parts. 
+
+ 
+
+Else-if Clauses 
+
+1. In the IfStmt, for Like else if is implemented by outputting the PT Pascal nested if statements. After processing the statement in the outer if...then, there can be no further alternatives (a simple if...then) or multiple ones (else-if case), the else-if alternatives are implemented by nesting further if statements by calling the Block rule after the ‘else’ keyword. 
+
+ 
+
+Choose statement 
+
+1. Parser.ssl, In the Block rule: replaced the ‘case’ keyword identification with ‘choose’, as Like uses fun to indicate switch cases. 
+
+2. Parser.ssl, In the CaseStmt rule: added a check for the ‘else’ keyword, as Like has an optional ‘else’ alternative. Inside of the else alternative a sCaseEnd is outputed first, then a sCaseElse token   followed by the statements of the else clause, the statements are called with the modified Block rule to enclose the sBigin and the sEnd. 
+
+ 
+
+Repeat-while statements 
+
+1. Parser.ssl, Block rule: added ‘repeat’ to be one of the statement options since the blcok rule is designed to contain all statement rules. 
+
+2. Parser.ssl, RepeatStmt rule: the original RepeatStmt rule was rewritten.  
+
+The first option is used for repeat while…end statement. It recognizes ‘while’ right after ‘repeat’, and then call WhileStmt to continue the body of the statement.  
+
+The second option is used for repeat…while statement. It recognizes other token except ‘while’, and the then .sRepeatEnd is emiited to mark the end of repeat statement body. After that, the expression rule is called, and followed by tokens .sNot and .sExpnEnd 
+
+3. Parser.ssl, whileStmt rule: removed ‘do’ because it does not exist.  
+
+ 
+
+Short-form assignment 
+
+1. Parser.ssl, AssignmentOrCallStmt rule: Added cases ‘+=’, ‘-=’, ‘*=’, ‘/=’, and ‘#/’ to handle short form assignment statements. For each case, one sAssignmentStmt and two sIdentifier tokens were emitted, along with an expression rule to identify types of factors e.g. Integer, identifier. Followed by a dedicated operation token for each case and a sExpnEnd token, the short-form assignment could resolve them in this state rather than in the Semantic phase. 
+
+ 
+
+The string type 
+
+1. Parser.ssl, Factor rule: Added another case ‘pStringLiteral’ that used a new rule ‘StringOperation’ to recognize and emit a sStringLiteral token and the semantic tokens, sConcatenate, sRepeatString, sSubstring. 
+
+2. Parser.ssl, StringOperation rule: In this rule, it had the aforementioned three cases. In the concatenate operation, it recognized the ‘|’ in the first place, and then emitted another sStringLiteral token and the corresponding sConcatenate token; In the repeat string operation, it recognized the ‘||’, and emitted a sInteger token and a sPepeatString token; In the substring operation, it first recognized ‘/’. After emitting a sInteger token, it read a ‘:’ to identify a whole syntax, and then emitted a sInteger token and a sSubstring token. 
+
+3. Parser.ssl, Factor rule: Here the last string operation ‘length’ was completed by adding another cases that first read ‘#’. It then read a pStringLiteral token and emitted a sStringLiteral and sLength token. 
+
+ 
+
+Operator Syntax 
+
+1. Expression rule: replaced ‘=’ with ‘==’ and replaced ‘<>’ with ‘!=’, because that’s how like accept “equal” and “not equal” 
+
+2. Parser.ssl, Term rule: replaced ‘div’ with ‘/’; replaced ‘mod’ with ‘%’ 
+
+ 
+
+Other Syntatic Details 
+
+1. Parser.ssl, Block rule: Added ‘;’ as an option of the block rule as sNullStmt token is always generated if there’s a single illegal ‘;’ in the like program. 

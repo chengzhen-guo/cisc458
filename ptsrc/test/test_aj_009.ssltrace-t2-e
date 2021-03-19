@@ -1,0 +1,48 @@
+ .sProgram
+ .sIdentifier
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+ % .sNewLine
+  .sBegin
+  .sVar
+  .sIdentifier
+  .sPublic
+     .sLike
+      .sInteger
+   % .sNewLine
+  .sConst
+  .sIdentifier
+  .sPublic
+    .sInteger
+   % .sNewLine
+   % .sNewLine
+  .sVar
+  .sIdentifier
+     .sLike
+      .sInteger
+   % .sNewLine
+  .sConst
+  .sIdentifier
+    .sInteger
+   % .sNewLine
+   % .sNewLine
+  .sVar
+  .sIdentifier
+     .sLike
+      .sIdentifier
+   % .sNewLine
+   % .sNewLine
+  .sProcedure
+  .sIdentifier
+  .sPublic
+   % .sNewLine
+   .sParmEnd
+   .sBegin
+    .sAssignmentStmt
+    .sIdentifier
+        .sInteger
+    .sExpnEnd
+   .sEnd
+  % .sNewLine
+  .sEnd

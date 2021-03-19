@@ -1,0 +1,7 @@
+Purpose:  
+
+Test if a single val assignment generate correct tokens and if multiple val assignments are separated by commas. 
+
+Result: 
+
+Matched as expected. 

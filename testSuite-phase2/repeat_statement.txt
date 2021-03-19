@@ -1,0 +1,9 @@
+Purpose: 
+
+Test if repeat...while statement can generate sRepeatStmt and sRepeatEnd. Also, check if .sEq 
+
+  and .sNot tokens are generated at the end. 
+
+Result: 
+
+Matched as expected. 

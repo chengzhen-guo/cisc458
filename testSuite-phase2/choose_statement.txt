@@ -1,0 +1,7 @@
+Purpose: 
+
+Test if the choose statement in Like will output the same token stream as the PT Pascal. 
+
+Result: 
+
+The output matches the expected output (PT pascal output) 

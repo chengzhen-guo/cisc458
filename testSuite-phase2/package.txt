@@ -1,0 +1,7 @@
+Purpose: 
+
+Test if the parsing of packages works similar to the main program in Like but without the ‘using’ keyword. The output stream should have the token sPackage to mark the beginning of the package.  The body of the package should be preceded by an sBegin token and ended by a sEnd token.  
+
+Result: 
+
+The output matches the expected, with sPackage leading the body enclosed by the sBegin and sEnd tokens. 

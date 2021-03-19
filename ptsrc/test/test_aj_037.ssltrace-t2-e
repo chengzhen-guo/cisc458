@@ -1,0 +1,88 @@
+ .sProgram
+ .sIdentifier
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+ % .sNewLine
+  .sBegin
+   .sIfStmt
+       .sIdentifier
+       .sInteger
+    .sEq
+   .sExpnEnd
+   % .sNewLine
+   .sThen
+    .sBegin
+    % .sNewLine
+      .sCallStmt
+      .sIdentifier
+      .sParmEnd
+    .sEnd
+   % .sNewLine
+   .sElse
+    .sBegin
+     .sIfStmt
+         .sIdentifier
+         .sInteger
+      .sEq
+     .sExpnEnd
+     % .sNewLine
+     .sThen
+      .sBegin
+      % .sNewLine
+        .sCallStmt
+        .sIdentifier
+        .sParmEnd
+      .sEnd
+     % .sNewLine
+     .sElse
+      .sBegin
+      % .sNewLine
+        .sCallStmt
+        .sIdentifier
+        .sParmEnd
+      % .sNewLine
+      .sEnd
+    % .sNewLine
+    % .sNewLine
+    .sEnd
+   .sCaseStmt
+       .sIdentifier
+   .sExpnEnd
+   % .sNewLine
+      .sInteger
+      .sInteger
+    .sLabelEnd
+    % .sNewLine
+     .sBegin
+     % .sNewLine
+       .sCallStmt
+       .sIdentifier
+       .sParmEnd
+     .sEnd
+      .sInteger
+    .sLabelEnd
+    % .sNewLine
+     .sBegin
+     % .sNewLine
+       .sCallStmt
+       .sIdentifier
+       .sParmEnd
+     .sEnd
+   % .sNewLine
+   .sCaseEnd
+   .sCaseElse
+    .sBegin
+    % .sNewLine
+      .sCallStmt
+      .sIdentifier
+      .sParmEnd
+    % .sNewLine
+    % .sNewLine
+    .sEnd
+  .sVar
+   .sIdentifier
+    .sInitialValue
+        .sInteger
+    .sExpnEnd
+  .sEnd

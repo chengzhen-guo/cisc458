@@ -1,0 +1,7 @@
+Purpose:  
+
+Test if both public var assignment and val assignment generate correct tokens with an initial value or a like clause.  
+
+Result: 
+
+Matched as expected. 

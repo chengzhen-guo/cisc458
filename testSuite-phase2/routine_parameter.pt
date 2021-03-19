@@ -1,0 +1,5 @@
+using output;
+
+fun F (var i, var j) is
+    var x = 1;
+end;

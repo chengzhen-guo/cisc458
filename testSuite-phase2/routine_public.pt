@@ -1,0 +1,5 @@
+using output;
+
+public fun F is
+    var x = 1;
+end;

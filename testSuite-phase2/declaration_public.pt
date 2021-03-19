@@ -1,0 +1,4 @@
+using output;
+
+public var x;
+public val x = 1;

@@ -1,0 +1,7 @@
+Purpose: 
+
+Test if the parsing of the program in Like is correct, and if the output from a Like sequence of declarations and statements are same as a PT Pascal begin...end statement. 
+
+Result: 
+
+The output matches the expected output. 
