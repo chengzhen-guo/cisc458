@@ -971,13 +971,29 @@ SimpleType :
         [
             | sIdentifier:
                 oSymbolStkPushIdentifier
-                oTypeStkPush(oTypeStkChooseKind)
-            | sInteger:         % lower bound of subrange specification
-                oTypeStkPush(tpInteger)
-                oTypeStkLinkToStandardType(stdInteger)
-            | sStringLiteral
-                oTypeStkPush(tpString)
-                oTypeStkLinkToStandardType(stdText)
+                [ oSymbolStkChooseKind
+                    | syType:
+                        oTypeStkPushSymbol
+                    | syUndefined:
+                        #eUndefinedIdentifier
+                        oSymbolStkPop
+                        oValuePush(one)
+                        oValuePush(one)
+                        oTypeStkPush(tpSubrange)
+                        oTypeStkEnterBounds
+                        oValuePop
+                        oValuePop
+                    | *:
+                        #eSimpleTypeReqd
+                        oSymbolStkPop
+                        oValuePush(one)
+                        oValuePush(one)
+                        oTypeStkPush(tpSubrange)
+                        oTypeStkEnterBounds
+                        oValuePop
+                        oValuePop
+                ]
+                oSymbolStkPop            
             | *:
                 #eSimpleTypeReqd
                 oTypeStkPush(tpInteger)
