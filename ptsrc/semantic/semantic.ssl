@@ -1102,6 +1102,9 @@ VariableDeclarations :
                         .tInitialValue
                         @Expression             % Pushes symbol and type stack entries for the expression
                         .tInitEnd
+                        .tLiteralAddress
+                        oEmitValue
+                        oValuePop
                     | *:
                         @TypeBody
                 ]                
