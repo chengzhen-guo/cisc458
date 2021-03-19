@@ -522,7 +522,7 @@ WhileStmt :
         .sWhileStmt
         @Expression
         .sExpnEnd
-        @Statement;
+        @Statement
         'end' ';';
 
 RepeatStmt :
