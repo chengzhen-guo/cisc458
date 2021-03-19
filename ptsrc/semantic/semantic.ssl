@@ -1100,7 +1100,8 @@ VariableDeclarations :
                 [
                     | sInitialValue:
                         .tInitialValue
-                        @Expression             % Pushes symbol and type stack entries for the expression
+                        @Expression             % Pushes symbol and type stack entries for the expression                        
+                        oTypeStkPop  oSymbolStkPop
                         .tInitEnd
                         .tLiteralAddress
                         oValuePushSymbol
