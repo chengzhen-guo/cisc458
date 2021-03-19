@@ -974,7 +974,7 @@ SimpleType :
                 [ oSymbolStkChooseKind
                     | syConstant, syVariable:
                         oTypeStkPushSymbol
-                        oTypeStkPush(oTypeStkChooseKind)
+                        oTypeStkSetKind(oTypeStkChooseKind)
                     | *:
                         #eUndefinedIdentifier
                 ]
