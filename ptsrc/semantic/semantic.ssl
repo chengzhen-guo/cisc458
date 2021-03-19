@@ -967,7 +967,7 @@ ComponentType :
 
 SimpleType :
         % Accept a simple type and push a type stack entry for it.
-        sLike
+        %sLike
         [
             | sIdentifier:
                 oSymbolStkPushIdentifier
