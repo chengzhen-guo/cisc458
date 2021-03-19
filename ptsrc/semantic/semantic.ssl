@@ -828,6 +828,9 @@ Block :
         ]}
         sEnd;
 
+Statement :
+        @Block
+
 ConstantDefinitions :           % Process named constant definitions
         {[
             | sIdentifier:
@@ -3009,3 +3012,7 @@ FlushActuals :
         ]};
 
 end
+
+Package:
+        sPackage
+        ;
