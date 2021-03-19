@@ -967,7 +967,7 @@ ComponentType :
 
 SimpleType :
         % Accept a simple type and push a type stack entry for it.
-        %sLike
+        sLike
         [
             | sIdentifier:
                 oSymbolStkPushIdentifier
@@ -1097,7 +1097,15 @@ VariableDeclarations :
 
                 % Accepts a type specification and pushes its type to the Type Stack.
                 % Creates type table entries for the type and any new subtypes as necessary.
-                @TypeBody
+                [
+                    | sInitialValue:
+                        @Expression             % Pushes symbol and type stack entries for the expression
+                        @CompareAndSwapTypes
+                        @EmitAssign             % Emit code to perform the assignment
+                        oTypeStkPop  oSymbolStkPop      % Expression
+                    | *:
+                        @TypeBody
+                ]                
                 @EnterVariableAttributes
                 oTypeStkPop
                 oSymbolStkPop
