@@ -149,8 +149,6 @@ Output :
         tRepeatString
         tSubstring
         tLength
-        tChr
-        tOrd
         tStringEQ
         tInitialValue
         tInitEnd
@@ -808,7 +806,7 @@ Block :
                 @ProcedureDefinition
             | sConst:
                 @ConstantDefinitions
-            | sType:
+            | sLike: % change
                 @TypeDefinitions
             | sVar:
                 @VariableDeclarations
