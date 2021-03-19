@@ -972,8 +972,12 @@ SimpleType :
             | sIdentifier:
                 oSymbolStkPushIdentifier
                 oTypeStkPush(oTypeStkChooseKind)
-            | syType:         % lower bound of subrange specification
-                oTypeStkPushSymbol
+            | sInteger:         % lower bound of subrange specification
+                oTypeStkPush(tpInteger)
+                oTypeStkLinkToStandardType(stdInteger)
+            | sStringLiteral
+                oTypeStkPush(tpString)
+                oTypeStkLinkToStandardType(stdText)
             | *:
                 #eSimpleTypeReqd
                 oTypeStkPush(tpInteger)
