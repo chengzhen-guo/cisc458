@@ -1101,8 +1101,8 @@ VariableDeclarations :
                     | sInitialValue:
                         @EmitStore
                     | *:
-                        @TypeBody
                 ]
+                @TypeBody
                 @EnterVariableAttributes
                 oTypeStkPop
                 oSymbolStkPop
