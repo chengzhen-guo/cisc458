@@ -472,13 +472,13 @@ IfStmt :
                 @IfStmt
                 .sEnd
             | *:
-			[
-				| 'else':
-                    .sElse
-                    @Statement
-				| *:
-			]
-            'end' ';'
+                [
+                    | 'else':
+                        .sElse
+                        @Statement
+                    | *:
+                ]
+                'end' ';'
         ];
 
 CaseStmt :
@@ -621,7 +621,7 @@ Factor :
             | pStringLiteral:
                 .sStringLiteral
             | '#':
-                pStringLiteral .sStringLiteral
+                @Factor
                 .sLength
             | 'file':
                 .sFile '(' @Expression ')'
