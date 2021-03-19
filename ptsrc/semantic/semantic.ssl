@@ -997,7 +997,8 @@ SimpleType :
                                 oTypeStkPush(tpNull)
                             | *:
                                 #eTypeMismatch
-                        ]                        
+                        ]
+                        oSymbolStkPop                      
                     | *:
                         #eUndefinedIdentifier
                 ]
