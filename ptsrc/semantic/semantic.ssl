@@ -1044,7 +1044,6 @@ VariableDeclarations :
                         .tInitEnd
                         .tLiteralAddress
                         @EmitStore
-                        oSymbolStkPop
                     | *:
                         @TypeBody
                 ]
