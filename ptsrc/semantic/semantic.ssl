@@ -1105,11 +1105,15 @@ VariableDeclarations :
                         .tLiteralAddress
                         oValuePushSymbol
                         oEmitValue
-                        oValuePop
+                        oValuePop                        
+                        @EmitStore
+                        
                     | *:
                         @TypeBody
                 ]                
                 @EnterVariableAttributes
+                oTypeStkPop
+                oSymbolStkPop
             | *:
         ];
 
