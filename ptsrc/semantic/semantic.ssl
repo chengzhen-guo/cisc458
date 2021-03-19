@@ -1043,11 +1043,7 @@ VariableDeclarations :
                         @Expression             % Pushes symbol and type stack entries for the expression
                         .tInitEnd
                         .tLiteralAddress
-                        oValuePushSymbol
-                        oEmitValue
-                        oValuePop
                         @EmitStore
-                        oSymbolStkPop
                     | *:
                         @TypeBody
                 ]
