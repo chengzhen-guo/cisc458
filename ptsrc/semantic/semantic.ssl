@@ -974,7 +974,30 @@ SimpleType :
                 [ oSymbolStkChooseKind
                     | syConstant, syVariable:
                         oTypeStkPushSymbol
-                        oTypeStkPush(oTypeStkChooseKind)
+                        [ oTypeStkChooseKind
+                            | tpInteger:
+                                oTypeStkPush(tpInteger)
+                                oTypeStkLinkToStandardType(stdInteger)
+                            | tpChar:
+                                oTypeStkPush(tpChar)
+                                oTypeStkLinkToStandardType(stdChar)
+                            | tpBoolean:
+                                oTypeStkPush(tpBoolean)
+                                oTypeStkLinkToStandardType(stdBoolean)
+                            | tpSubrange:
+                                oTypeStkPush(tpSubrange)
+                            | tpArray:
+                                oTypeStkPush(tpArray)
+                            | tpString:
+                                oTypeStkPush(tpString)
+                                oTypeStkLinkToStandardType(stdText)
+                            | tpFile:
+                                oTypeStkPush(tpFile)
+                            | tpNull:
+                                oTypeStkPush(tpNull)
+                            | *:
+                                #eTypeMismatch
+                        ]                        
                     | *:
                         #eUndefinedIdentifier
                 ]
