@@ -830,6 +830,7 @@ Block :
 
 Statement :
         @Block
+        ;
 
 ConstantDefinitions :           % Process named constant definitions
         {[
