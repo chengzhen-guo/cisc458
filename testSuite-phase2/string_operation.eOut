@@ -8,41 +8,36 @@
    .sIdentifier
        .sStringLiteral
    .sExpnEnd
-  % .sNewLine
-  % .sNewLine
-  .sNullStmt
+   % .sNewLine
+   % .sNewLine
    .sAssignmentStmt
    .sIdentifier
        .sStringLiteral
+       .sStringLiteral
+     .sConcatenate
+   .sExpnEnd
+   % .sNewLine
+   % .sNewLine
+   .sAssignmentStmt
+   .sIdentifier
+       .sStringLiteral
+       .sInteger
+     .sRepeatString
+   .sExpnEnd
+   % .sNewLine
+   % .sNewLine
+   .sAssignmentStmt
+   .sIdentifier
+       .sStringLiteral
+       .sInteger
+       .sInteger
+      .sSubstring
+   .sExpnEnd
+   % .sNewLine
+   % .sNewLine
+   .sAssignmentStmt
+   .sIdentifier
         .sStringLiteral
-        .sConcatenate
-   .sExpnEnd
-  % .sNewLine
-  % .sNewLine
-  .sNullStmt
-   .sAssignmentStmt
-   .sIdentifier
-       .sStringLiteral
-        .sInteger
-        .sRepeatString
-   .sExpnEnd
-  % .sNewLine
-  % .sNewLine
-  .sNullStmt
-   .sAssignmentStmt
-   .sIdentifier
-       .sStringLiteral
-        .sInteger
-        .sInteger
-        .sSubstring
-   .sExpnEnd
-  % .sNewLine
-  % .sNewLine
-  .sNullStmt
-   .sAssignmentStmt
-   .sIdentifier
-       .sStringLiteral
        .sLength
    .sExpnEnd
-  .sNullStmt
   .sEnd

@@ -10,41 +10,36 @@
        .sInteger
    .sAdd
    .sExpnEnd
-  % .sNewLine
-  % .sNewLine
-  .sNullStmt
+   % .sNewLine
+   % .sNewLine
    .sAssignmentStmt
    .sIdentifier
    .sIdentifier
        .sInteger
    .sSubtract
    .sExpnEnd
-  % .sNewLine
-  % .sNewLine
-  .sNullStmt
+   % .sNewLine
+   % .sNewLine
    .sAssignmentStmt
    .sIdentifier
    .sIdentifier
        .sInteger
    .sMultiply
    .sExpnEnd
-  % .sNewLine
-  % .sNewLine
-  .sNullStmt
+   % .sNewLine
+   % .sNewLine
    .sAssignmentStmt
    .sIdentifier
    .sIdentifier
        .sInteger
    .sDivide
    .sExpnEnd
-  % .sNewLine
-  % .sNewLine
-  .sNullStmt
+   % .sNewLine
+   % .sNewLine
    .sAssignmentStmt
    .sIdentifier
    .sIdentifier
        .sInteger
    .sModulus
    .sExpnEnd
-  .sNullStmt
   .sEnd

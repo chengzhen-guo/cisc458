@@ -46,7 +46,7 @@
               .sInteger
           .sExpnEnd
          % .sNewLine
-        % .sNewLine
         .sEnd
+      % .sNewLine
      .sEnd
   .sEnd

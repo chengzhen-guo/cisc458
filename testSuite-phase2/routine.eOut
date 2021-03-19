@@ -6,8 +6,8 @@
   .sBegin
   .sProcedure
   .sIdentifier
-   % .sNewLine
    .sParmEnd
+  % .sNewLine
     .sBegin
     .sVar
      .sIdentifier

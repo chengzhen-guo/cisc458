@@ -8,8 +8,16 @@
   .sIdentifier
    .sIdentifier
    .sVar
-      .sInteger
+    .sLike
+     .sInteger
    .sParmEnd
     .sBegin
     .sEnd
+  % .sNewLine
+  .sVar
+   .sIdentifier
+    .sInitialValue
+        .sInteger
+    .sExpnEnd
+   % .sNewLine
   .sEnd

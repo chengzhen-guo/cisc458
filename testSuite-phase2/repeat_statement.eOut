@@ -20,5 +20,4 @@
     .sEq
    .sNot
    .sExpnEnd
-  .sNullStmt
   .sEnd

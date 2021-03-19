@@ -31,8 +31,8 @@
         .sExpnEnd
        % .sNewLine
       .sEnd
-   % .sNewLine
    .sCaseEnd
+   % .sNewLine
    .sCaseElse
      .sBegin
      .sVar
