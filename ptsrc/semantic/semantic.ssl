@@ -27,7 +27,8 @@ Input :
         sParmBegin
         sParmEnd
         sConst
-        sType
+        % Replaced sType with sLike
+        sLike
         sVar
         sProcedure
         sBegin
@@ -69,7 +70,16 @@ Input :
         sNot
         sNewLine
         sEndOfFile
-        lastSemanticToken = sEndOfFile;
+        % The followings are new Like parser output tokens.
+        sPackage
+        sPublic
+        sConcatenate
+        sRepeatString
+        sSubstring
+        sLength
+        sInitialValue
+        sCaseElse
+        lastSemanticToken = sCaseElse;
 
 Output :        
         % T-code tokens - must match input tokens in coder.ssl exactly!
@@ -133,6 +143,19 @@ Output :
         tTrapBegin
         tWriteEnd
         tReadEnd
+
+        % New T-codes - Like language
+        tConcatenate
+        tRepeatString
+        tSubstring
+        tLength
+        tChr
+        tOrd
+        tStringEQ
+        tInitialValue
+        tInitEnd
+        tCaseElse
+        tCaseElseEnd
 
         % Compound T-codes - T-code operations that take an operand
         tLiteralAddress
