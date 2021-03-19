@@ -1099,10 +1099,11 @@ VariableDeclarations :
                 % Creates type table entries for the type and any new subtypes as necessary.
                 [
                     | sInitialValue:
+                        .tInitialValue
                         @Expression             % Pushes symbol and type stack entries for the expression
-                        @CompareAndSwapTypes
                         @EmitAssign             % Emit code to perform the assignment
-                        oTypeStkPop  oSymbolStkPop      % Expression
+                        .tInitEnd
+                        %oTypeStkPop  oSymbolStkPop      % Expression
                     | *:
                         @TypeBody
                 ]                
