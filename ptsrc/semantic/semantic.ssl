@@ -972,28 +972,12 @@ SimpleType :
             | sIdentifier:
                 oSymbolStkPushIdentifier
                 [ oSymbolStkChooseKind
-                    | syType:
+                    | syConstant, syVariable:
                         oTypeStkPushSymbol
-                    | syUndefined:
-                        #eUndefinedIdentifier
-                        oSymbolStkPop
-                        oValuePush(one)
-                        oValuePush(one)
-                        oTypeStkPush(tpSubrange)
-                        oTypeStkEnterBounds
-                        oValuePop
-                        oValuePop
+                        oTypeStkPush(oTypeStkChooseKind)
                     | *:
-                        #eSimpleTypeReqd
-                        oSymbolStkPop
-                        oValuePush(one)
-                        oValuePush(one)
-                        oTypeStkPush(tpSubrange)
-                        oTypeStkEnterBounds
-                        oValuePop
-                        oValuePop
+                        #eUndefinedIdentifier
                 ]
-                oSymbolStkPop            
             | *:
                 #eSimpleTypeReqd
                 oTypeStkPush(tpInteger)
@@ -1063,7 +1047,7 @@ VariableDeclarations :
                         @EmitStore
                         oSymbolStkPop
                     | *:
-                        @SimpleType
+                        @TypeBody
                 ]                
                 @EnterVariableAttributes
                 oTypeStkPop
