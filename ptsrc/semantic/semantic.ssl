@@ -974,39 +974,17 @@ SimpleType :
                 [ oSymbolStkChooseKind
                     | syConstant, syVariable:
                         oTypeStkPushSymbol
-                        [ oTypeStkChooseKind
-                            | tpInteger:
-                                oTypeStkPush(tpInteger)
-                                oTypeStkLinkToStandardType(stdInteger)
-                            | tpChar:
-                                oTypeStkPush(tpChar)
-                                oTypeStkLinkToStandardType(stdChar)
-                            | tpBoolean:
-                                oTypeStkPush(tpBoolean)
-                                oTypeStkLinkToStandardType(stdBoolean)
-                            | tpSubrange:
-                                oTypeStkPush(tpSubrange)
-                            | tpArray:
-                                oTypeStkPush(tpArray)
-                            | tpString:
-                                oTypeStkPush(tpString)
-                                oTypeStkLinkToStandardType(stdText)
-                            | tpFile:
-                                oTypeStkPush(tpFile)
-                            | tpNull:
-                                oTypeStkPush(tpNull)
-                            | *:
-                                #eTypeMismatch
-                        ]
-                        oSymbolStkPop                      
                     | *:
                         #eUndefinedIdentifier
                 ]
+            | sInteger:
+                oTypeStkPush(tpInteger)
             | *:
                 #eSimpleTypeReqd
                 oTypeStkPush(tpInteger)
                 oTypeStkLinkToStandardType(stdInteger)
-        ];
+        ]
+        oSymbolStkPop;
 
 SubrangeUpperBound :
         % Accept the upper bound of a subrange and push it on the value stack.
@@ -1067,12 +1045,12 @@ VariableDeclarations :
                         .tLiteralAddress
                         oValuePushSymbol
                         oEmitValue
-                        oValuePop                        
+                        oValuePop
                         @EmitStore
                         oSymbolStkPop
                     | *:
                         @TypeBody
-                ]                
+                ]
                 @EnterVariableAttributes
                 oTypeStkPop
                 oSymbolStkPop
@@ -1249,40 +1227,7 @@ ProcedureHeading :
         @ProcedurePrologue;                    % pops types from type stack
 
 ProcedureParameterType :
-        % A local procedure's formal parameters must
-        % be declared using named types.
-
-        sIdentifier  oSymbolStkPushIdentifier   % formal parameter type
-        [ oSymbolStkChooseKind
-            | syUndefined:
-                #eUndefinedIdentifier
-            | *:
-        ]
-        [ oSymbolStkChooseKind
-            | syType:
-                oTypeStkPushSymbol
-            | *:
-                #eTypeIdentifierReqd
-                oTypeStkPush(tpInteger)
-                oTypeStkLinkToStandardType(stdInteger)
-        ]
-        oSymbolStkPop                           % parameter type symbol
-
-        [ oSymbolStkChooseKind
-            | syVariable:
-                [ oTypeStkChooseKind
-                    | tpArray, tpFile:
-                        #eNonScalarValParm
-                        oTypeStkPop
-                        oTypeStkPush(tpInteger)
-                        oTypeStkLinkToStandardType(stdInteger)
-                    | *:
-                ]
-            | *:
-        ]
-        oSymbolStkEnterTypeReference
-        @AllocateVar                            % allocate formal parameter
-        oSymbolTblEnter;
+        @SimpleType;
 
 ProcedurePrologue :
         % Now all the formal parameter symbols are stacked on top of the
