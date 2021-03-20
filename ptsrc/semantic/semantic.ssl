@@ -305,6 +305,10 @@ mechanism SymbolTable :
         % Pop the lexic level stack and unlink all names local to the scope.
         % Remove all local entries from the symbol and type tables.
 
+    oSymbolTblMergePublicScope
+        % To transfer public procedures to the enclosing scope
+        % nlink everything that is not public from the package's scope and then merge it with the enclosing one
+
     oSymbolTblPreserveParameters
         % Restore procedure parameter entries to the symbol table 
         % after popping the scope.
@@ -317,6 +321,7 @@ mechanism SymbolTable :
 % Symbol Stack types and mechanism
 
 type SymbolKind :
+        syPackage
         syConstant
         syType
         syVariable
@@ -415,8 +420,10 @@ mechanism SymbolStack :
         % If the top entry is a standard routine symbol, return a
         % value indicating which routine it is, otherwise return null.
 
-    oSymbolStkPop;
+    oSymbolStkPop
         % Pop the symbol stack
+
+    oSymbolStkSetPublicFlag >> Boolean;
 
 mechanism TypeTable :
     % A type table entry consists of 4 fields:  a type kind (e.g. integer,
@@ -803,7 +810,7 @@ Block :
         sBegin
         {[
             | sPackage:   % ADD
-                @Package
+                @PackageDefinition
             | sProcedure:
                 @ProcedureDefinition
             | sConst:
@@ -832,6 +839,58 @@ Statement :
         @Block
         ;
 
+PackageDefinition :
+        sIdentifier  oSymbolStkPushLocalIdentifier      % procedure name
+        [ oSymbolStkChooseKind
+            | syUndefined:
+            | syExternal:
+                % Program parameters must be declared as file variables
+                #eExternalDeclare
+            | *:
+                #eMultiplyDefined
+                % New definition obscures old one.
+        ]
+        % Procedure bodies only execute when the routine is called
+        % so we need to branch around the procedure's code
+
+        % Check if the constant is public
+        [
+            | .sPublic:
+                oSymbolStkSetPublicFlag(yes)
+            | *:
+                oSymbolStkSetPublicFlag(no)
+        ] 
+
+        oFixPushForwardBranch
+        oEmitNullAddress
+
+        oSymbolStkSetKind(syProcedure)
+        oValuePushCodeAddress
+        oSymbolStkEnterValue
+        oValuePop
+        oTypeStkPush(tpNull)
+        oTypeStkSetRecursionFlag(yes)
+        oTypeTblEnter
+        oSymbolStkEnterTypeReference
+        oSymbolTblEnter
+
+        oSymbolTblPushScope     % procedure scope
+
+        @ProcedureHeading
+        @Block
+
+        oTypeStkSetRecursionFlag(no)
+        oTypeTblUpdate
+        oTypeStkPop
+        oSymbolTblUpdate
+        oSymbolStkPop
+
+        oSymbolTblPopScope
+        oSymbolTblPreserveParameters
+
+        oFixPopForwardBranch;   % fix branch around procedure above
+        ;
+
 ConstantDefinitions :           % Process named constant definitions
         {[
             | sIdentifier:
@@ -846,6 +905,13 @@ ConstantDefinitions :           % Process named constant definitions
                         % The new definition will now obscure the old one
                 ]
                 oSymbolStkSetKind(syConstant)
+                % Check if the constant is public
+                [
+                    | .sPublic:
+                        oSymbolStkSetPublicFlag(yes)
+                    | *:
+                        oSymbolStkSetPublicFlag(no)
+                ]                
                 @ConstantValue
                 oSymbolStkEnterTypeReference
                 oTypeStkPop
@@ -1034,7 +1100,13 @@ VariableDeclarations :
                         #eMultiplyDefined
                         % The new definition will obscure the old one
                 ]
-
+                % Check if the variable is public
+                [
+                    | .sPublic:
+                        oSymbolStkSetPublicFlag(yes)
+                    | *:
+                        oSymbolStkSetPublicFlag(no)
+                ]
                 % Accepts a type specification and pushes its type to the Type Stack.
                 % Creates type table entries for the type and any new subtypes as necessary.
                 [
