@@ -1820,7 +1820,8 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                                             while link > 0 do
                                                 link := symbolTblIdentLink[link];
                                             if not symbolTblPublicFlag[link] then
-                                                identSymbolTblRef[-link] := symbolTblIdentLink[i];
+                                                begin
+                                                    identSymbolTblRef[-link] := symbolTblIdentLink[i];
                                             end;
                                         end;
 
