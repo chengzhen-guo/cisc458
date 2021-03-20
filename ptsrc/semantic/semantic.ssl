@@ -423,7 +423,7 @@ mechanism SymbolStack :
     oSymbolStkPop
         % Pop the symbol stack
 
-    oSymbolStkSetPublicFlag >> Boolean;
+    oSymbolStkSetPublicFlag (Boolean);
 
 mechanism TypeTable :
     % A type table entry consists of 4 fields:  a type kind (e.g. integer,
