@@ -855,7 +855,7 @@ PackageDefinition :
 
         % Check if the constant is public
         [
-            | .sPublic:
+            | sPublic:
                 oSymbolStkSetPublicFlag(yes)
             | *:
                 oSymbolStkSetPublicFlag(no)
@@ -889,7 +889,6 @@ PackageDefinition :
         oSymbolTblPreserveParameters
 
         oFixPopForwardBranch;   % fix branch around procedure above
-        ;
 
 ConstantDefinitions :           % Process named constant definitions
         {[
@@ -907,7 +906,7 @@ ConstantDefinitions :           % Process named constant definitions
                 oSymbolStkSetKind(syConstant)
                 % Check if the constant is public
                 [
-                    | .sPublic:
+                    | sPublic:
                         oSymbolStkSetPublicFlag(yes)
                     | *:
                         oSymbolStkSetPublicFlag(no)
@@ -1102,7 +1101,7 @@ VariableDeclarations :
                 ]
                 % Check if the variable is public
                 [
-                    | .sPublic:
+                    | sPublic:
                         oSymbolStkSetPublicFlag(yes)
                     | *:
                         oSymbolStkSetPublicFlag(no)
