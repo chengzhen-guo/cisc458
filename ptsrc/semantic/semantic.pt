@@ -732,7 +732,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
         symbolTblValue:         array [1 .. symbolTblSize] of integer;
         symbolTblTypeTblLink:   array [1 .. symbolTblSize] of TypeTblReference;
         symbolTblTop:  SymbolTblReference;     { initially 0 }
-        symbolTblPublicFlag;
+        symbolTblPublicFlag:    array [1 .. symbolStkSize] of integer;
 
         { Lexic Level Stack }
         symbolTblDisplay:  array [1 .. lexicLevelStackSize] of SymbolTblReference;
@@ -746,7 +746,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
         symbolStkValue:         array [1 .. symbolStkSize] of integer;
         symbolStkTypeTblLink:   array [1 .. symbolStkSize] of TypeTblReference;
         symbolStkTop:  SymbolStkReference;      { initially 0 }
-        symbolStkPublicFlag;
+        symbolStkPublicFlag:    array [1 .. symbolStkSize] of integer;
 
         { Type Table }
         typeTblKind:            array [1 .. typeTblSize] of TypeKinds;
