@@ -2007,8 +2007,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                         end;
 
                     oSymbolStkSetPublicFlag:
-                            {symbolStkKind[symbolStkTop] := parameterValue;}
-                            symbolStkPublicFlag[symbolStkTop] := {rrr};
+                            symbolStkPublicFlag[symbolStkTop] := parameterValue;
 
                     { ****
                       *  *  Type Table Mechanism Operations
