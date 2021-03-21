@@ -881,7 +881,7 @@ PackageDefinition :
         oSymbolTblUpdate
         oSymbolStkPop
 
-        oSymbolTblMergePublicScope
+        oSymbolTblMergePublicScope;
         %oSymbolTblPopScope;   % fix branch around procedure above
 
 ConstantDefinitions :           % Process named constant definitions
