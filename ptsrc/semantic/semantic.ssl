@@ -864,7 +864,7 @@ PackageDefinition :
         oFixPushForwardBranch
         oEmitNullAddress
 
-        oSymbolStkSetKind(syProcedure)
+        oSymbolStkSetKind(syPackage)
         oValuePushCodeAddress
         oSymbolStkEnterValue
         oValuePop
@@ -875,7 +875,7 @@ PackageDefinition :
         oSymbolTblEnter
 
         oSymbolTblPushScope     % procedure scope
-        
+
         @Block
 
         oTypeStkSetRecursionFlag(no)
@@ -887,7 +887,8 @@ PackageDefinition :
         oSymbolTblPopScope
         oSymbolTblPreserveParameters
 
-        oFixPopForwardBranch;   % fix branch around procedure above
+        oFixPopForwardBranch
+        oEmitNullAddress;   % fix branch around procedure above
 
 ConstantDefinitions :           % Process named constant definitions
         {[
