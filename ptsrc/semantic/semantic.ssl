@@ -861,9 +861,6 @@ PackageDefinition :
                 oSymbolStkSetPublicFlag(no)
         ] 
 
-        oFixPushForwardBranch
-        oEmitNullAddress
-
         oSymbolStkSetKind(syPackage)
         oValuePushCodeAddress
         oSymbolStkEnterValue
@@ -884,10 +881,7 @@ PackageDefinition :
         oSymbolTblUpdate
         oSymbolStkPop
 
-        oSymbolTblPopScope
-        
-        oEmitNullAddress
-        oFixPopForwardBranch;   % fix branch around procedure above
+        oSymbolTblPopScope;   % fix branch around procedure above
 
 ConstantDefinitions :           % Process named constant definitions
         {[
