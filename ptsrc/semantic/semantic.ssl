@@ -887,8 +887,7 @@ PackageDefinition :
         oSymbolTblPopScope
         oSymbolTblPreserveParameters
 
-        oFixPopForwardBranch
-        oEmitNullAddress;   % fix branch around procedure above
+        oFixPopForwardBranch;   % fix branch around procedure above
 
 ConstantDefinitions :           % Process named constant definitions
         {[
