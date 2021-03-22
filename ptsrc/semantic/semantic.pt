@@ -1374,7 +1374,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                     symbolStkKind[symbolStkTop] := symbolTblKind[symbolRef];
                     symbolStkValue[symbolStkTop] := symbolTblValue[symbolRef];
                     symbolStkTypeTblLink[symbolStkTop] :=
-                        symbolTblTypeTblLink[symbolRef]
+                        symbolTblTypeTblLink[symbolRef];
                     symbolStkPublicFlag[symbolStkTop] := symbolTblPublicFlag[symbolRef];
                 end
             else
