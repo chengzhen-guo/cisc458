@@ -1,5 +1,9 @@
 using output;
 
-pkg M is
+pkg M1 is
+    public var x = 1;
+end;
+
+pkg M2 is
     var x = 1;
 end;
