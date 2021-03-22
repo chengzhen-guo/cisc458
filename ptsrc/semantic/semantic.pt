@@ -732,7 +732,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
         symbolTblValue:         array [1 .. symbolTblSize] of integer;
         symbolTblTypeTblLink:   array [1 .. symbolTblSize] of TypeTblReference;
         symbolTblTop:  SymbolTblReference;     { initially 0 }
-        symbolTblPublicFlag:    array [1 .. symbolStkSize] of integer;
+        symbolTblPublicFlag:    array [1 .. symbolStkSize] of Boolean;
 
         { Lexic Level Stack }
         symbolTblDisplay:  array [1 .. lexicLevelStackSize] of SymbolTblReference;
@@ -746,7 +746,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
         symbolStkValue:         array [1 .. symbolStkSize] of integer;
         symbolStkTypeTblLink:   array [1 .. symbolStkSize] of TypeTblReference;
         symbolStkTop:  SymbolStkReference;      { initially 0 }
-        symbolStkPublicFlag:    array [1 .. symbolStkSize] of integer;
+        symbolStkPublicFlag:    array [1 .. symbolStkSize] of Boolean;
 
         { Type Table }
         typeTblKind:            array [1 .. typeTblSize] of TypeKinds;
@@ -1349,7 +1349,8 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                     symbolStkIdentTblRef[symbolStkTop] := null;
                     symbolStkSymbolTblRef[symbolStkTop] := null;
                     symbolStkTypeTblLink[symbolStkTop] := null;
-                    symbolStkValue[symbolStkTop] := null;
+                    symbolStkValue[symbolStkTop] := null;                    
+                    symbolStkPublicFlag[symbolStkTop] := false;
                 end
             else
                 Error(eSymbolStkOvfl);
@@ -1374,6 +1375,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                     symbolStkValue[symbolStkTop] := symbolTblValue[symbolRef];
                     symbolStkTypeTblLink[symbolStkTop] :=
                         symbolTblTypeTblLink[symbolRef]
+                    symbolStkPublicFlag[symbolStkTop] := symbolTblPublicFlag[symbolRef];
                 end
             else
                 Error(eSymbolStkOvfl);
@@ -1727,6 +1729,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                                 symbolTblTypeTblLink[symbolTblTop] := 
                                     symbolStkTypeTblLink[symbolStkTop];
                                 symbolStkSymbolTblRef[symbolStkTop] := symbolTblTop;
+                                symbolTblPublicFlag[symbolStkTop] := symbolStkPublicFlag[symbolStkTop];
 
                                 { Update identifier table links }
                                 link := symbolStkIdentTblRef[symbolStkTop];
@@ -1752,6 +1755,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                             symbolTblKind[symbolRef] := symbolStkKind[symbolStkTop];
                             symbolTblValue[symbolRef] := symbolStkValue[symbolStkTop];
                             symbolTblTypeTblLink[symbolRef] := symbolStkTypeTblLink[symbolStkTop];
+                            symbolTblPublicFlag[symbolRef] := symbolStkPublicFlag[symbolStkTop];
                         end;
 
                     oSymbolTblPushScope:
@@ -1811,7 +1815,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                               closest enclosing scope if there is one. }
                             while i > symbolTblDisplay[lexicLevelStackTop] do
                                 begin
-                                    if symbolTblPublicFlag[i] = no then
+                                    if not symbolTblPublicFlag[i] then
                                         begin
                                             link := symbolTblIdentLink[i];
                                             if link <> null then
@@ -1824,7 +1828,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                                             i := i - 1
                                         end;                                     
                                 end;                            
-                            if symbolTblPublicFlag[symbolTblDisplay[lexicLevelStackTop]] = no then
+                            if not symbolTblPublicFlag[symbolTblDisplay[lexicLevelStackTop]] then
                                 begin
                                     symbolTblTop := symbolTblDisplay[lexicLevelStackTop];
                                     typeTblTop := typeTblDisplay[lexicLevelStackTop];
@@ -2009,7 +2013,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                         end;
 
                     oSymbolStkSetPublicFlag:
-                            symbolStkPublicFlag[symbolStkTop] := parameterValue;
+                            symbolStkPublicFlag[symbolStkTop] := true;
 
                     { ****
                       *  *  Type Table Mechanism Operations

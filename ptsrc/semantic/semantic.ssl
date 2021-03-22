@@ -423,7 +423,7 @@ mechanism SymbolStack :
     oSymbolStkPop
         % Pop the symbol stack
 
-    oSymbolStkSetPublicFlag (Boolean);
+    oSymbolStkSetPublicFlag;
 
 mechanism TypeTable :
     % A type table entry consists of 4 fields:  a type kind (e.g. integer,
@@ -853,14 +853,6 @@ PackageDefinition :
         % Procedure bodies only execute when the routine is called
         % so we need to branch around the procedure's code
 
-        % Check if the constant is public
-        [
-            | sPublic:
-                oSymbolStkSetPublicFlag(yes)
-            | *:
-                oSymbolStkSetPublicFlag(no)
-        ] 
-
         oSymbolStkSetKind(syPackage)
         oValuePushCodeAddress
         oSymbolStkEnterValue
@@ -901,9 +893,8 @@ ConstantDefinitions :           % Process named constant definitions
                 % Check if the constant is public
                 [
                     | sPublic:
-                        oSymbolStkSetPublicFlag(yes)
+                        oSymbolStkSetPublicFlag
                     | *:
-                        oSymbolStkSetPublicFlag(no)
                 ]                
                 @ConstantValue
                 oSymbolStkEnterTypeReference
@@ -1096,9 +1087,8 @@ VariableDeclarations :
                 % Check if the variable is public
                 [
                     | sPublic:
-                        oSymbolStkSetPublicFlag(yes)
+                        oSymbolStkSetPublicFlag
                     | *:
-                        oSymbolStkSetPublicFlag(no)
                 ]
                 % Accepts a type specification and pushes its type to the Type Stack.
                 % Creates type table entries for the type and any new subtypes as necessary.
