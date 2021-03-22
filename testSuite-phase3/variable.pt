@@ -2,3 +2,5 @@ using output;
 
 var x = 1;
 var y : like x;
+
+var x = 2;
