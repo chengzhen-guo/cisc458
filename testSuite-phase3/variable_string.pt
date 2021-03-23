@@ -1,3 +1,4 @@
 using output;
 
 var x = "Hello World";
+var y : like "Hello World";
