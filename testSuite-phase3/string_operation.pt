@@ -7,3 +7,6 @@ var len = # x;
 
 var s1 = x / 4 : 5;
 var s2 = x | y;
+
+var eq = x == y;
+var ne = x != y;

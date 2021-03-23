@@ -1764,7 +1764,17 @@ UnaryOperator :
             | sLength:
                 .tLength
                 oTypeStkPush(tpInteger) % result type
-                @CompareAndSwapTypes
+                [ oTypeStkChooseKind
+                    | tpInteger:
+                        oTypeStkSwap
+                        [ oTypeStkChooseKind
+                            | tpChar:
+                            | *:
+                                #eTypeMismatch
+                        ]
+                    | *:
+                        #eTypeMismatch
+                ]
                 oTypeStkPop
             | *:
                 >>
@@ -1841,15 +1851,50 @@ BinaryOperator :
             | sConcatenate:
                 .tConcatenate
                 oTypeStkPush(tpChar)
-                @CompareOperandAndResultTypes
+                [ oTypeStkChooseKind
+                    | tpChar:
+                        oTypeStkSwap
+                        [ oTypeStkChooseKind
+                            | tpChar:
+                            | *:
+                                #eTypeMismatch
+                        ]
+                    | *:
+                        #eTypeMismatch
+                ]
             | sRepeatString:
                 .tRepeatString
                 oTypeStkPush(tpChar)
-                @CompareOperandAndResultTypes
+                [ oTypeStkChooseKind
+                    | tpChar:
+                        oTypeStkSwap
+                        [ oTypeStkChooseKind
+                            | tpInteger:
+                            | *:
+                                #eTypeMismatch
+                        ]
+                    | *:
+                        #eTypeMismatch
+                ]
             | sSubstring:
                 .tSubstring
                 oTypeStkPush(tpChar)
-                @CompareOperandAndResultTypes
+                [ oTypeStkChooseKind
+                    | tpChar:
+                        oTypeStkSwap
+                        [ oTypeStkChooseKind
+                            | tpInteger:
+                                [ oTypeStkChooseKind
+                                    | tpInteger:
+                                    | *:
+                                        #eTypeMismatch
+                                ]
+                            | *:
+                                #eTypeMismatch
+                        ]
+                    | *:
+                        #eTypeMismatch
+                ]
             | *:
                 >>
         ]
