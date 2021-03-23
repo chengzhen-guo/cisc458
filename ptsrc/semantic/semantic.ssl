@@ -1029,6 +1029,7 @@ SimpleType :
                 [ oSymbolStkChooseKind
                     | syConstant, syVariable:
                         oTypeStkPushSymbol
+                        oSymbolStkPop
                     | syUndefined:
                         #eUndefinedIdentifier
                         oTypeStkPush(tpInteger)
