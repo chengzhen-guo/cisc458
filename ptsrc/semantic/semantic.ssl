@@ -1029,7 +1029,6 @@ SimpleType :
                 [ oSymbolStkChooseKind
                     | syConstant, syVariable:
                         oTypeStkPushSymbol
-                        oSymbolStkPop
                     | syUndefined:
                         #eUndefinedIdentifier
                         oTypeStkPush(tpInteger)
@@ -1039,6 +1038,7 @@ SimpleType :
                         oTypeStkPush(tpInteger)
                         oTypeStkLinkToStandardType(stdInteger)
                 ]
+                oSymbolStkPop
             | sInteger:
                 oTypeStkPush(tpInteger)
                 oTypeStkLinkToStandardType(stdInteger)

@@ -1,4 +1,10 @@
 using output;
 
-var x = 1;
-var y : like x;
+var a = 1;
+var b = "Hello";
+
+var c : like 1;
+var d : like "Hello";
+
+var x : like a;
+var y : like b;
