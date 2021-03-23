@@ -1037,7 +1037,6 @@ SimpleType :
                 oTypeStkLinkToStandardType(stdInteger)
             | sStringLiteral:
                 oTypeStkPush(tpChar)
-                oTypeStkLinkToStandardType(tpChar)
             | *:
                 #eSimpleTypeReqd
                 oTypeStkPush(tpInteger)
