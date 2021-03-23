@@ -1729,7 +1729,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                                 symbolTblTypeTblLink[symbolTblTop] := 
                                     symbolStkTypeTblLink[symbolStkTop];
                                 symbolStkSymbolTblRef[symbolStkTop] := symbolTblTop;
-                                symbolTblPublicFlag[symbolStkTop] := symbolStkPublicFlag[symbolStkTop];
+                                symbolTblPublicFlag[symbolTblTop] := symbolStkPublicFlag[symbolStkTop];
 
                                 { Update identifier table links }
                                 link := symbolStkIdentTblRef[symbolStkTop];
