@@ -232,7 +232,7 @@ type Integer :
 
         % These two sizes are machine dependent
         byteSize = 1
-        wordSize = 4;
+        wordSize = 4
         stringSize = 256;
 
 type Boolean :
