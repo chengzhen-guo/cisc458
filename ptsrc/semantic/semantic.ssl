@@ -873,7 +873,7 @@ PackageDefinition :
 
         oSymbolTblPushScope     % procedure scope
 
-        @Statement
+        @Block
 
         oTypeStkSetRecursionFlag(no)
         oTypeTblUpdate
