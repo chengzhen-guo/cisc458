@@ -307,7 +307,7 @@ mechanism SymbolTable :
 
     oSymbolTblMergePublicScope
         % To transfer public procedures to the enclosing scope
-        % nlink everything that is not public from the package's scope and then merge it with the enclosing one
+        % unlink everything that is not public from the package's scope and then merge it with the enclosing one
 
     oSymbolTblPreserveParameters
         % Restore procedure parameter entries to the symbol table 
@@ -836,8 +836,9 @@ Block :
         sEnd;
 
 Statement :
-        @Block
-        ;
+        oSymbolTblPushScope
+        @Block
+        oSymbolTblPopScope;
 
 PublicDefinition :
         [
