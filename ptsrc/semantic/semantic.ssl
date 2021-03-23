@@ -1559,8 +1559,14 @@ CaseStmt :
                 >
             | *:
                 @CaseAlternative
-        ]}
+        ]}        
         .tCaseEnd
+        [
+            | sCaseElse：
+                @Statement
+                .tCaseElseEnd
+            | *:
+        ]
         oFixPopForwardBranch
         oEmitCaseBranchTable
         % emit merge branches for case alternatives
