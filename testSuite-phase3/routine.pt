@@ -3,7 +3,3 @@ using output;
 fun F is
     var x = 1;
 end;
-
-public fun F is
-    var x = 1;
-end;

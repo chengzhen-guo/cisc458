@@ -5,5 +5,5 @@ pkg M1 is
 end;
 
 pkg M2 is
-    public var x = 1;
+    x = 2;
 end;
