@@ -837,8 +837,8 @@ Block :
 
 Statement :
         oSymbolTblPushScope
-        @Block
-        oSymbolTblPopScope;
+        @Block
+        oSymbolTblPopScope;
 
 PublicDefinition :
         [
