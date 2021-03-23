@@ -1,10 +1,11 @@
 using output;
 
 var a = 1;
-var b : like 1;
+var b = 1;
 var c = true;
 
-b = 1 / 1;
+a = a + 1;
+b = a / 1;
 b = 1 % 1;
 c = 1 == 1;
 c = 1 != 1;
