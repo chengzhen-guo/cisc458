@@ -1562,7 +1562,7 @@ CaseStmt :
         ]}        
         .tCaseEnd
         [
-            | sCaseElse：
+            | sCaseElse:
                 @Statement
                 .tCaseElseEnd
             | *:
