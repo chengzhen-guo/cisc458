@@ -1761,6 +1761,11 @@ UnaryOperator :
                 oTypeStkPush(tpBoolean) % result type
                 @CompareAndSwapTypes
                 oTypeStkPop
+            | sLength:
+                .tLength
+                oTypeStkPush(tpInteger) % result type
+                @CompareAndSwapTypes
+                oTypeStkPop
             | *:
                 >>
         ]
@@ -1793,10 +1798,21 @@ BinaryOperator :
                 oTypeStkPush(tpBoolean)
                 @CompareOperandAndResultTypes
             | sEq:
-                .tEQ
+                [ oTypeStkChooseKind
+                    | tpChar:
+                        .tStringEQ
+                    | *:
+                        .tEQ
+                ]
                 @CompareEqualityOperandTypes
             | sNE:
-                .tNE
+                [ oTypeStkChooseKind
+                    | tpChar:
+                        .tNot
+                        .tStringEQ
+                    | *:
+                        .tNE
+                ]
                 @CompareEqualityOperandTypes
             | sGT:
                 .tGT
@@ -1816,11 +1832,23 @@ BinaryOperator :
                 @CompareOperandAndResultTypes
             | sDivide:
                 .tDivide
-                oTypeStkPush(tpInteger)
+                oTypeStkPush(tpInteger) 
                 @CompareOperandAndResultTypes
             | sModulus:
                 .tModulus
                 oTypeStkPush(tpInteger)
+                @CompareOperandAndResultTypes
+            | sConcatenate:
+                .tConcatenate
+                oTypeStkPush(tpChar)
+                @CompareOperandAndResultTypes
+            | sRepeatString:
+                .tRepeatString
+                oTypeStkPush(tpChar)
+                @CompareOperandAndResultTypes
+            | sSubstring:
+                .tSubstring
+                oTypeStkPush(tpChar)
                 @CompareOperandAndResultTypes
             | *:
                 >>
