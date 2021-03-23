@@ -1029,8 +1029,14 @@ SimpleType :
                 [ oSymbolStkChooseKind
                     | syConstant, syVariable:
                         oTypeStkPushSymbol
-                    | *:
+                    | syUndefined:
                         #eUndefinedIdentifier
+                        oTypeStkPush(tpInteger)
+                        oTypeStkLinkToStandardType(stdInteger)
+                    | *:
+                        #eSimpleTypeReqd
+                        oTypeStkPush(tpInteger)
+                        oTypeStkLinkToStandardType(stdInteger)
                 ]
             | sInteger:
                 oTypeStkPush(tpInteger)
@@ -1042,8 +1048,7 @@ SimpleType :
                 #eSimpleTypeReqd
                 oTypeStkPush(tpInteger)
                 oTypeStkLinkToStandardType(stdInteger)
-        ]
-        oSymbolStkPop;
+        ];
 
 SubrangeUpperBound :
         % Accept the upper bound of a subrange and push it on the value stack.
