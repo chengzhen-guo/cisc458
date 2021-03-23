@@ -1107,6 +1107,7 @@ VariableDeclarations :
                     | sInitialValue:
                         .tInitialValue
                         @Expression             % Pushes symbol and type stack entries for the expression
+                        @TypeTblEnterIfNew
                         .tInitEnd
                         .tLiteralAddress
                         @EmitStore
