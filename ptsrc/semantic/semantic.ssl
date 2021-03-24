@@ -995,12 +995,12 @@ IndexType :
         oTypeStkEnterBounds
         [ oTypeStkVerifyBounds
             | yes:
+                oValuePop
             | *:
                 oValuePop
                 @ValuePushValuePlusOne
                 oTypeStkEnterBounds
         ]
-        oTypeStkPop
         oValuePop       % subrange upper
         oValuePop;      %          lower bound
 
