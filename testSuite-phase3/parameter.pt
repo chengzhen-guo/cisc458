@@ -3,4 +3,4 @@ using input;
 fun F (i : like 1, j : like 1, var b : like true) is
 end;
 
-F (1, 2, true)
+F (1, 2, true);
