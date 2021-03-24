@@ -1003,6 +1003,7 @@ IndexType :
                 oTypeStkEnterBounds
         ]
         oValuePop
+        oValuePop
         oValuePop       % subrange upper
         oValuePop;      %          lower bound
 
