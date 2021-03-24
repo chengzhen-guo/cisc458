@@ -1,5 +1,4 @@
-using output;
+using input;
 
-fun F is
-    var x = 1;
+fun F (i : like 1, j : like 1) is
 end;
