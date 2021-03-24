@@ -1896,7 +1896,10 @@ BinaryOperator :
                         #eTypeMismatch
                 ]
                 oTypeStkPop
+                oTypeStkPop
                 oTypeStkPop             % only result type remains
+                oSymbolStkPop
+                oSymbolStkPop
                 oSymbolStkPop
             | *:
                 >>
