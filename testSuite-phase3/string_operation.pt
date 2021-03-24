@@ -1,6 +1,4 @@
 using input;
 
-var x = "Hello";
-var y = "World";
 
-var len = # x;
+var s1 = "Hello" / 4 : 5;
