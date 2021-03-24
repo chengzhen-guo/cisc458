@@ -1,4 +1,4 @@
 using input;
 
-fun F (i : like 1, j : like 1, b : like true) is
+fun F (i : like 1, j : like 1, var b : like true) is
 end;
