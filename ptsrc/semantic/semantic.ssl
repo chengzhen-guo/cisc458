@@ -1297,21 +1297,6 @@ ProcedureParameterType :
         % be declared using named types.
         @SimpleType
         [ oSymbolStkChooseKind
-            | syUndefined:
-                #eUndefinedIdentifier
-            | *:
-        ]
-        [ oSymbolStkChooseKind
-            | syType:
-                oTypeStkPushSymbol
-            | *:
-                #eTypeIdentifierReqd
-                oTypeStkPush(tpInteger)
-                oTypeStkLinkToStandardType(stdInteger)
-        ]
-        oSymbolStkPop                           % parameter type symbol
-
-        [ oSymbolStkChooseKind
             | syVariable:
                 [ oTypeStkChooseKind
                     | tpArray, tpFile:
