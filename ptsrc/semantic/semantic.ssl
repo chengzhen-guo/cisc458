@@ -963,6 +963,7 @@ TypeBody :
                 oTypeStkPush(tpArray)
                 @IndexType
                 @ComponentType
+                oValuePop
             | sFile:
                 oTypeStkPush(tpFile)
                 @ComponentType
