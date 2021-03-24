@@ -984,14 +984,13 @@ IndexType :
         oValuePush(one)
         @ConstantValue
         [ oTypeStkChooseKind
-            | tpInteger:
+            | tpInteger:            
                 oValuePushTypeStkLowerBound
                 oValuePushTypeStkUpperBound
             | *:
-                oValuePush(one)
                 oValuePush(two)
         ]
-        oTypeStkPop      % index type
+        oTypeStkPop     % index type
         % Enter and check the bounds of the array type
         oTypeStkEnterBounds
         [ oTypeStkVerifyBounds
