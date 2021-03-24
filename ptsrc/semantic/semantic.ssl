@@ -1002,6 +1002,7 @@ IndexType :
                 @ValuePushValuePlusOne
                 oTypeStkEnterBounds
         ]
+        oValuePop
         oValuePop       % subrange upper
         oValuePop;      %          lower bound
 
