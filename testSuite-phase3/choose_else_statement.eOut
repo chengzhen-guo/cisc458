@@ -1,0 +1,640 @@
+@Program
+ ?sProgram (sProgram)
+ oSymbolStkPush(syProcedure)
+ oSymbolTblPushScope
+ oCountPush(three)
+ [ (sIdentifier)
+ | *:
+ @ProgramParameter
+  ?sIdentifier (sIdentifier)
+  oSymbolStkPushLocalIdentifier
+  [ oSymbolStkChooseKind (syUndefined)
+  | syUndefined:
+  [ oSymbolStkChooseStandardFile (stdOutput)
+  | stdOutput:
+  oSymbolStkSetKind(syVariable)
+  oTypeStkPush(tpFile)
+  oTypeStkLinkToStandardType(stdText)
+  oSymbolStkEnterTypeReference
+  oValuePush(two)
+  ] or >
+  @AllocateVar
+   [ oSymbolStkChooseKind (syVariable)
+   | *:
+   [ oTypeStkChooseKind (tpFile)
+   | tpFile:
+   .tFileDescriptor
+   oAllocateAlignOnWord
+   oSymbolStkEnterDataAddress
+   .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tFileBind
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tStoreInteger
+   oAllocateDescriptor
+   ] or >
+   >>
+  ;AllocateVar
+  oSymbolTblEnter
+  ] or >
+  oSymbolStkPop
+  oTypeStkPop
+  oValuePop
+  >>
+ ;ProgramParameter
+ }
+ [ (sParmEnd)
+ | sParmEnd:
+ ] or >
+ oCountPop
+ @Block
+  ?sBegin (sBegin)
+  [ (sVar)
+  | sVar:
+  @VariableDeclarations
+   [ (sIdentifier)
+   | sIdentifier:
+   oSymbolStkPushLocalIdentifier
+   [ oSymbolStkChooseKind (syUndefined)
+   | syUndefined:
+   ] or >
+   @PublicDefinition
+    [ (sInitialValue)
+    | *:
+    >>
+   ;PublicDefinition
+   [ (sInitialValue)
+   | sInitialValue:
+   .tInitialValue
+   @Expression
+    @Operand
+     [ (sInteger)
+     | sInteger:
+     oValuePushInteger
+     oSymbolStkPush(syExpression)
+     oTypeStkPush(tpInteger)
+     oTypeStkLinkToStandardType(stdInteger)
+     .tLiteralInteger
+     oEmitValue
+     % value emitted 1
+     oValuePop
+     ] or >
+     >>
+    ;Operand
+    @UnaryOperator
+     [ (sExpnEnd)
+     | *:
+     >>
+    ;UnaryOperator
+    @BinaryOperator
+     [ (sExpnEnd)
+     | *:
+     >>
+    ;BinaryOperator
+    [ (sExpnEnd)
+    | sExpnEnd:
+    ] or >
+    >>
+   ;Expression
+   @TypeTblEnterIfNew
+    [ oTypeStkChooseTypeReference (yes)
+    | *:
+    >>
+   ;TypeTblEnterIfNew
+   .tInitEnd
+   .tLiteralAddress
+   @EmitStore
+    [ oTypeStkChooseKind (tpInteger)
+    | tpInteger:
+    .tStoreInteger
+    ] or >
+    >>
+   ;EmitStore
+   oSymbolStkPop
+   ] or >
+   @EnterVariableAttributes
+    [ oSymbolStkChooseKind (syUndefined)
+    | *:
+    oSymbolStkSetKind(syVariable)
+    [ oTypeStkChooseKind (tpInteger)
+    | *:
+    @AllocateVar
+     [ oSymbolStkChooseKind (syVariable)
+     | *:
+     [ oTypeStkChooseKind (tpInteger)
+     | tpInteger:
+     oAllocateAlignOnWord
+     oSymbolStkEnterDataAddress
+     oAllocateVariable
+     ] or >
+     >>
+    ;AllocateVar
+    oSymbolStkEnterTypeReference
+    oSymbolTblEnter
+    >>
+   ;EnterVariableAttributes
+   oTypeStkPop
+   oSymbolStkPop
+   ] or >
+   >>
+  ;VariableDeclarations
+  ] or >
+  }
+  [ (sCaseStmt)
+  | sCaseStmt:
+  @CaseStmt
+   .tCaseBegin
+   @CaseSelectorExpression
+    @Expression
+     @Operand
+      [ (sIdentifier)
+      | sIdentifier:
+      oSymbolStkPushIdentifier
+      [ oSymbolStkChooseKind (syVariable)
+      | *:
+      [ oSymbolStkChooseKind (syVariable)
+      | syVariable:
+      @Variable
+       [ oSymbolStkChooseKind (syVariable)
+       | syVariable:
+       .tLiteralAddress
+       oValuePushSymbol
+       oEmitValue
+       % value emitted 4
+       oValuePop
+       ] or >
+       oTypeStkPushSymbol
+       @VariableExtension
+        [ (sExpnEnd)
+        | *:
+        >>
+       ;VariableExtension
+       >>
+      ;Variable
+      @VariableOperand
+       [ oTypeStkChooseKind (tpInteger)
+       | tpInteger:
+       .tFetchInteger
+       ] or >
+       >>
+      ;VariableOperand
+      ] or >
+      ] or >
+      >>
+     ;Operand
+     @UnaryOperator
+      [ (sExpnEnd)
+      | *:
+      >>
+     ;UnaryOperator
+     @BinaryOperator
+      [ (sExpnEnd)
+      | *:
+      >>
+     ;BinaryOperator
+     [ (sExpnEnd)
+     | sExpnEnd:
+     ] or >
+     >>
+    ;Expression
+    [ oTypeStkChooseKind (tpInteger)
+    | tpInteger:
+    ] or >
+    oSymbolStkPop
+    oTypeStkPop
+    >>
+   ;CaseSelectorExpression
+   oCasePushDisplay
+   oCountPush(zero)
+   .tCaseSelect
+   oFixPushForwardBranch
+   oEmitNullAddress
+   % value emitted -32767
+   [ (sInteger)
+   | *:
+   @CaseAlternative
+    [ (sInteger)
+    | sInteger:
+    oValuePushInteger
+    [ (sInteger)
+    | *:
+    [ oCaseLookupLabel (no)
+    | *:
+    oCasePushLabel
+    oValuePop
+    ] or >
+    }
+    [ (sInteger)
+    | sInteger:
+    oValuePushInteger
+    [ (sLabelEnd)
+    | *:
+    [ oCaseLookupLabel (no)
+    | *:
+    oCasePushLabel
+    oValuePop
+    ] or >
+    }
+    [ (sLabelEnd)
+    | sLabelEnd:
+    ] or >
+    @Statement
+     oSymbolTblPushScope
+     @Block
+      ?sBegin (sBegin)
+      [ (sVar)
+      | sVar:
+      @VariableDeclarations
+       [ (sIdentifier)
+       | sIdentifier:
+       oSymbolStkPushLocalIdentifier
+       [ oSymbolStkChooseKind (syUndefined)
+       | syUndefined:
+       ] or >
+       @PublicDefinition
+        [ (sInitialValue)
+        | *:
+        >>
+       ;PublicDefinition
+       [ (sInitialValue)
+       | sInitialValue:
+       .tInitialValue
+       @Expression
+        @Operand
+         [ (sInteger)
+         | sInteger:
+         oValuePushInteger
+         oSymbolStkPush(syExpression)
+         oTypeStkPush(tpInteger)
+         oTypeStkLinkToStandardType(stdInteger)
+         .tLiteralInteger
+         oEmitValue
+         % value emitted 1
+         oValuePop
+         ] or >
+         >>
+        ;Operand
+        @UnaryOperator
+         [ (sExpnEnd)
+         | *:
+         >>
+        ;UnaryOperator
+        @BinaryOperator
+         [ (sExpnEnd)
+         | *:
+         >>
+        ;BinaryOperator
+        [ (sExpnEnd)
+        | sExpnEnd:
+        ] or >
+        >>
+       ;Expression
+       @TypeTblEnterIfNew
+        [ oTypeStkChooseTypeReference (yes)
+        | *:
+        >>
+       ;TypeTblEnterIfNew
+       .tInitEnd
+       .tLiteralAddress
+       @EmitStore
+        [ oTypeStkChooseKind (tpInteger)
+        | tpInteger:
+        .tStoreInteger
+        ] or >
+        >>
+       ;EmitStore
+       oSymbolStkPop
+       ] or >
+       @EnterVariableAttributes
+        [ oSymbolStkChooseKind (syUndefined)
+        | *:
+        oSymbolStkSetKind(syVariable)
+        [ oTypeStkChooseKind (tpInteger)
+        | *:
+        @AllocateVar
+         [ oSymbolStkChooseKind (syVariable)
+         | *:
+         [ oTypeStkChooseKind (tpInteger)
+         | tpInteger:
+         oAllocateAlignOnWord
+         oSymbolStkEnterDataAddress
+         oAllocateVariable
+         ] or >
+         >>
+        ;AllocateVar
+        oSymbolStkEnterTypeReference
+        oSymbolTblEnter
+        >>
+       ;EnterVariableAttributes
+       oTypeStkPop
+       oSymbolStkPop
+       ] or >
+       >>
+      ;VariableDeclarations
+      ] or >
+      }
+      [ (sEnd)
+      | *:
+      ] or >
+      ?sEnd (sEnd)
+      >>
+     ;Block
+     oSymbolTblPopScope
+     >>
+    ;Statement
+    .tCaseMerge
+    oFixPushForwardBranch
+    oEmitNullAddress
+    % value emitted -32767
+    oFixSwap
+    oCountIncrement
+    >>
+   ;CaseAlternative
+   }
+   [ (sInteger)
+   | *:
+   @CaseAlternative
+    [ (sInteger)
+    | sInteger:
+    oValuePushInteger
+    [ (sLabelEnd)
+    | *:
+    [ oCaseLookupLabel (no)
+    | *:
+    oCasePushLabel
+    oValuePop
+    ] or >
+    }
+    [ (sLabelEnd)
+    | sLabelEnd:
+    ] or >
+    @Statement
+     oSymbolTblPushScope
+     @Block
+      ?sBegin (sBegin)
+      [ (sVar)
+      | sVar:
+      @VariableDeclarations
+       [ (sIdentifier)
+       | sIdentifier:
+       oSymbolStkPushLocalIdentifier
+       [ oSymbolStkChooseKind (syUndefined)
+       | syUndefined:
+       ] or >
+       @PublicDefinition
+        [ (sInitialValue)
+        | *:
+        >>
+       ;PublicDefinition
+       [ (sInitialValue)
+       | sInitialValue:
+       .tInitialValue
+       @Expression
+        @Operand
+         [ (sInteger)
+         | sInteger:
+         oValuePushInteger
+         oSymbolStkPush(syExpression)
+         oTypeStkPush(tpInteger)
+         oTypeStkLinkToStandardType(stdInteger)
+         .tLiteralInteger
+         oEmitValue
+         % value emitted 1
+         oValuePop
+         ] or >
+         >>
+        ;Operand
+        @UnaryOperator
+         [ (sExpnEnd)
+         | *:
+         >>
+        ;UnaryOperator
+        @BinaryOperator
+         [ (sExpnEnd)
+         | *:
+         >>
+        ;BinaryOperator
+        [ (sExpnEnd)
+        | sExpnEnd:
+        ] or >
+        >>
+       ;Expression
+       @TypeTblEnterIfNew
+        [ oTypeStkChooseTypeReference (yes)
+        | *:
+        >>
+       ;TypeTblEnterIfNew
+       .tInitEnd
+       .tLiteralAddress
+       @EmitStore
+        [ oTypeStkChooseKind (tpInteger)
+        | tpInteger:
+        .tStoreInteger
+        ] or >
+        >>
+       ;EmitStore
+       oSymbolStkPop
+       ] or >
+       @EnterVariableAttributes
+        [ oSymbolStkChooseKind (syUndefined)
+        | *:
+        oSymbolStkSetKind(syVariable)
+        [ oTypeStkChooseKind (tpInteger)
+        | *:
+        @AllocateVar
+         [ oSymbolStkChooseKind (syVariable)
+         | *:
+         [ oTypeStkChooseKind (tpInteger)
+         | tpInteger:
+         oAllocateAlignOnWord
+         oSymbolStkEnterDataAddress
+         oAllocateVariable
+         ] or >
+         >>
+        ;AllocateVar
+        oSymbolStkEnterTypeReference
+        oSymbolTblEnter
+        >>
+       ;EnterVariableAttributes
+       oTypeStkPop
+       oSymbolStkPop
+       ] or >
+       >>
+      ;VariableDeclarations
+      ] or >
+      }
+      [ (sEnd)
+      | *:
+      ] or >
+      ?sEnd (sEnd)
+      >>
+     ;Block
+     oSymbolTblPopScope
+     >>
+    ;Statement
+    .tCaseMerge
+    oFixPushForwardBranch
+    oEmitNullAddress
+    % value emitted -32767
+    oFixSwap
+    oCountIncrement
+    >>
+   ;CaseAlternative
+   }
+   [ (sCaseEnd)
+   | sCaseEnd:
+   ] or >
+   .tCaseEnd
+   [ (sCaseElse)
+   | sCaseElse:
+   @Statement
+    oSymbolTblPushScope
+    @Block
+     ?sBegin (sBegin)
+     [ (sVar)
+     | sVar:
+     @VariableDeclarations
+      [ (sIdentifier)
+      | sIdentifier:
+      oSymbolStkPushLocalIdentifier
+      [ oSymbolStkChooseKind (syUndefined)
+      | syUndefined:
+      ] or >
+      @PublicDefinition
+       [ (sInitialValue)
+       | *:
+       >>
+      ;PublicDefinition
+      [ (sInitialValue)
+      | sInitialValue:
+      .tInitialValue
+      @Expression
+       @Operand
+        [ (sInteger)
+        | sInteger:
+        oValuePushInteger
+        oSymbolStkPush(syExpression)
+        oTypeStkPush(tpInteger)
+        oTypeStkLinkToStandardType(stdInteger)
+        .tLiteralInteger
+        oEmitValue
+        % value emitted 1
+        oValuePop
+        ] or >
+        >>
+       ;Operand
+       @UnaryOperator
+        [ (sExpnEnd)
+        | *:
+        >>
+       ;UnaryOperator
+       @BinaryOperator
+        [ (sExpnEnd)
+        | *:
+        >>
+       ;BinaryOperator
+       [ (sExpnEnd)
+       | sExpnEnd:
+       ] or >
+       >>
+      ;Expression
+      @TypeTblEnterIfNew
+       [ oTypeStkChooseTypeReference (yes)
+       | *:
+       >>
+      ;TypeTblEnterIfNew
+      .tInitEnd
+      .tLiteralAddress
+      @EmitStore
+       [ oTypeStkChooseKind (tpInteger)
+       | tpInteger:
+       .tStoreInteger
+       ] or >
+       >>
+      ;EmitStore
+      oSymbolStkPop
+      ] or >
+      @EnterVariableAttributes
+       [ oSymbolStkChooseKind (syUndefined)
+       | *:
+       oSymbolStkSetKind(syVariable)
+       [ oTypeStkChooseKind (tpInteger)
+       | *:
+       @AllocateVar
+        [ oSymbolStkChooseKind (syVariable)
+        | *:
+        [ oTypeStkChooseKind (tpInteger)
+        | tpInteger:
+        oAllocateAlignOnWord
+        oSymbolStkEnterDataAddress
+        oAllocateVariable
+        ] or >
+        >>
+       ;AllocateVar
+       oSymbolStkEnterTypeReference
+       oSymbolTblEnter
+       >>
+      ;EnterVariableAttributes
+      oTypeStkPop
+      oSymbolStkPop
+      ] or >
+      >>
+     ;VariableDeclarations
+     ] or >
+     }
+     [ (sEnd)
+     | *:
+     ] or >
+     ?sEnd (sEnd)
+     >>
+    ;Block
+    oSymbolTblPopScope
+    >>
+   ;Statement
+   .tCaseElseEnd
+   ] or >
+   oFixPopForwardBranch
+   oEmitCaseBranchTable
+   % value emitted 42
+   % value emitted 44
+   % value emitted 25
+   % value emitted 25
+   % value emitted 37
+   [ oCountChoose (two)
+   | *:
+   oFixPopForwardBranch
+   oCountDecrement
+   }
+   [ oCountChoose (one)
+   | *:
+   oFixPopForwardBranch
+   oCountDecrement
+   }
+   [ oCountChoose (zero)
+   | zero:
+   ] or >
+   oCasePopDisplay
+   oCountPop
+   >>
+  ;CaseStmt
+  ] or >
+  }
+  [ (sEnd)
+  | *:
+  ] or >
+  ?sEnd (sEnd)
+  >>
+ ;Block
+ [ oSymbolTblLookupExternal (no)
+ | *:
+ oSymbolTblPopScope
+ oSymbolStkPop
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0
+ >>
+;Program

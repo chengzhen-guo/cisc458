@@ -1,0 +1,417 @@
+@Program
+ ?sProgram (sProgram)
+ oSymbolStkPush(syProcedure)
+ oSymbolTblPushScope
+ oCountPush(three)
+ [ (sIdentifier)
+ | *:
+ @ProgramParameter
+  ?sIdentifier (sIdentifier)
+  oSymbolStkPushLocalIdentifier
+  [ oSymbolStkChooseKind (syUndefined)
+  | syUndefined:
+  [ oSymbolStkChooseStandardFile (stdInput)
+  | stdInput:
+  oSymbolStkSetKind(syVariable)
+  oTypeStkPush(tpFile)
+  oTypeStkLinkToStandardType(stdText)
+  oSymbolStkEnterTypeReference
+  oValuePush(one)
+  ] or >
+  @AllocateVar
+   [ oSymbolStkChooseKind (syVariable)
+   | *:
+   [ oTypeStkChooseKind (tpFile)
+   | tpFile:
+   .tFileDescriptor
+   oAllocateAlignOnWord
+   oSymbolStkEnterDataAddress
+   .tLiteralInteger
+   oEmitValue
+   % value emitted 1
+   .tFileBind
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tStoreInteger
+   oAllocateDescriptor
+   ] or >
+   >>
+  ;AllocateVar
+  oSymbolTblEnter
+  ] or >
+  oSymbolStkPop
+  oTypeStkPop
+  oValuePop
+  >>
+ ;ProgramParameter
+ }
+ [ (sParmEnd)
+ | sParmEnd:
+ ] or >
+ oCountPop
+ @Block
+  ?sBegin (sBegin)
+  [ (sProcedure)
+  | sProcedure:
+  @ProcedureDefinition
+   ?sIdentifier (sIdentifier)
+   oSymbolStkPushLocalIdentifier
+   [ oSymbolStkChooseKind (syUndefined)
+   | syUndefined:
+   ] or >
+   @PublicDefinition
+    [ (sIdentifier)
+    | *:
+    >>
+   ;PublicDefinition
+   .tSkipProc
+   oFixPushForwardBranch
+   oEmitNullAddress
+   % value emitted -32767
+   oSymbolStkSetKind(syProcedure)
+   oValuePushCodeAddress
+   oSymbolStkEnterValue
+   oValuePop
+   oTypeStkPush(tpNull)
+   oTypeStkSetRecursionFlag(yes)
+   oTypeTblEnter
+   oSymbolStkEnterTypeReference
+   oSymbolTblEnter
+   oSymbolTblPushScope
+   @ProcedureHeading
+    oCountPush(zero)
+    [ (sIdentifier)
+    | *:
+    oCountIncrement
+    ?sIdentifier (sIdentifier)
+    oSymbolStkPushLocalIdentifier
+    [ oSymbolStkChooseKind (syUndefined)
+    | syUndefined:
+    ] or >
+    [ (sLike)
+    | *:
+    oSymbolStkSetKind(syVariable)
+    @ProcedureParameterType
+     @SimpleType
+      ?sLike (sLike)
+      [ (sInteger)
+      | sInteger:
+      oTypeStkPush(tpInteger)
+      oTypeStkLinkToStandardType(stdInteger)
+      ] or >
+      >>
+     ;SimpleType
+     [ oSymbolStkChooseKind (syVariable)
+     | syVariable:
+     [ oTypeStkChooseKind (tpInteger)
+     | *:
+     ] or >
+     oSymbolStkEnterTypeReference
+     @AllocateVar
+      [ oSymbolStkChooseKind (syVariable)
+      | *:
+      [ oTypeStkChooseKind (tpInteger)
+      | tpInteger:
+      oAllocateAlignOnWord
+      oSymbolStkEnterDataAddress
+      oAllocateVariable
+      ] or >
+      >>
+     ;AllocateVar
+     oSymbolTblEnter
+     >>
+    ;ProcedureParameterType
+    }
+    [ (sIdentifier)
+    | *:
+    oCountIncrement
+    ?sIdentifier (sIdentifier)
+    oSymbolStkPushLocalIdentifier
+    [ oSymbolStkChooseKind (syUndefined)
+    | syUndefined:
+    ] or >
+    [ (sLike)
+    | *:
+    oSymbolStkSetKind(syVariable)
+    @ProcedureParameterType
+     @SimpleType
+      ?sLike (sLike)
+      [ (sInteger)
+      | sInteger:
+      oTypeStkPush(tpInteger)
+      oTypeStkLinkToStandardType(stdInteger)
+      ] or >
+      >>
+     ;SimpleType
+     [ oSymbolStkChooseKind (syVariable)
+     | syVariable:
+     [ oTypeStkChooseKind (tpInteger)
+     | *:
+     ] or >
+     oSymbolStkEnterTypeReference
+     @AllocateVar
+      [ oSymbolStkChooseKind (syVariable)
+      | *:
+      [ oTypeStkChooseKind (tpInteger)
+      | tpInteger:
+      oAllocateAlignOnWord
+      oSymbolStkEnterDataAddress
+      oAllocateVariable
+      ] or >
+      >>
+     ;AllocateVar
+     oSymbolTblEnter
+     >>
+    ;ProcedureParameterType
+    }
+    [ (sParmEnd)
+    | sParmEnd:
+    ] or >
+    @ProcedurePrologue
+     @CountPushCopy
+      oValuePushCount
+      oCountPushValue
+      oValuePop
+      >>
+     ;CountPushCopy
+     [ oCountChoose (two)
+     | *:
+     .tLiteralAddress
+     oValuePushSymbol
+     oEmitValue
+     % value emitted 8
+     oValuePop
+     [ oSymbolStkChooseKind (syVariable)
+     | syVariable:
+     @EmitStore
+      [ oTypeStkChooseKind (tpInteger)
+      | tpInteger:
+      .tStoreInteger
+      ] or >
+      >>
+     ;EmitStore
+     ] or >
+     oSymbolStkPop
+     oTypeStkPop
+     oCountDecrement
+     }
+     [ oCountChoose (one)
+     | *:
+     .tLiteralAddress
+     oValuePushSymbol
+     oEmitValue
+     % value emitted 4
+     oValuePop
+     [ oSymbolStkChooseKind (syVariable)
+     | syVariable:
+     @EmitStore
+      [ oTypeStkChooseKind (tpInteger)
+      | tpInteger:
+      .tStoreInteger
+      ] or >
+      >>
+     ;EmitStore
+     ] or >
+     oSymbolStkPop
+     oTypeStkPop
+     oCountDecrement
+     }
+     [ oCountChoose (zero)
+     | zero:
+     oCountPop
+     .tParmEnd
+     ] or >
+     oTypeStkEnterParameterCount
+     oCountPop
+     >>
+    ;ProcedurePrologue
+    >>
+   ;ProcedureHeading
+   @Block
+    ?sBegin (sBegin)
+    [ (sEnd)
+    | *:
+    ] or >
+    ?sEnd (sEnd)
+    >>
+   ;Block
+   oTypeStkSetRecursionFlag(no)
+   oTypeTblUpdate
+   oTypeStkPop
+   oSymbolTblUpdate
+   oSymbolStkPop
+   oSymbolTblPopScope
+   oSymbolTblPreserveParameters
+   .tProcedureEnd
+   oFixPopForwardBranch
+   >>
+  ;ProcedureDefinition
+  ] or >
+  }
+  [ (sCallStmt)
+  | sCallStmt:
+  @CallStmt
+   ?sIdentifier (sIdentifier)
+   oSymbolStkPushIdentifier
+   [ oSymbolStkChooseKind (syProcedure)
+   | *:
+   [ oSymbolStkChooseKind (syProcedure)
+   | syProcedure:
+   [ oSymbolStkChooseStandardRoutine (rtNull)
+   | *:
+   .tCallBegin
+   oTypeStkPushSymbol
+   [ oTypeStkChooseRecursionFlag (no)
+   | *:
+   @ActualParameters
+    oCountPush(zero)
+    [ (sInteger)
+    | *:
+    [ oTypeStkCompareParameterCount (no)
+    | *:
+    oCountIncrement
+    oSymbolStkPushFormalParameter
+    oTypeStkPushSymbol
+    [ oSymbolStkChooseKind (syVariable)
+    | syVariable:
+    @Expression
+     @Operand
+      [ (sInteger)
+      | sInteger:
+      oValuePushInteger
+      oSymbolStkPush(syExpression)
+      oTypeStkPush(tpInteger)
+      oTypeStkLinkToStandardType(stdInteger)
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 1
+      oValuePop
+      ] or >
+      >>
+     ;Operand
+     @UnaryOperator
+      [ (sExpnEnd)
+      | *:
+      >>
+     ;UnaryOperator
+     @BinaryOperator
+      [ (sExpnEnd)
+      | *:
+      >>
+     ;BinaryOperator
+     [ (sExpnEnd)
+     | sExpnEnd:
+     ] or >
+     >>
+    ;Expression
+    @CompareAndSwapTypes
+     [ oTypeStkChooseKind (tpInteger)
+     | tpInteger:
+     oTypeStkSwap
+     [ oTypeStkChooseKind (tpInteger)
+     | tpInteger:
+     ] or >
+     ] or >
+     >>
+    ;CompareAndSwapTypes
+    ] or >
+    oSymbolStkPop
+    oTypeStkPop
+    oSymbolStkPop
+    oTypeStkPop
+    .tParmEnd
+    }
+    [ (sInteger)
+    | *:
+    [ oTypeStkCompareParameterCount (no)
+    | *:
+    oCountIncrement
+    oSymbolStkPushFormalParameter
+    oTypeStkPushSymbol
+    [ oSymbolStkChooseKind (syVariable)
+    | syVariable:
+    @Expression
+     @Operand
+      [ (sInteger)
+      | sInteger:
+      oValuePushInteger
+      oSymbolStkPush(syExpression)
+      oTypeStkPush(tpInteger)
+      oTypeStkLinkToStandardType(stdInteger)
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 2
+      oValuePop
+      ] or >
+      >>
+     ;Operand
+     @UnaryOperator
+      [ (sExpnEnd)
+      | *:
+      >>
+     ;UnaryOperator
+     @BinaryOperator
+      [ (sExpnEnd)
+      | *:
+      >>
+     ;BinaryOperator
+     [ (sExpnEnd)
+     | sExpnEnd:
+     ] or >
+     >>
+    ;Expression
+    @CompareAndSwapTypes
+     [ oTypeStkChooseKind (tpInteger)
+     | tpInteger:
+     oTypeStkSwap
+     [ oTypeStkChooseKind (tpInteger)
+     | tpInteger:
+     ] or >
+     ] or >
+     >>
+    ;CompareAndSwapTypes
+    ] or >
+    oSymbolStkPop
+    oTypeStkPop
+    oSymbolStkPop
+    oTypeStkPop
+    .tParmEnd
+    }
+    [ (sParmEnd)
+    | sParmEnd:
+    ] or >
+    [ oTypeStkCompareParameterCount (yes)
+    | yes:
+    ] or >
+    oCountPop
+    >>
+   ;ActualParameters
+   .tCallEnd
+   oValuePushSymbol
+   oEmitValue
+   % value emitted 13
+   oValuePop
+   oTypeStkPop
+   ] or >
+   oSymbolStkPop
+   >>
+  ;CallStmt
+  ] or >
+  }
+  [ (sEnd)
+  | *:
+  ] or >
+  ?sEnd (sEnd)
+  >>
+ ;Block
+ [ oSymbolTblLookupExternal (no)
+ | *:
+ oSymbolTblPopScope
+ oSymbolStkPop
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0
+ >>
+;Program
