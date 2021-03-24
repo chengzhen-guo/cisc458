@@ -983,7 +983,6 @@ IndexType :
         % Accept and fill in index bounds of array type stack entry
         oValuePush(one)
         @ConstantValue
-        oValuePushInteger
         [ oTypeStkChooseKind
             | tpInteger:
                 oValuePushTypeStkLowerBound
