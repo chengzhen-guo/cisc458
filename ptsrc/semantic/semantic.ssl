@@ -1859,9 +1859,12 @@ BinaryOperator :
                             | *:
                                 #eTypeMismatch
                         ]
+                        oTypeStkPop
                     | *:
                         #eTypeMismatch
                 ]
+                oTypeStkPop
+                oSymbolStkPop
             | sRepeatString:
                 .tRepeatString
                 oTypeStkPush(tpChar)
@@ -1873,9 +1876,12 @@ BinaryOperator :
                             | *:
                                 #eTypeMismatch
                         ]
+                        oTypeStkPop
                     | *:
                         #eTypeMismatch
                 ]
+                oTypeStkPop
+                oSymbolStkPop
             | sSubstring:
                 .tSubstring
                 oTypeStkPush(tpChar)
