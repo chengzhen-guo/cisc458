@@ -1459,6 +1459,7 @@ ActualParameters :
                 % for type checking against actual
                 oSymbolStkPushFormalParameter
                 oTypeStkPushSymbol
+                oTypeStkPushSymbol
                 % formal parameter must be a variable
                 % or a variable parameter
                 [ oSymbolStkChooseKind
