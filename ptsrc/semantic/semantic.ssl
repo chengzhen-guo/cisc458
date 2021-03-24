@@ -963,6 +963,7 @@ TypeBody :
                 oTypeStkPush(tpArray)
                 @IndexType
                 @ComponentType
+                oTypeStkPop
             | sFile:
                 oTypeStkPush(tpFile)
                 @ComponentType
@@ -1002,7 +1003,6 @@ IndexType :
                 @ValuePushValuePlusOne
                 oTypeStkEnterBounds
         ]
-        oTypeStkPop
         oValuePop       % subrange upper
         oValuePop;      %          lower bound
 
