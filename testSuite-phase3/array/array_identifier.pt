@@ -2,4 +2,4 @@ using input;
 
 var x = 25;
 
-var list1 [25]: like x;
+var list1 [x]: like 1;

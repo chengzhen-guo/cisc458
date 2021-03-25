@@ -1,7 +1,6 @@
 using output;
 
 pkg M1 is
-    var d : like 1;
     public val x = 1;
     val y = 1;
 end;
