@@ -1,0 +1,11 @@
+using output;
+
+pkg M1 is
+    public fun F1 is
+    end;
+    fun F2 is
+    end;
+end;
+
+F1();
+F2();

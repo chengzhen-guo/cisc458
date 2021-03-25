@@ -1,7 +1,9 @@
 using output;
 
-fun F is
+pkg M1 is
     public var x = 1;
+    var y = 1;
 end;
 
 x = 2;
+y = 2;
