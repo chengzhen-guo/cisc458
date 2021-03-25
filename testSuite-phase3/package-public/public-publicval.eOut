@@ -72,6 +72,69 @@
    oSymbolTblPushScope
    @Block
     ?sBegin (sBegin)
+    [ (sVar)
+    | sVar:
+    @VariableDeclarations
+     [ (sIdentifier)
+     | sIdentifier:
+     oSymbolStkPushLocalIdentifier
+     [ oSymbolStkChooseKind (syUndefined)
+     | syUndefined:
+     ] or >
+     @PublicDefinition
+      [ (sLike)
+      | *:
+      >>
+     ;PublicDefinition
+     [ (sLike)
+     | *:
+     @TypeBody
+      [ (sLike)
+      | *:
+      @SimpleType
+       ?sLike (sLike)
+       [ (sInteger)
+       | sInteger:
+       oTypeStkPush(tpInteger)
+       oTypeStkLinkToStandardType(stdInteger)
+       ] or >
+       >>
+      ;SimpleType
+      @TypeTblEnterIfNew
+       [ oTypeStkChooseTypeReference (yes)
+       | *:
+       >>
+      ;TypeTblEnterIfNew
+      >>
+     ;TypeBody
+     @EnterVariableAttributes
+      [ oSymbolStkChooseKind (syUndefined)
+      | *:
+      oSymbolStkSetKind(syVariable)
+      [ oTypeStkChooseKind (tpInteger)
+      | *:
+      @AllocateVar
+       [ oSymbolStkChooseKind (syVariable)
+       | *:
+       [ oTypeStkChooseKind (tpInteger)
+       | tpInteger:
+       oAllocateAlignOnWord
+       oSymbolStkEnterDataAddress
+       oAllocateVariable
+       ] or >
+       >>
+      ;AllocateVar
+      oSymbolStkEnterTypeReference
+      oSymbolTblEnter
+      >>
+     ;EnterVariableAttributes
+     oTypeStkPop
+     oSymbolStkPop
+     ] or >
+     >>
+    ;VariableDeclarations
+    ] or >
+    }
     [ (sConst)
     | sConst:
     @ConstantDefinitions
@@ -298,12 +361,12 @@
      [ oSymbolStkChooseKind (syUndefined)
      | syUndefined:
      #eUndefinedIdentifier
-     semantic error, line 9: identifier not declared
+     semantic error, line 10: identifier not declared
      ] or >
      [ oSymbolStkChooseKind (syUndefined)
      | *:
      #eExpnOperandReqd
-     semantic error, line 9: expression operand required
+     semantic error, line 10: expression operand required
      oSymbolStkPop
      @SymbolStkPushDefaultIntegerVariable
       oSymbolStkPush(syVariable)
