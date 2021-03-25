@@ -1,4 +1,3 @@
 using input;
 
-
 var list [25]: like 1;
