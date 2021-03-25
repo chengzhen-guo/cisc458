@@ -61,12 +61,12 @@
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
    ] or >
-   oSymbolStkSetKind(syConstant)
    @PublicDefinition
     [ (sInteger)
     | *:
     >>
    ;PublicDefinition
+   oSymbolStkSetKind(syConstant)
    @ConstantValue
     [ (sInteger)
     | sInteger:
@@ -253,12 +253,12 @@
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
    ] or >
-   oSymbolStkSetKind(syConstant)
    @PublicDefinition
     [ (sIdentifier)
     | *:
     >>
    ;PublicDefinition
+   oSymbolStkSetKind(syConstant)
    @ConstantValue
     [ (sIdentifier)
     | sIdentifier:
@@ -300,12 +300,12 @@
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
    ] or >
-   oSymbolStkSetKind(syConstant)
    @PublicDefinition
     [ (sIdentifier)
     | *:
     >>
    ;PublicDefinition
+   oSymbolStkSetKind(syConstant)
    @ConstantValue
     [ (sIdentifier)
     | sIdentifier:
@@ -505,13 +505,6 @@
      [ oSymbolStkChooseKind (syUndefined)
      | syUndefined:
      ] or >
-     .tSkipProc
-     oFixPushForwardBranch
-     oEmitNullAddress
-     % value emitted -32767
-     oSymbolStkSetKind(syProcedure)
-     oValuePushCodeAddress
-     oSymbolStkEnterValue
      @PublicDefinition
       [ (sPublic)
       | sPublic:
@@ -519,6 +512,13 @@
       ] or >
       >>
      ;PublicDefinition
+     .tSkipProc
+     oFixPushForwardBranch
+     oEmitNullAddress
+     % value emitted -32767
+     oSymbolStkSetKind(syProcedure)
+     oValuePushCodeAddress
+     oSymbolStkEnterValue
      oValuePop
      oTypeStkPush(tpNull)
      oTypeStkSetRecursionFlag(yes)
@@ -878,13 +878,6 @@
      [ oSymbolStkChooseKind (syUndefined)
      | syUndefined:
      ] or >
-     .tSkipProc
-     oFixPushForwardBranch
-     oEmitNullAddress
-     % value emitted -32767
-     oSymbolStkSetKind(syProcedure)
-     oValuePushCodeAddress
-     oSymbolStkEnterValue
      @PublicDefinition
       [ (sPublic)
       | sPublic:
@@ -892,6 +885,13 @@
       ] or >
       >>
      ;PublicDefinition
+     .tSkipProc
+     oFixPushForwardBranch
+     oEmitNullAddress
+     % value emitted -32767
+     oSymbolStkSetKind(syProcedure)
+     oValuePushCodeAddress
+     oSymbolStkEnterValue
      oValuePop
      oTypeStkPush(tpNull)
      oTypeStkSetRecursionFlag(yes)

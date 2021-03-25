@@ -104,12 +104,12 @@
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
    ] or >
-   oSymbolStkSetKind(syConstant)
    @PublicDefinition
     [ (sInteger)
     | *:
     >>
    ;PublicDefinition
+   oSymbolStkSetKind(syConstant)
    @ConstantValue
     [ (sInteger)
     | sInteger:
@@ -145,12 +145,12 @@
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
    ] or >
-   oSymbolStkSetKind(syConstant)
    @PublicDefinition
     [ (sInteger)
     | *:
     >>
    ;PublicDefinition
+   oSymbolStkSetKind(syConstant)
    @ConstantValue
     [ (sInteger)
     | sInteger:
@@ -791,6 +791,11 @@
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
    ] or >
+   @PublicDefinition
+    [ (sIdentifier)
+    | *:
+    >>
+   ;PublicDefinition
    .tSkipProc
    oFixPushForwardBranch
    oEmitNullAddress
@@ -798,11 +803,6 @@
    oSymbolStkSetKind(syProcedure)
    oValuePushCodeAddress
    oSymbolStkEnterValue
-   @PublicDefinition
-    [ (sIdentifier)
-    | *:
-    >>
-   ;PublicDefinition
    oValuePop
    oTypeStkPush(tpNull)
    oTypeStkSetRecursionFlag(yes)
@@ -4045,6 +4045,11 @@
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
    ] or >
+   @PublicDefinition
+    [ (sParmEnd)
+    | *:
+    >>
+   ;PublicDefinition
    .tSkipProc
    oFixPushForwardBranch
    oEmitNullAddress
@@ -4052,11 +4057,6 @@
    oSymbolStkSetKind(syProcedure)
    oValuePushCodeAddress
    oSymbolStkEnterValue
-   @PublicDefinition
-    [ (sParmEnd)
-    | *:
-    >>
-   ;PublicDefinition
    oValuePop
    oTypeStkPush(tpNull)
    oTypeStkSetRecursionFlag(yes)

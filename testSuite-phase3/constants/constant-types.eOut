@@ -61,12 +61,12 @@
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
    ] or >
-   oSymbolStkSetKind(syConstant)
    @PublicDefinition
     [ (sInteger)
     | *:
     >>
    ;PublicDefinition
+   oSymbolStkSetKind(syConstant)
    @ConstantValue
     [ (sInteger)
     | sInteger:
@@ -92,12 +92,12 @@
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
    ] or >
-   oSymbolStkSetKind(syConstant)
    @PublicDefinition
     [ (sIdentifier)
     | *:
     >>
    ;PublicDefinition
+   oSymbolStkSetKind(syConstant)
    @ConstantValue
     [ (sIdentifier)
     | sIdentifier:
@@ -129,12 +129,12 @@
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
    ] or >
-   oSymbolStkSetKind(syConstant)
    @PublicDefinition
     [ (sStringLiteral)
     | *:
     >>
    ;PublicDefinition
+   oSymbolStkSetKind(syConstant)
    @ConstantValue
     [ (sStringLiteral)
     | sStringLiteral:
