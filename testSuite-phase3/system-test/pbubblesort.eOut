@@ -4158,50 +4158,295 @@
           @CallStmt
            ?sIdentifier (sIdentifier)
            oSymbolStkPushIdentifier
-           [ oSymbolStkChooseKind (syVariable)
+           [ oSymbolStkChooseKind (syProcedure)
            | *:
-           [ oSymbolStkChooseKind (syVariable)
+           [ oSymbolStkChooseKind (syProcedure)
+           | syProcedure:
+           [ oSymbolStkChooseStandardRoutine (rtNull)
            | *:
-           #eProcedureReqd
-           semantic error, line 52: procedure name required
-           @FlushActuals
+           .tCallBegin
+           oTypeStkPushSymbol
+           [ oTypeStkChooseRecursionFlag (no)
+           | *:
+           @ActualParameters
+            oCountPush(zero)
             [ (sIdentifier)
             | *:
-            ? (sIdentifier)
-            }
-            [ (sExpnEnd)
+            [ oTypeStkCompareParameterCount (no)
             | *:
-            ? (sExpnEnd)
+            oCountIncrement
+            oSymbolStkPushFormalParameter
+            oTypeStkPushSymbol
+            [ oSymbolStkChooseKind (syVariable)
+            | syVariable:
+            @Expression
+             @Operand
+              [ (sIdentifier)
+              | sIdentifier:
+              oSymbolStkPushIdentifier
+              [ oSymbolStkChooseKind (syVariable)
+              | *:
+              [ oSymbolStkChooseKind (syVariable)
+              | syVariable:
+              @Variable
+               [ oSymbolStkChooseKind (syVariable)
+               | syVariable:
+               .tLiteralAddress
+               oValuePushSymbol
+               oEmitValue
+               % value emitted 56
+               oValuePop
+               ] or >
+               oTypeStkPushSymbol
+               @VariableExtension
+                [ (sExpnEnd)
+                | *:
+                >>
+               ;VariableExtension
+               >>
+              ;Variable
+              @VariableOperand
+               [ oTypeStkChooseKind (tpInteger)
+               | tpInteger:
+               .tFetchInteger
+               ] or >
+               >>
+              ;VariableOperand
+              ] or >
+              ] or >
+              >>
+             ;Operand
+             @UnaryOperator
+              [ (sExpnEnd)
+              | *:
+              >>
+             ;UnaryOperator
+             @BinaryOperator
+              [ (sExpnEnd)
+              | *:
+              >>
+             ;BinaryOperator
+             [ (sExpnEnd)
+             | sExpnEnd:
+             ] or >
+             >>
+            ;Expression
+            @CompareAndSwapTypes
+             [ oTypeStkChooseKind (tpInteger)
+             | tpInteger:
+             oTypeStkSwap
+             [ oTypeStkChooseKind (tpInteger)
+             | tpInteger:
+             ] or >
+             ] or >
+             >>
+            ;CompareAndSwapTypes
+            ] or >
+            oSymbolStkPop
+            oTypeStkPop
+            oSymbolStkPop
+            oTypeStkPop
+            .tParmEnd
             }
             [ (sIdentifier)
             | *:
-            ? (sIdentifier)
-            }
-            [ (sInteger)
+            [ oTypeStkCompareParameterCount (no)
             | *:
-            ? (sInteger)
-            }
-            [ (sAdd)
-            | *:
-            ? (sAdd)
-            }
-            [ (sExpnEnd)
-            | *:
-            ? (sExpnEnd)
+            oCountIncrement
+            oSymbolStkPushFormalParameter
+            oTypeStkPushSymbol
+            [ oSymbolStkChooseKind (syVariable)
+            | syVariable:
+            @Expression
+             @Operand
+              [ (sIdentifier)
+              | sIdentifier:
+              oSymbolStkPushIdentifier
+              [ oSymbolStkChooseKind (syVariable)
+              | *:
+              [ oSymbolStkChooseKind (syVariable)
+              | syVariable:
+              @Variable
+               [ oSymbolStkChooseKind (syVariable)
+               | syVariable:
+               .tLiteralAddress
+               oValuePushSymbol
+               oEmitValue
+               % value emitted 56
+               oValuePop
+               ] or >
+               oTypeStkPushSymbol
+               @VariableExtension
+                [ (sInteger)
+                | *:
+                >>
+               ;VariableExtension
+               >>
+              ;Variable
+              @VariableOperand
+               [ oTypeStkChooseKind (tpInteger)
+               | tpInteger:
+               .tFetchInteger
+               ] or >
+               >>
+              ;VariableOperand
+              ] or >
+              ] or >
+              >>
+             ;Operand
+             @UnaryOperator
+              [ (sInteger)
+              | *:
+              >>
+             ;UnaryOperator
+             @BinaryOperator
+              [ (sInteger)
+              | *:
+              >>
+             ;BinaryOperator
+             [ (sInteger)
+             | *:
+             }
+             @Operand
+              [ (sInteger)
+              | sInteger:
+              oValuePushInteger
+              oSymbolStkPush(syExpression)
+              oTypeStkPush(tpInteger)
+              oTypeStkLinkToStandardType(stdInteger)
+              .tLiteralInteger
+              oEmitValue
+              % value emitted 1
+              oValuePop
+              ] or >
+              >>
+             ;Operand
+             @UnaryOperator
+              [ (sAdd)
+              | *:
+              >>
+             ;UnaryOperator
+             @BinaryOperator
+              [ (sAdd)
+              | sAdd:
+              .tAdd
+              oTypeStkPush(tpInteger)
+              @CompareOperandAndResultTypes
+               @CompareAndSwapTypes
+                [ oTypeStkChooseKind (tpInteger)
+                | tpInteger:
+                oTypeStkSwap
+                [ oTypeStkChooseKind (tpInteger)
+                | tpInteger:
+                ] or >
+                ] or >
+                >>
+               ;CompareAndSwapTypes
+               oTypeStkPop
+               @CompareAndSwapTypes
+                [ oTypeStkChooseKind (tpInteger)
+                | tpInteger:
+                oTypeStkSwap
+                [ oTypeStkChooseKind (tpInteger)
+                | tpInteger:
+                ] or >
+                ] or >
+                >>
+               ;CompareAndSwapTypes
+               oTypeStkPop
+               oSymbolStkPop
+               oSymbolStkSetKind(syExpression)
+               >>
+              ;CompareOperandAndResultTypes
+              ] or >
+              oSymbolStkSetKind(syExpression)
+              >>
+             ;BinaryOperator
+             [ (sExpnEnd)
+             | sExpnEnd:
+             ] or >
+             >>
+            ;Expression
+            @CompareAndSwapTypes
+             [ oTypeStkChooseKind (tpInteger)
+             | tpInteger:
+             oTypeStkSwap
+             [ oTypeStkChooseKind (tpInteger)
+             | tpInteger:
+             ] or >
+             ] or >
+             >>
+            ;CompareAndSwapTypes
+            ] or >
+            oSymbolStkPop
+            oTypeStkPop
+            oSymbolStkPop
+            oTypeStkPop
+            .tParmEnd
             }
             [ (sIdentifier)
             | *:
-            ? (sIdentifier)
-            }
-            [ (sExpnEnd)
+            [ oTypeStkCompareParameterCount (no)
             | *:
-            ? (sExpnEnd)
+            oCountIncrement
+            oSymbolStkPushFormalParameter
+            oTypeStkPushSymbol
+            [ oSymbolStkChooseKind (syVarParameter)
+            | syVarParameter:
+            @VarActual
+             [ (sIdentifier)
+             | sIdentifier:
+             oSymbolStkPushIdentifier
+             @Variable
+              [ oSymbolStkChooseKind (syVariable)
+              | syVariable:
+              .tLiteralAddress
+              oValuePushSymbol
+              oEmitValue
+              % value emitted 60
+              oValuePop
+              ] or >
+              oTypeStkPushSymbol
+              @VariableExtension
+               [ (sExpnEnd)
+               | *:
+               >>
+              ;VariableExtension
+              >>
+             ;Variable
+             .tVarParm
+             [ oTypeStkCompareNames (yes)
+             | yes:
+             ] or >
+             [ (sExpnEnd)
+             | sExpnEnd:
+             ] or >
+             ] or >
+             >>
+            ;VarActual
+            ] or >
+            oSymbolStkPop
+            oTypeStkPop
+            oSymbolStkPop
+            oTypeStkPop
+            .tParmEnd
             }
             [ (sParmEnd)
             | sParmEnd:
             ] or >
+            [ oTypeStkCompareParameterCount (yes)
+            | yes:
+            ] or >
+            oCountPop
             >>
-           ;FlushActuals
+           ;ActualParameters
+           .tCallEnd
+           oValuePushSymbol
+           oEmitValue
+           % value emitted 26
+           oValuePop
+           oTypeStkPop
+           ] or >
            oSymbolStkPop
            >>
           ;CallStmt
