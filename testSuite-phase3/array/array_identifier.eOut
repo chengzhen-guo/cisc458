@@ -276,91 +276,19 @@
   ;VariableDeclarations
   ] or >
   }
-  [ (sVar)
-  | sVar:
-  @VariableDeclarations
-   [ (sIdentifier)
-   | sIdentifier:
-   oSymbolStkPushLocalIdentifier
-   [ oSymbolStkChooseKind (syUndefined)
-   | syUndefined:
-   ] or >
-   @PublicDefinition
-    [ (sArray)
-    | *:
-    >>
-   ;PublicDefinition
-   [ (sArray)
-   | *:
-   @TypeBody
-    [ (sArray)
-    | sArray:
-    oTypeStkPush(tpArray)
-    @IndexType
-     oValuePush(one)
-     @ConstantValue
-      [ (sIdentifier)
-      | sIdentifier:
-      oSymbolStkPushIdentifier
-      [ oSymbolStkChooseKind (syVariable)
-      | *:
-      [ oSymbolStkChooseKind (syVariable)
-      | *:
-      #eConstantReqd
-      semantic error, line 6: constant required
-      oSymbolStkPop
-      @SymbolStkPushDefaultIntegerConstant
-       oSymbolStkPush(syConstant)
-       oValuePush(one)
-       oSymbolStkEnterValue
-       oValuePop
-       oTypeStkPush(tpInteger)
-       oTypeStkLinkToStandardType(stdInteger)
-       oTypeStkPop
-       >>
-      ;SymbolStkPushDefaultIntegerConstant
-      oValuePush(one)
-      oTypeStkPushSymbol
-      [ (sLike)
-      | *:
-      oSymbolStkPop
-      ] or >
-      >>
-     ;ConstantValue
-     [ oTypeStkChooseKind ()
-     | *:
-     oValuePush(two)
-     oTypeStkPop
-     oTypeStkEnterBounds
-     [ oTypeStkVerifyBounds (yes)
-     | yes:
-     oValuePop
-     ] or >
-     oValuePop
-     oValuePop
-     >>
-    ;IndexType
-    @ComponentType
-     @SimpleType
-      ?sLike (sLike)
-      [ (sInteger)
-      | sInteger:
-      oTypeStkPush(tpInteger)
-      oTypeStkLinkToStandardType(stdInteger)
-      ] or >
-      >>
-     ;SimpleType
-     [ oTypeStkChooseKind (tpInteger)
-     | *:
-     @TypeTblEnterIfNew
-      [ oTypeStkChooseTypeReference (yes)
-      | *:
-      >>
-     ;TypeTblEnterIfNew
-     oTypeStkEnterComponentReference
-     oTypeStkPop
-     >>
-    ;ComponentType
-    oValuePop
-### Semantic assertion 20 failed: empty value stack in oValuePop
-while processing line          6
+  [ (sEnd)
+  | *:
+  ] or >
+  ?sEnd (sEnd)
+  >>
+ ;Block
+ [ oSymbolTblLookupExternal (no)
+ | *:
+ oSymbolTblPopScope
+ oSymbolStkPop
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0
+ >>
+;Program
