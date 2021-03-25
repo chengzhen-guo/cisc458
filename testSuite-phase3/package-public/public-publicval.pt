@@ -5,5 +5,5 @@ pkg M1 is
     val y = 1;
 end;
 
-x = 2;
-y = 2;
+var a = x;
+var b = y;
