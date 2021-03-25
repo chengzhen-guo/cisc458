@@ -1,2 +1,245 @@
 @Program
- 
+ ?sProgram (sProgram)
+ oSymbolStkPush(syProcedure)
+ oSymbolTblPushScope
+ oCountPush(three)
+ [ (sIdentifier)
+ | *:
+ @ProgramParameter
+  ?sIdentifier (sIdentifier)
+  oSymbolStkPushLocalIdentifier
+  [ oSymbolStkChooseKind (syUndefined)
+  | syUndefined:
+  [ oSymbolStkChooseStandardFile (stdOutput)
+  | stdOutput:
+  oSymbolStkSetKind(syVariable)
+  oTypeStkPush(tpFile)
+  oTypeStkLinkToStandardType(stdText)
+  oSymbolStkEnterTypeReference
+  oValuePush(two)
+  ] or >
+  @AllocateVar
+   [ oSymbolStkChooseKind (syVariable)
+   | *:
+   [ oTypeStkChooseKind (tpFile)
+   | tpFile:
+   .tFileDescriptor
+   oAllocateAlignOnWord
+   oSymbolStkEnterDataAddress
+   .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tFileBind
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tStoreInteger
+   oAllocateDescriptor
+   ] or >
+   >>
+  ;AllocateVar
+  oSymbolTblEnter
+  ] or >
+  oSymbolStkPop
+  oTypeStkPop
+  oValuePop
+  >>
+ ;ProgramParameter
+ }
+ [ (sParmEnd)
+ | sParmEnd:
+ ] or >
+ oCountPop
+ @Block
+  ?sBegin (sBegin)
+  [ (sCallStmt)
+  | sCallStmt:
+  @CallStmt
+   ?sIdentifier (sIdentifier)
+   oSymbolStkPushIdentifier
+   [ oSymbolStkChooseKind (syProcedure)
+   | *:
+   [ oSymbolStkChooseKind (syProcedure)
+   | syProcedure:
+   [ oSymbolStkChooseStandardRoutine (rtWrite)
+   | rtWrite:
+   .tWriteBegin
+   @WriteProcedure
+    [ (sStringLiteral)
+    | *:
+    @WriteStandardExpnList
+     oSymbolStkPushStandardVariable(stdOutput)
+     [ oSymbolStkChooseKind (syVariable)
+     | *:
+     oValuePushSymbol
+     oSymbolStkPop
+     [ (sStringLiteral)
+     | *:
+     .tTrapBegin
+     .tLiteralAddress
+     oEmitValue
+     % value emitted 0
+     .tVarParm
+     .tParmEnd
+     @Expression
+      @Operand
+       [ (sStringLiteral)
+       | sStringLiteral:
+       oSymbolStkPush(syExpression)
+       @StringLiteral
+        oValuePushStringLength
+        .tSkipString
+        oFixPushForwardBranch
+        oEmitNullAddress
+        % value emitted -32767
+        .tStringData
+        oEmitValue
+        % value emitted 11
+        oValuePop
+        oValuePushCodeAddress
+        oValueNegate
+        oEmitString
+        % value emitted 72
+        % value emitted 101
+        % value emitted 108
+        % value emitted 108
+        % value emitted 111
+        % value emitted 32
+        % value emitted 119
+        % value emitted 111
+        % value emitted 114
+        % value emitted 108
+        % value emitted 100
+        % value emitted 0
+        oFixPopForwardBranch
+        oTypeStkPush(tpChar)
+        oTypeStkLinkToStandardType(stdChar)
+        oValuePush(one)
+        oValuePushStringLength
+        oTypeStkEnterBounds
+        oValuePop
+        oValuePop
+        oTypeTblEnter
+        >>
+       ;StringLiteral
+       [ oTypeStkChooseKind (tpChar)
+       | tpChar:
+       .tLiteralAddress
+       oEmitValue
+       % value emitted -21
+       .tFetchChar
+       ] or >
+       oValuePop
+       ] or >
+       >>
+      ;Operand
+      @UnaryOperator
+       [ (sExpnEnd)
+       | *:
+       >>
+      ;UnaryOperator
+      @BinaryOperator
+       [ (sExpnEnd)
+       | *:
+       >>
+      ;BinaryOperator
+      [ (sExpnEnd)
+      | sExpnEnd:
+      ] or >
+      >>
+     ;Expression
+     .tParmEnd
+     @WriteText
+      [ (sParmEnd)
+      | *:
+      [ oTypeStkChooseKind (tpChar)
+      | tpChar:
+      oValuePushTypeStkUpperBound
+      ] or >
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 11
+      oValuePop
+      .tParmEnd
+      [ oTypeStkChooseKind (tpChar)
+      | tpChar:
+      .tTrap
+      oEmitTrapKind(trWriteString)
+      % value emitted 109
+      ] or >
+      oSymbolStkPop
+      oTypeStkPop
+      >>
+     ;WriteText
+     }
+     [ (sParmEnd)
+     | sParmEnd:
+     ] or >
+     oValuePop
+     >>
+    ;WriteStandardExpnList
+    .tWriteEnd
+    >>
+   ;WriteProcedure
+   ] or >
+   ] or >
+   oSymbolStkPop
+   >>
+  ;CallStmt
+  ] or >
+  }
+  [ (sCallStmt)
+  | sCallStmt:
+  @CallStmt
+   ?sIdentifier (sIdentifier)
+   oSymbolStkPushIdentifier
+   [ oSymbolStkChooseKind (syProcedure)
+   | *:
+   [ oSymbolStkChooseKind (syProcedure)
+   | syProcedure:
+   [ oSymbolStkChooseStandardRoutine (rtWriteln)
+   | rtWriteln:
+   .tTrapBegin
+   @WritelnProcedure
+    [ (sParmEnd)
+    | sParmEnd:
+    oSymbolStkPushStandardVariable(stdOutput)
+    [ oSymbolStkChooseKind (syVariable)
+    | *:
+    oValuePushSymbol
+    .tLiteralAddress
+    oEmitValue
+    % value emitted 0
+    oValuePop
+    oSymbolStkPop
+    .tVarParm
+    .tParmEnd
+    ] or >
+    >>
+   ;WritelnProcedure
+   .tTrap
+   oEmitTrapKind(trWriteln)
+   % value emitted 6
+   ] or >
+   ] or >
+   oSymbolStkPop
+   >>
+  ;CallStmt
+  ] or >
+  }
+  [ (sEnd)
+  | *:
+  ] or >
+  ?sEnd (sEnd)
+  >>
+ ;Block
+ [ oSymbolTblLookupExternal (no)
+ | *:
+ oSymbolTblPopScope
+ oSymbolStkPop
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0
+ >>
+;Program
