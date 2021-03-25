@@ -95,7 +95,7 @@
       oTypeStkPush(tpInteger)
       oTypeStkLinkToStandardType(stdInteger)
       oValuePushInteger
-      [ (sVar)
+      [ (sConst)
       | *:
       ] or >
       >>
@@ -108,102 +108,52 @@
      oSymbolStkPop
      ] or >
      }
-     [ (sVar)
+     [ (sConst)
      | *:
      ] or >
      >>
     ;ConstantDefinitions
     ] or >
     }
-    [ (sVar)
-    | sVar:
-    @VariableDeclarations
+    [ (sConst)
+    | sConst:
+    @ConstantDefinitions
      [ (sIdentifier)
      | sIdentifier:
      oSymbolStkPushLocalIdentifier
      [ oSymbolStkChooseKind (syUndefined)
      | syUndefined:
      ] or >
+     oSymbolStkSetKind(syConstant)
      @PublicDefinition
-      [ (sInitialValue)
+      [ (sInteger)
       | *:
       >>
      ;PublicDefinition
-     [ (sInitialValue)
-     | sInitialValue:
-     .tInitialValue
-     @Expression
-      @Operand
-       [ (sInteger)
-       | sInteger:
-       oValuePushInteger
-       oSymbolStkPush(syExpression)
-       oTypeStkPush(tpInteger)
-       oTypeStkLinkToStandardType(stdInteger)
-       .tLiteralInteger
-       oEmitValue
-       % value emitted 1
-       oValuePop
-       ] or >
-       >>
-      ;Operand
-      @UnaryOperator
-       [ (sExpnEnd)
-       | *:
-       >>
-      ;UnaryOperator
-      @BinaryOperator
-       [ (sExpnEnd)
-       | *:
-       >>
-      ;BinaryOperator
-      [ (sExpnEnd)
-      | sExpnEnd:
-      ] or >
-      >>
-     ;Expression
-     @TypeTblEnterIfNew
-      [ oTypeStkChooseTypeReference (yes)
+     @ConstantValue
+      [ (sInteger)
+      | sInteger:
+      oTypeStkPush(tpInteger)
+      oTypeStkLinkToStandardType(stdInteger)
+      oValuePushInteger
+      [ (sEnd)
       | *:
-      >>
-     ;TypeTblEnterIfNew
-     .tInitEnd
-     .tLiteralAddress
-     @EmitStore
-      [ oTypeStkChooseKind (tpInteger)
-      | tpInteger:
-      .tStoreInteger
       ] or >
       >>
-     ;EmitStore
+     ;ConstantValue
+     oSymbolStkEnterTypeReference
+     oTypeStkPop
+     oSymbolStkEnterValue
+     oValuePop
+     oSymbolTblEnter
      oSymbolStkPop
      ] or >
-     @EnterVariableAttributes
-      [ oSymbolStkChooseKind (syUndefined)
-      | *:
-      oSymbolStkSetKind(syVariable)
-      [ oTypeStkChooseKind (tpInteger)
-      | *:
-      @AllocateVar
-       [ oSymbolStkChooseKind (syVariable)
-       | *:
-       [ oTypeStkChooseKind (tpInteger)
-       | tpInteger:
-       oAllocateAlignOnWord
-       oSymbolStkEnterDataAddress
-       oAllocateVariable
-       ] or >
-       >>
-      ;AllocateVar
-      oSymbolStkEnterTypeReference
-      oSymbolTblEnter
-      >>
-     ;EnterVariableAttributes
-     oTypeStkPop
-     oSymbolStkPop
+     }
+     [ (sEnd)
+     | *:
      ] or >
      >>
-    ;VariableDeclarations
+    ;ConstantDefinitions
     ] or >
     }
     [ (sEnd)
