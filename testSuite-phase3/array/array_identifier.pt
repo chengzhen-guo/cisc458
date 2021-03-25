@@ -1,5 +1,7 @@
 using input;
 
-var x = 25;
+val x = 1;
+var y = 2;
 
-var list1 [x]: like 1;
+var list1 [25]: like x;
+var list2 [25]: like y;
