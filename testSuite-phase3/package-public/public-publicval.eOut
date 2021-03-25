@@ -172,51 +172,45 @@
   ;PackageDefinition
   ] or >
   }
-  [ (sAssignmentStmt)
-  | sAssignmentStmt:
-  @AssignmentStmt
-   ?sIdentifier (sIdentifier)
-   oSymbolStkPushIdentifier
-   .tAssignBegin
-   @Variable
-    [ oSymbolStkChooseKind (syConstant)
+  [ (sVar)
+  | sVar:
+  @VariableDeclarations
+   [ (sIdentifier)
+   | sIdentifier:
+   oSymbolStkPushLocalIdentifier
+   [ oSymbolStkChooseKind (syUndefined)
+   | syUndefined:
+   ] or >
+   @PublicDefinition
+    [ (sInitialValue)
     | *:
-    #eVariableReqd
-    semantic error, line 8: variable required
-    oSymbolStkPop
-    @SymbolStkPushDefaultIntegerVariable
-     oSymbolStkPush(syVariable)
-     oValuePush(zero)
-     oSymbolStkEnterValue
-     oValuePop
-     oTypeStkPush(tpInteger)
-     oTypeStkLinkToStandardType(stdInteger)
-     oSymbolStkEnterTypeReference
-     oTypeStkPop
-     >>
-    ;SymbolStkPushDefaultIntegerVariable
-    oTypeStkPushSymbol
-    @VariableExtension
-     [ (sInteger)
-     | *:
-     >>
-    ;VariableExtension
     >>
-   ;Variable
-   [ oTypeStkChooseKind (tpInteger)
-   | *:
+   ;PublicDefinition
+   [ (sInitialValue)
+   | sInitialValue:
+   .tInitialValue
    @Expression
     @Operand
-     [ (sInteger)
-     | sInteger:
-     oValuePushInteger
-     oSymbolStkPush(syExpression)
-     oTypeStkPush(tpInteger)
-     oTypeStkLinkToStandardType(stdInteger)
-     .tLiteralInteger
-     oEmitValue
-     % value emitted 2
-     oValuePop
+     [ (sIdentifier)
+     | sIdentifier:
+     oSymbolStkPushIdentifier
+     [ oSymbolStkChooseKind (syConstant)
+     | *:
+     [ oSymbolStkChooseKind (syConstant)
+     | syConstant:
+     @ConstantOperand
+      oTypeStkPushSymbol
+      oValuePushSymbol
+      [ oTypeStkChooseKind (tpInteger)
+      | tpInteger:
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 1
+      ] or >
+      oValuePop
+      >>
+     ;ConstantOperand
+     ] or >
      ] or >
      >>
     ;Operand
@@ -235,77 +229,94 @@
     ] or >
     >>
    ;Expression
-   @CompareAndSwapTypes
+   @TypeTblEnterIfNew
+    [ oTypeStkChooseTypeReference (yes)
+    | *:
+    >>
+   ;TypeTblEnterIfNew
+   .tInitEnd
+   .tLiteralAddress
+   @EmitStore
     [ oTypeStkChooseKind (tpInteger)
     | tpInteger:
-    oTypeStkSwap
-    [ oTypeStkChooseKind (tpInteger)
-    | tpInteger:
-    ] or >
+    .tStoreInteger
     ] or >
     >>
-   ;CompareAndSwapTypes
-   @EmitAssign
+   ;EmitStore
+   oSymbolStkPop
+   ] or >
+   @EnterVariableAttributes
+    [ oSymbolStkChooseKind (syUndefined)
+    | *:
+    oSymbolStkSetKind(syVariable)
     [ oTypeStkChooseKind (tpInteger)
-    | tpInteger:
-    .tAssignInteger
-    ] or >
+    | *:
+    @AllocateVar
+     [ oSymbolStkChooseKind (syVariable)
+     | *:
+     [ oTypeStkChooseKind (tpInteger)
+     | tpInteger:
+     oAllocateAlignOnWord
+     oSymbolStkEnterDataAddress
+     oAllocateVariable
+     ] or >
+     >>
+    ;AllocateVar
+    oSymbolStkEnterTypeReference
+    oSymbolTblEnter
     >>
-   ;EmitAssign
+   ;EnterVariableAttributes
    oTypeStkPop
    oSymbolStkPop
-   oTypeStkPop
-   oSymbolStkPop
+   ] or >
    >>
-  ;AssignmentStmt
+  ;VariableDeclarations
   ] or >
   }
-  [ (sAssignmentStmt)
-  | sAssignmentStmt:
-  @AssignmentStmt
-   ?sIdentifier (sIdentifier)
-   oSymbolStkPushIdentifier
-   .tAssignBegin
-   @Variable
-    [ oSymbolStkChooseKind (syUndefined)
-    | syUndefined:
-    #eUndefinedIdentifier
-    semantic error, line 9: identifier not declared
-    oSymbolStkPop
-    @SymbolStkPushDefaultIntegerVariable
-     oSymbolStkPush(syVariable)
-     oValuePush(zero)
-     oSymbolStkEnterValue
-     oValuePop
-     oTypeStkPush(tpInteger)
-     oTypeStkLinkToStandardType(stdInteger)
-     oSymbolStkEnterTypeReference
-     oTypeStkPop
-     >>
-    ;SymbolStkPushDefaultIntegerVariable
-    ] or >
-    oTypeStkPushSymbol
-    @VariableExtension
-     [ (sInteger)
-     | *:
-     >>
-    ;VariableExtension
+  [ (sVar)
+  | sVar:
+  @VariableDeclarations
+   [ (sIdentifier)
+   | sIdentifier:
+   oSymbolStkPushLocalIdentifier
+   [ oSymbolStkChooseKind (syUndefined)
+   | syUndefined:
+   ] or >
+   @PublicDefinition
+    [ (sInitialValue)
+    | *:
     >>
-   ;Variable
-   [ oTypeStkChooseKind (tpInteger)
-   | *:
+   ;PublicDefinition
+   [ (sInitialValue)
+   | sInitialValue:
+   .tInitialValue
    @Expression
     @Operand
-     [ (sInteger)
-     | sInteger:
-     oValuePushInteger
-     oSymbolStkPush(syExpression)
-     oTypeStkPush(tpInteger)
-     oTypeStkLinkToStandardType(stdInteger)
-     .tLiteralInteger
-     oEmitValue
-     % value emitted 2
-     oValuePop
+     [ (sIdentifier)
+     | sIdentifier:
+     oSymbolStkPushIdentifier
+     [ oSymbolStkChooseKind (syUndefined)
+     | syUndefined:
+     #eUndefinedIdentifier
+     semantic error, line 9: identifier not declared
+     ] or >
+     [ oSymbolStkChooseKind (syUndefined)
+     | *:
+     #eExpnOperandReqd
+     semantic error, line 9: expression operand required
+     oSymbolStkPop
+     @SymbolStkPushDefaultIntegerVariable
+      oSymbolStkPush(syVariable)
+      oValuePush(zero)
+      oSymbolStkEnterValue
+      oValuePop
+      oTypeStkPush(tpInteger)
+      oTypeStkLinkToStandardType(stdInteger)
+      oSymbolStkEnterTypeReference
+      oTypeStkPop
+      >>
+     ;SymbolStkPushDefaultIntegerVariable
+     oTypeStkPushSymbol
      ] or >
      >>
     ;Operand
@@ -324,29 +335,48 @@
     ] or >
     >>
    ;Expression
-   @CompareAndSwapTypes
+   @TypeTblEnterIfNew
+    [ oTypeStkChooseTypeReference (yes)
+    | *:
+    >>
+   ;TypeTblEnterIfNew
+   .tInitEnd
+   .tLiteralAddress
+   @EmitStore
     [ oTypeStkChooseKind (tpInteger)
     | tpInteger:
-    oTypeStkSwap
-    [ oTypeStkChooseKind (tpInteger)
-    | tpInteger:
-    ] or >
+    .tStoreInteger
     ] or >
     >>
-   ;CompareAndSwapTypes
-   @EmitAssign
+   ;EmitStore
+   oSymbolStkPop
+   ] or >
+   @EnterVariableAttributes
+    [ oSymbolStkChooseKind (syUndefined)
+    | *:
+    oSymbolStkSetKind(syVariable)
     [ oTypeStkChooseKind (tpInteger)
-    | tpInteger:
-    .tAssignInteger
-    ] or >
+    | *:
+    @AllocateVar
+     [ oSymbolStkChooseKind (syVariable)
+     | *:
+     [ oTypeStkChooseKind (tpInteger)
+     | tpInteger:
+     oAllocateAlignOnWord
+     oSymbolStkEnterDataAddress
+     oAllocateVariable
+     ] or >
+     >>
+    ;AllocateVar
+    oSymbolStkEnterTypeReference
+    oSymbolTblEnter
     >>
-   ;EmitAssign
+   ;EnterVariableAttributes
    oTypeStkPop
    oSymbolStkPop
-   oTypeStkPop
-   oSymbolStkPop
+   ] or >
    >>
-  ;AssignmentStmt
+  ;VariableDeclarations
   ] or >
   }
   [ (sEnd)
