@@ -5,8 +5,8 @@
  oCountPush(three)
  [ (sIdentifier)
  | *:
- @ProgramParameterF
-  ?sIdFntifier (sIdentifier)
+ @ProgramParameter
+  ?sIdentifier (sIdentifier)
   oSymbolStkPushLocalIdentifier
   [ oSymbolStkChooseKind (syUndefined)
   | syUndefined:
