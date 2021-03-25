@@ -1,6 +1,7 @@
 using output;
 
 pkg M1 is
+    var d : like 1;
     public var x = 1;
     var y = 1;
 end;

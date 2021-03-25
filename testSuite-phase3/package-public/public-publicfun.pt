@@ -1,6 +1,7 @@
 using output;
 
 pkg M1 is
+    var d : like 1;
     public fun F1 is
     end;
     fun F2 is
