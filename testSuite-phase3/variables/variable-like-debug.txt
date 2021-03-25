@@ -1,0 +1,8 @@
+variable-like-debug
+
+The team expirenced a 
+    'symbol stack not empty at end of semantic phase'
+during the testing of the variable declaration with like statement.
+
+For this reason, the team created a very simple test case 'variable-like-debug' for and count for the number of 'oSymbolP' (oSymbolPop & oSymbolPush).
+The number of Pop and Push should match in the output of the program. With this test case, the team detected where the pop statements are missing.
