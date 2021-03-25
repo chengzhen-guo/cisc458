@@ -52,6 +52,47 @@
  oCountPop
  @Block
   ?sBegin (sBegin)
+  [ (sConst)
+  | sConst:
+  @ConstantDefinitions
+   [ (sIdentifier)
+   | sIdentifier:
+   oSymbolStkPushLocalIdentifier
+   [ oSymbolStkChooseKind (syUndefined)
+   | syUndefined:
+   ] or >
+   @PublicDefinition
+    [ (sInteger)
+    | *:
+    >>
+   ;PublicDefinition
+   oSymbolStkSetKind(syConstant)
+   @ConstantValue
+    [ (sInteger)
+    | sInteger:
+    oTypeStkPush(tpInteger)
+    oTypeStkLinkToStandardType(stdInteger)
+    oValuePushInteger
+    [ (sVar)
+    | *:
+    ] or >
+    >>
+   ;ConstantValue
+   oSymbolStkEnterTypeReference
+   oTypeStkPop
+   oSymbolStkEnterValue
+   oValuePop
+   oSymbolTblEnter
+   oSymbolStkPop
+   ] or >
+   }
+   [ (sVar)
+   | *:
+   ] or >
+   >>
+  ;ConstantDefinitions
+  ] or >
+  }
   [ (sVar)
   | sVar:
   @VariableDeclarations
@@ -79,7 +120,7 @@
      oTypeStkLinkToStandardType(stdInteger)
      .tLiteralInteger
      oEmitValue
-     % value emitted 25
+     % value emitted 2
      oValuePop
      ] or >
      >>
@@ -128,6 +169,139 @@
      | tpInteger:
      oAllocateAlignOnWord
      oSymbolStkEnterDataAddress
+     oAllocateVariable
+     ] or >
+     >>
+    ;AllocateVar
+    oSymbolStkEnterTypeReference
+    oSymbolTblEnter
+    >>
+   ;EnterVariableAttributes
+   oTypeStkPop
+   oSymbolStkPop
+   ] or >
+   >>
+  ;VariableDeclarations
+  ] or >
+  }
+  [ (sVar)
+  | sVar:
+  @VariableDeclarations
+   [ (sIdentifier)
+   | sIdentifier:
+   oSymbolStkPushLocalIdentifier
+   [ oSymbolStkChooseKind (syUndefined)
+   | syUndefined:
+   ] or >
+   @PublicDefinition
+    [ (sArray)
+    | *:
+    >>
+   ;PublicDefinition
+   [ (sArray)
+   | *:
+   @TypeBody
+    [ (sArray)
+    | sArray:
+    oTypeStkPush(tpArray)
+    @IndexType
+     oValuePush(one)
+     @ConstantValue
+      [ (sInteger)
+      | sInteger:
+      oTypeStkPush(tpInteger)
+      oTypeStkLinkToStandardType(stdInteger)
+      oValuePushInteger
+      [ (sLike)
+      | *:
+      ] or >
+      >>
+     ;ConstantValue
+     [ oTypeStkChooseKind (tpInteger)
+     | tpInteger:
+     oValuePushTypeStkLowerBound
+     oValuePushTypeStkUpperBound
+     ] or >
+     oTypeStkPop
+     oTypeStkEnterBounds
+     [ oTypeStkVerifyBounds (yes)
+     | yes:
+     oValuePop
+     ] or >
+     oValuePop
+     oValuePop
+     >>
+    ;IndexType
+    @ComponentType
+     @SimpleType
+      ?sLike (sLike)
+      [ (sIdentifier)
+      | sIdentifier:
+      oSymbolStkPushIdentifier
+      [ oSymbolStkChooseKind (syConstant)
+      | syConstant:
+      oTypeStkPushSymbol
+      ] or >
+      oSymbolStkPop
+      ] or >
+      >>
+     ;SimpleType
+     [ oTypeStkChooseKind (tpInteger)
+     | *:
+     @TypeTblEnterIfNew
+      [ oTypeStkChooseTypeReference (yes)
+      | *:
+      >>
+     ;TypeTblEnterIfNew
+     oTypeStkEnterComponentReference
+     oTypeStkPop
+     >>
+    ;ComponentType
+    oValuePop
+    ] or >
+    @TypeTblEnterIfNew
+     [ oTypeStkChooseTypeReference (no)
+     | no:
+     oTypeTblEnter
+     ] or >
+     >>
+    ;TypeTblEnterIfNew
+    >>
+   ;TypeBody
+   @EnterVariableAttributes
+    [ oSymbolStkChooseKind (syUndefined)
+    | *:
+    oSymbolStkSetKind(syVariable)
+    [ oTypeStkChooseKind (tpArray)
+    | *:
+    @AllocateVar
+     [ oSymbolStkChooseKind (syVariable)
+     | *:
+     [ oTypeStkChooseKind (tpArray)
+     | tpArray:
+     .tArrayDescriptor
+     oAllocateAlignOnWord
+     oSymbolStkEnterDataAddress
+     .tLiteralInteger
+     oValuePushTypeStkLowerBound
+     oEmitValue
+     % value emitted 0
+     oValuePop
+     .tLiteralAddress
+     oEmitDataAddress
+     % value emitted 8
+     .tStoreInteger
+     oAllocateDescriptor
+     .tLiteralInteger
+     oValuePushTypeStkUpperBound
+     oEmitValue
+     % value emitted 0
+     oValuePop
+     .tLiteralAddress
+     oEmitDataAddress
+     % value emitted 12
+     .tStoreInteger
+     oAllocateDescriptor
      oAllocateVariable
      ] or >
      >>
@@ -248,7 +422,7 @@
      oValuePop
      .tLiteralAddress
      oEmitDataAddress
-     % value emitted 8
+     % value emitted 20
      .tStoreInteger
      oAllocateDescriptor
      .tLiteralInteger
@@ -258,7 +432,7 @@
      oValuePop
      .tLiteralAddress
      oEmitDataAddress
-     % value emitted 12
+     % value emitted 24
      .tStoreInteger
      oAllocateDescriptor
      oAllocateVariable

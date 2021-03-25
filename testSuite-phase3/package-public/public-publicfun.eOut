@@ -72,69 +72,6 @@
    oSymbolTblPushScope
    @Block
     ?sBegin (sBegin)
-    [ (sVar)
-    | sVar:
-    @VariableDeclarations
-     [ (sIdentifier)
-     | sIdentifier:
-     oSymbolStkPushLocalIdentifier
-     [ oSymbolStkChooseKind (syUndefined)
-     | syUndefined:
-     ] or >
-     @PublicDefinition
-      [ (sLike)
-      | *:
-      >>
-     ;PublicDefinition
-     [ (sLike)
-     | *:
-     @TypeBody
-      [ (sLike)
-      | *:
-      @SimpleType
-       ?sLike (sLike)
-       [ (sInteger)
-       | sInteger:
-       oTypeStkPush(tpInteger)
-       oTypeStkLinkToStandardType(stdInteger)
-       ] or >
-       >>
-      ;SimpleType
-      @TypeTblEnterIfNew
-       [ oTypeStkChooseTypeReference (yes)
-       | *:
-       >>
-      ;TypeTblEnterIfNew
-      >>
-     ;TypeBody
-     @EnterVariableAttributes
-      [ oSymbolStkChooseKind (syUndefined)
-      | *:
-      oSymbolStkSetKind(syVariable)
-      [ oTypeStkChooseKind (tpInteger)
-      | *:
-      @AllocateVar
-       [ oSymbolStkChooseKind (syVariable)
-       | *:
-       [ oTypeStkChooseKind (tpInteger)
-       | tpInteger:
-       oAllocateAlignOnWord
-       oSymbolStkEnterDataAddress
-       oAllocateVariable
-       ] or >
-       >>
-      ;AllocateVar
-      oSymbolStkEnterTypeReference
-      oSymbolTblEnter
-      >>
-     ;EnterVariableAttributes
-     oTypeStkPop
-     oSymbolStkPop
-     ] or >
-     >>
-    ;VariableDeclarations
-    ] or >
-    }
     [ (sProcedure)
     | sProcedure:
     @ProcedureDefinition
@@ -341,12 +278,12 @@
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
    #eUndefinedIdentifier
-   semantic error, line 12: identifier not declared
+   semantic error, line 11: identifier not declared
    ] or >
    [ oSymbolStkChooseKind (syUndefined)
    | *:
    #eProcedureReqd
-   semantic error, line 12: procedure name required
+   semantic error, line 11: procedure name required
    @FlushActuals
     [ (sParmEnd)
     | sParmEnd:

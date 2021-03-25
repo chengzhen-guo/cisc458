@@ -82,69 +82,6 @@
      | syUndefined:
      ] or >
      @PublicDefinition
-      [ (sLike)
-      | *:
-      >>
-     ;PublicDefinition
-     [ (sLike)
-     | *:
-     @TypeBody
-      [ (sLike)
-      | *:
-      @SimpleType
-       ?sLike (sLike)
-       [ (sInteger)
-       | sInteger:
-       oTypeStkPush(tpInteger)
-       oTypeStkLinkToStandardType(stdInteger)
-       ] or >
-       >>
-      ;SimpleType
-      @TypeTblEnterIfNew
-       [ oTypeStkChooseTypeReference (yes)
-       | *:
-       >>
-      ;TypeTblEnterIfNew
-      >>
-     ;TypeBody
-     @EnterVariableAttributes
-      [ oSymbolStkChooseKind (syUndefined)
-      | *:
-      oSymbolStkSetKind(syVariable)
-      [ oTypeStkChooseKind (tpInteger)
-      | *:
-      @AllocateVar
-       [ oSymbolStkChooseKind (syVariable)
-       | *:
-       [ oTypeStkChooseKind (tpInteger)
-       | tpInteger:
-       oAllocateAlignOnWord
-       oSymbolStkEnterDataAddress
-       oAllocateVariable
-       ] or >
-       >>
-      ;AllocateVar
-      oSymbolStkEnterTypeReference
-      oSymbolTblEnter
-      >>
-     ;EnterVariableAttributes
-     oTypeStkPop
-     oSymbolStkPop
-     ] or >
-     >>
-    ;VariableDeclarations
-    ] or >
-    }
-    [ (sVar)
-    | sVar:
-    @VariableDeclarations
-     [ (sIdentifier)
-     | sIdentifier:
-     oSymbolStkPushLocalIdentifier
-     [ oSymbolStkChooseKind (syUndefined)
-     | syUndefined:
-     ] or >
-     @PublicDefinition
       [ (sPublic)
       | sPublic:
       oSymbolStkSetPublicFlag
@@ -347,7 +284,7 @@
     .tLiteralAddress
     oValuePushSymbol
     oEmitValue
-    % value emitted 8
+    % value emitted 4
     oValuePop
     ] or >
     oTypeStkPushSymbol
@@ -425,7 +362,7 @@
     [ oSymbolStkChooseKind (syUndefined)
     | syUndefined:
     #eUndefinedIdentifier
-    semantic error, line 10: identifier not declared
+    semantic error, line 9: identifier not declared
     oSymbolStkPop
     @SymbolStkPushDefaultIntegerVariable
      oSymbolStkPush(syVariable)
