@@ -505,13 +505,6 @@
      [ oSymbolStkChooseKind (syUndefined)
      | syUndefined:
      ] or >
-     @PublicDefinition
-      [ (sPublic)
-      | sPublic:
-      oSymbolStkSetPublicFlag
-      ] or >
-      >>
-     ;PublicDefinition
      .tSkipProc
      oFixPushForwardBranch
      oEmitNullAddress
@@ -519,6 +512,13 @@
      oSymbolStkSetKind(syProcedure)
      oValuePushCodeAddress
      oSymbolStkEnterValue
+     @PublicDefinition
+      [ (sPublic)
+      | sPublic:
+      oSymbolStkSetPublicFlag
+      ] or >
+      >>
+     ;PublicDefinition
      oValuePop
      oTypeStkPush(tpNull)
      oTypeStkSetRecursionFlag(yes)
@@ -878,13 +878,6 @@
      [ oSymbolStkChooseKind (syUndefined)
      | syUndefined:
      ] or >
-     @PublicDefinition
-      [ (sPublic)
-      | sPublic:
-      oSymbolStkSetPublicFlag
-      ] or >
-      >>
-     ;PublicDefinition
      .tSkipProc
      oFixPushForwardBranch
      oEmitNullAddress
@@ -892,6 +885,13 @@
      oSymbolStkSetKind(syProcedure)
      oValuePushCodeAddress
      oSymbolStkEnterValue
+     @PublicDefinition
+      [ (sPublic)
+      | sPublic:
+      oSymbolStkSetPublicFlag
+      ] or >
+      >>
+     ;PublicDefinition
      oValuePop
      oTypeStkPush(tpNull)
      oTypeStkSetRecursionFlag(yes)

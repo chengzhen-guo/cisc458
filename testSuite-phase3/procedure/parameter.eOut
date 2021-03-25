@@ -60,11 +60,6 @@
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
    ] or >
-   @PublicDefinition
-    [ (sIdentifier)
-    | *:
-    >>
-   ;PublicDefinition
    .tSkipProc
    oFixPushForwardBranch
    oEmitNullAddress
@@ -72,6 +67,11 @@
    oSymbolStkSetKind(syProcedure)
    oValuePushCodeAddress
    oSymbolStkEnterValue
+   @PublicDefinition
+    [ (sIdentifier)
+    | *:
+    >>
+   ;PublicDefinition
    oValuePop
    oTypeStkPush(tpNull)
    oTypeStkSetRecursionFlag(yes)
