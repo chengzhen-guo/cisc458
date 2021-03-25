@@ -3,5 +3,3 @@ using input;
 var x = 25;
 
 var list1 [25]: like x;
-var list2 [x]: like 1;
-var list3 [x]: like x;
