@@ -1,6 +1,9 @@
 #!/bin/bash
 
-for f in $(find . -name '*.eOut'); do rm $f
+for f in $(find . -name '*.eOut')
+do
+    rm $f
+done
 
 for f in $(find . -name '*.pt')
 do
