@@ -5,7 +5,7 @@ do
     rm $f
 done
 
-for f in $(find . -name '*.pt')
+for i in $(find . -name '*.pt')
 do
     echo "=== pti $i ==="
     #ssltrace "ptc -o3 -t3 -L ../ptsrc/lib/pt ${i%%.*}.pt" ../ptsrc/lib/pt/semantic.def > ${i%%.*}.eOut
