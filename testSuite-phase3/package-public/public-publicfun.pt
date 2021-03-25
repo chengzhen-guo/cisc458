@@ -7,5 +7,5 @@ pkg M1 is
     end;
 end;
 
-F1();
-F2();
+F1;
+F2;
