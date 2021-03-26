@@ -99,4 +99,25 @@ String Constants and Variables
 
 7. Semantic.ssl: In the Operand rule, changed the T-code emitted for a string literal to be tLiteralAdress codeaddress followed by tFetchChar. 
 
-8. Semantic.ssl: In SimpleType, added an alternative for sStringLiteral, which is similar to sInteger but it infers and links to tpChar. 
+8. Semantic.ssl: In SimpleType, added an alternative for sStringLiteral, which is similar to sInteger but it infers and links to tpChar.
+
+
+Modification of phase 2 
+
+1. Parserl.ssl, Block rule:  moved the ‘end;’ handling from ‘Block’ rule to specific rules. The keyword repeat case is then modified to two selections. The first option is for when there is a 'while' keyword, then the  WhileStmt rule is called. The second option is for other cases, the RepeatStmt is called. 
+
+2. Parserl.ssl, ConstantDefinitions & PublicConstantDefinition rule: added * to handle all other tokens that may causes infinite loop. 
+
+3. Parserl.ssl, LikeClause rule: Merged the handling for Array that was originally dealt specially to the general handling case. 
+
+4. Parserl.ssl, ProcedureHeading rule: Moved the capture of keyword ‘is’ from ‘Block’ to the rule. 
+
+5. Parserl.ssl, IfStmt rule: added elseif handling case. 
+
+6. Parserl.ssl, CaseStmt rule: merged the case end handling from else to the genral case. 
+
+7. Parserl.ssl, RepeatStmt rule:  removed the invocation of whileStmt rule here. Now the handling of the RepeatStmt is totally independent to the while statement handling in ‘Block’ rule. Repeat {...} while is handled here, and Repeat while {...} handling is moved to whileStmt rule.  
+
+8. Parserl.ssl, SimpleExpression, Term, Factor rules: removed string operation rule and moved the string operations to Factor rule, Term rule and SimpleExpression rule. 
+
+9. Parser.pt: pasted content from parser.dev 
