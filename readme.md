@@ -6,3 +6,4 @@ Chengzhen Guo, 20018335, 15cg53
 
 # Test All for Phase 2
 Shell Script can be found at: testSuite-phase2/TestAll.sh
+Shell Script can be found at: testSuite-phase3/TestAll.sh
