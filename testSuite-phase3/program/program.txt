@@ -1,0 +1,25 @@
+This test folder contains four tests: including ‘blocks.pt’, ‘programs.pt’. 
+
+1. Parameter.pt 
+
+Purpose: 
+
+As the very first change in the phase 3, this unit test makes sure the handling of the program is correct in Like. By having a Like null program, the output is expected to capture the sProgram token emitted from the phase 2 and initialize a Symbol Table and Symbol Stack. 
+
+Result: 
+
+In the output, sProgram token are captured as intended. Two mechanism operations oSymbolStkPush and oSymbolTblEnter are executed to initialize a Symbol Table and Symbol Stack. 
+
+ 
+
+2. blocks.pt 
+
+Purpose: 
+
+Test if sBegin and sEnd being outputted for a single if statement block. 
+
+No variable has been included in this test case. 
+
+Result: 
+
+In the output, the sBegin and sEnd has been successfully generated. The block has been accepted in the semantic phase. 

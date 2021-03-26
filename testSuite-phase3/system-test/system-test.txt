@@ -1,0 +1,2 @@
+Example code has been used as system tests, to ensure that the programs can be handled properly.
+The results matches the example output provided.

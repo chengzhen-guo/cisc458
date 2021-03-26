@@ -1,0 +1,23 @@
+This test folder contains four tests: including ‘routine.pt’, ‘parameter.pt’. 
+
+1. routine.pt 
+
+Purpose: 
+
+To test if a procedure (function) is defined with tokens tSkipProc and tProcedureEnd included. 
+
+Result: 
+
+In the output, there was tSkipProc and tProcedureEnd tokens emitted. In the @ProcedureHeading, there is no variable/constant definition because there is no parameter in function F. 
+
+ 
+
+2. Parameter.pt 
+
+Purpose: 
+
+To test if parameters inside a function declaration can be identified. 
+
+Result: 
+
+In the output, two sIdentifier tokens that were emitted in the second phase are captured inside @ProcedureHeading and then were pushed into Symbol Table. 

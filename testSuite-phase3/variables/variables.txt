@@ -1,0 +1,43 @@
+This test folder contains four tests: including ‘variable-initval.pt’, ‘variable-like-debug.pt’, ‘variable-like.pt’ and ‘variable_string.pt’.  
+
+ 
+
+1. variable-initval.pt 
+
+Purpose: 
+
+To test if a variable declaration that initialize a variable with integer values can be correctly handled in the semantic phase. 
+
+Result: 
+
+Inside the @Block of the output, there is a set of T-code (tLiteralInteger, tLiteralAddress, tStoreInteger) that corresponded to var x = 1; With seeing mechanism operations oSymbolStkPush(syExpression) and oTypeStkPush(tpInteger) in the output, we know that the value expression and its attributes (type) to the Type and Symbol Stacks. 
+
+ 
+
+2. variable_string.pt 
+
+Purpose: 
+
+To test the handling of the string variables is correct. 
+
+Result: 
+
+In the output, the var x is pushed to the symbol stack by the operation oSymbolStkPushLocalIdentifier and its type is pushed to Type Stack. The parameter in the bracket of oTypeStkPush is tpChar because those T-code names are redefined to handle strings in Like. 
+
+ 
+
+3. variable-like.pt 
+
+Purpose: 
+
+To test all variable and type declarations can be handled correctly in the semantic phase.  
+
+Result: 
+
+The semantic phase handles the assignment of all variable types (including, integer, Boolean, string, and another identifier) with Like statement successfully. In each variable declaration, the Simple Type has for like handling operates and pushed the variable symbol and type to the stack and table. One way to verify the result is to count the number of oSymbolTblEnter. Since there are 9 lines of variable declarations in the test file, the number of oSymbolTblEnter should be 9 + 1 (In the @ProgramParameter). 
+
+ 
+
+4. variable-like-debug.pt 
+
+Error experienced during the like implementation, a separate test case has been created for debugging. Details can be found in ‘variable-like-debug.txt’. 
