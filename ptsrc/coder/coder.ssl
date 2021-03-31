@@ -785,27 +785,19 @@ Block:
             @TrapStmt
         | tInitialValue:
             @OperandPushExpression
-            oOperandPushMode(mArgument)         % 4(%ebp) - zeroth argument
-            oOperandSetValue(four)
-            tInitEnd
+            tInitEnd  tLiteralAddress
+            oOperandPushVariable
+            oOperandSwap
             [
-                | tLiteralAddress:              % Formal parameter variable
-                    @OperandNextArgument        % ... 8(%ebp)
-                    oOperandPushCopy            % ... 8(%ebp), 8(%ebp)
-                    oOperandPushVariable        % ... 8(%ebp), 8(%ebp), formal
-                    oOperandSwap                % ... 8(%ebp), formal, 8(%ebp)
-                    [
-                        | tStoreInteger, tStoreAddress:
-                            oOperandSetLength(word)
-                            @OperandAssignIntegerPopPop
-                        | tStoreChar:
-                            oOperandSetLength(string)
-                            @OperandAssignCharPopPop
-                        | tStoreBoolean:
-                            oOperandSetLength(byte)
-                            @OperandAssignBooleanPopPop
-                    ]
-                | *:
+                | tStoreInteger, tStoreAddress:
+                    oOperandSetLength(word)
+                    @OperandAssignIntegerPopPop
+                | tStoreChar:
+                    oOperandSetLength(string)
+                    @OperandAssignCharPopPop
+                | tStoreBoolean:
+                    oOperandSetLength(byte)
+                    @OperandAssignBooleanPopPop
             ]
         | *:
             >
