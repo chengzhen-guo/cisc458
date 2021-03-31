@@ -86,7 +86,8 @@
   oOperandPushMode(mArgument)
   oOperandSetValue(four)
   ?tInitEnd (tInitEnd)
-  ?tLiteralAddress (tLiteralAddress)
+  [ (tLiteralAddress)
+  | tLiteralAddress:
   @OperandNextArgument
    oOperandSetMode(mManifest)
    oOperandPushMode(mManifest)
