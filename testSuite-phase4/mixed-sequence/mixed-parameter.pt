@@ -1,0 +1,11 @@
+using input;
+
+var x : like 1;
+
+fun F (i : like 1, j : like 1) is
+    var y : like 1;
+end;
+
+var z : like 1;
+
+F (1, 2);

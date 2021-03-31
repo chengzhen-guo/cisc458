@@ -1,0 +1,6 @@
+using input;
+
+fun F (i : like 1, j : like 1) is
+end;
+
+F (1, 2);

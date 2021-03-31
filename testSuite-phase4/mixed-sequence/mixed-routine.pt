@@ -1,0 +1,9 @@
+using output;
+
+var x : like 0;
+
+fun F is
+    var y : like 1;
+end;
+
+var z : like 1;
