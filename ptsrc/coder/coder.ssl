@@ -786,6 +786,8 @@ Block:
         | tInitialValue:
             @OperandPushExpression
             tInitEnd
+            oOperandPushMode(mArgument)         % 4(%ebp) - zeroth argument
+            oOperandSetValue(four)
             [
                 | tLiteralAddress:              % Formal parameter variable
                     @OperandNextArgument        % ... 8(%ebp)
