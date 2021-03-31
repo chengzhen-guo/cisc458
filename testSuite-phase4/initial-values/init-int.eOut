@@ -83,8 +83,22 @@
    ] or >
    >>
   ;OperandPushExpression
+  oOperandPushMode(mArgument)
+  oOperandSetValue(four)
   ?tInitEnd (tInitEnd)
   ?tLiteralAddress (tLiteralAddress)
+  @OperandNextArgument
+   oOperandSetMode(mManifest)
+   oOperandPushMode(mManifest)
+   oOperandSetValue(four)
+   oOperandAddManifestValues
+   oOperandPop
+   oOperandSetMode(mArgument)
+   >>
+  ;OperandNextArgument
+  oOperandPushCopy
+  oOperandPushVariable
+  oOperandSwap
   [ (tTrapBegin)
   | *:
   ?tStoreInteger (tTrapBegin)

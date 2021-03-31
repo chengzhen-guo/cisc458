@@ -71,39 +71,22 @@
   ] or >
   }
   [ (tInitialValue)
-  | tInitialValue:
-  @OperandPushExpression
-   [ (tLiteralInteger)
-   | tLiteralInteger:
-   oOperandPushInteger
-   ] or >
-   }
-   [ (tInitEnd)
+  | *:
+  ] or >
+  @Statements
+   [ (tInitialValue)
    | *:
    ] or >
    >>
-  ;OperandPushExpression
-  oOperandPushMode(mArgument)
-  oOperandSetValue(four)
-  ?tInitEnd (tInitEnd)
-  ?tLiteralAddress (tLiteralAddress)
-  @OperandNextArgument
-   oOperandSetMode(mManifest)
-   oOperandPushMode(mManifest)
-   oOperandSetValue(four)
-   oOperandAddManifestValues
-   oOperandPop
-   oOperandSetMode(mArgument)
-   >>
-  ;OperandNextArgument
-  oOperandPushCopy
-  oOperandPushVariable
-  oOperandSwap
-  [ (tInitialValue)
-  | *:
-  ?tStoreInteger (tInitialValue)
-### Coder S/SL program failure:  syntax error in Tcode token stream
-    (semantic pass output stream does not match expected input stream)
-while processing line          3
-### Coder assertion 7 failed: internal error in coder.pt (report to maintainer)while processing line          3
+  ;Statements
+  >>
+ ;Block
+ @EmitProgramEpilogue
+  oEmitNone(iLeave)
+  oEmitNone(iReturn)
+  >>
+ ;EmitProgramEpilogue
+ >>
+;Program
+### Coder assertion 25 failed: coder phase ended without consuming all of tCode token streamwhile processing line          1
 
