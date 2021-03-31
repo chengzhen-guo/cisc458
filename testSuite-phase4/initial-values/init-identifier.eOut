@@ -84,20 +84,7 @@
    >>
   ;OperandPushExpression
   ?tInitEnd (tInitEnd)
-  [ (tLiteralAddress)
-  | tLiteralAddress:
-  @OperandNextArgument
-   oOperandSetMode(mManifest)
-   oOperandPushMode(mManifest)
-   oOperandSetValue(four)
-   oOperandAddManifestValues
-   oOperandPop
-   oOperandSetMode(mArgument)
-   >>
-  ;OperandNextArgument
-  oOperandPushCopy
-  oOperandPushVariable
-  oOperandSwap
+  ?tLiteralAddress (tLiteralAddress)
   [ (tInitialValue)
   | *:
   ?tStoreInteger (tInitialValue)
