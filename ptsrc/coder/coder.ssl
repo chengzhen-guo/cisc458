@@ -785,6 +785,7 @@ Block:
             @TrapStmt
         | tInitialValue:
             @OperandPushExpression
+            tInitEnd
             [
                 | tLiteralAddress:              % Formal parameter variable
                     @OperandNextArgument        % ... 8(%ebp)
@@ -803,8 +804,7 @@ Block:
                             oOperandSetLength(byte)
                             @OperandAssignBooleanPopPop
                     ]
-            ]
-            tInitEnd
+            ]            
         | *:
             >
     ]};
