@@ -787,22 +787,26 @@ Block:
             @OperandPushExpression
             oOperandPushMode(mArgument)         % 4(%ebp) - zeroth argument
             oOperandSetValue(four)
-            tInitEnd  tLiteralAddress
-            @OperandNextArgument        % ... 8(%ebp)
-            oOperandPushCopy            % ... 8(%ebp), 8(%ebp)
-            oOperandPushVariable        % ... 8(%ebp), 8(%ebp), formal
-            oOperandSwap
+            tInitEnd
             [
-                | tStoreInteger, tStoreAddress:
-                    oOperandSetLength(word)
-                    @OperandAssignIntegerPopPop
-                | tStoreChar:
-                    oOperandSetLength(byte)
-                    @OperandAssignCharPopPop
-                | tStoreBoolean:
-                    oOperandSetLength(byte)
-                    @OperandAssignBooleanPopPop
-            ]           
+                | tLiteralAddress:              % Formal parameter variable
+                    @OperandNextArgument        % ... 8(%ebp)
+                    oOperandPushCopy            % ... 8(%ebp), 8(%ebp)
+                    oOperandPushVariable        % ... 8(%ebp), 8(%ebp), formal
+                    oOperandSwap                % ... 8(%ebp), formal, 8(%ebp)
+                    [
+                        | tStoreInteger, tStoreAddress:
+                            oOperandSetLength(word)
+                            @OperandAssignIntegerPopPop
+                        | tStoreChar:
+                            oOperandSetLength(string)
+                            @OperandAssignCharPopPop
+                        | tStoreBoolean:
+                            oOperandSetLength(byte)
+                            @OperandAssignBooleanPopPop
+                    ]
+                | *:
+            ]
         | *:
             >
     ]};
