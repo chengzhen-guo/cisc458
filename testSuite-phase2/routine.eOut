@@ -6,14 +6,14 @@
   .sBegin
   .sProcedure
   .sIdentifier
+   .sIdentifier
+    .sLike
+     .sInteger
+   .sIdentifier
+    .sLike
+     .sInteger
    .sParmEnd
   % .sNewLine
     .sBegin
-    .sVar
-     .sIdentifier
-      .sInitialValue
-          .sInteger
-      .sExpnEnd
-     % .sNewLine
     .sEnd
   .sEnd
