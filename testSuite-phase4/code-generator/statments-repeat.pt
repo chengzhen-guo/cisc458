@@ -1,6 +1,7 @@
 using output;
 
-var x = 0;
+var x : like 0;
+x = 0;
 repeat 
     x = x + 1;
 while x < 10;

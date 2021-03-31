@@ -1,4 +1,4 @@
 using output;
 
-var x = 0;
-var y = true;
+var x : like 0;
+var y : like true;
