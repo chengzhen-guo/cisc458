@@ -83,9 +83,24 @@
    ] or >
    >>
   ;OperandPushExpression
-  [ (tInitEnd)
+  ?tInitEnd (tInitEnd)
+  [ (tLiteralAddress)
+  | tLiteralAddress:
+  @OperandNextArgument
+   oOperandSetMode(mManifest)
+   oOperandPushMode(mManifest)
+   oOperandSetValue(four)
+   oOperandAddManifestValues
+   oOperandPop
+   oOperandSetMode(mArgument)
+   >>
+  ;OperandNextArgument
+  oOperandPushCopy
+  oOperandPushVariable
+  oOperandSwap
+  [ (tTrapBegin)
   | *:
-  ?tLiteralAddress (tInitEnd)
+  ?tStoreInteger (tTrapBegin)
 ### Coder S/SL program failure:  syntax error in Tcode token stream
     (semantic pass output stream does not match expected input stream)
 while processing line          3
