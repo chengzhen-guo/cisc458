@@ -1,0 +1,13 @@
+  oEmitNone(iData)
+  oEmitDouble(iSpace)
+  oEmitProcLabel(mLineNum)
+  oEmitSingle(iWord)
+  oEmitNone(iText)
+  oEmitSingle(iGlobl)
+  oEmitProcLabel(mMainProc)
+  oEmitNone(iEnter)
+    oEmitDouble(iMov)
+    oEmitSourceCoordinate
+    oEmitSingle(iCall)
+  oEmitNone(iLeave)
+  oEmitNone(iReturn)
