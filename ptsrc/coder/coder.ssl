@@ -785,7 +785,13 @@ Block:
             @TrapStmt
         | tInitialValue:
             @OperandPushExpression
+            oOperandPushMode(mArgument)         % 4(%ebp) - zeroth argument
+            oOperandSetValue(four)
             tInitEnd  tLiteralAddress
+            @OperandNextArgument        % ... 8(%ebp)
+            oOperandPushCopy            % ... 8(%ebp), 8(%ebp)
+            oOperandPushVariable        % ... 8(%ebp), 8(%ebp), formal
+            oOperandSwap
             [
                 | tStoreInteger, tStoreAddress:
                     oOperandSetLength(word)
