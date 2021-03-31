@@ -1,0 +1,61 @@
+This test folder contains four tests: including ‘choose_else_statement.pt’, ‘choose_statement.pt’, ‘if_statement.pt’, ‘repeat_statement.pt’ and ‘while_statement.pt’.  
+
+ 
+
+1. choose_statement.pt 
+
+Purpose: 
+
+To test if choose statements can output the exact same semantic token stream as the equivalent PT Pascal case statement. 
+
+Result: 
+
+In the output, the structure of the choose statement is the same as the output of example programs. For example, the output of bust.pt in the example has tCaseBegin, tCaseSelect token, which can also be found in our result.  
+
+ 
+
+2. choose_else_statement.pt 
+
+Purpose: 
+
+To test if the optional else clause is correctly handled in the semantic phase. 
+
+Result: 
+
+Based on the instruction, a tCaseElse and a tCaseElseEnd T-code token were emitted. More specially, the position of the tCaseElseEnd were emitted after the tCaseEnd token. 
+
+ 
+
+3. if_statement.pt 
+
+Purpose: 
+
+Besides ordinary if and else statements, this test is to tell if the elseif token that was handled in our Parser phase can be handled in the semantic phase without any error. 
+
+Result: 
+
+Since the elseif statement was handled in the Parser phase, there was not any sElseIf token in the output. The semantic token stream were generated without any error token. 
+
+ 
+
+4. repeat_statement.pt 
+
+Purpose: 
+
+This is only to test if the repeat {…} while statement is handled correctly in the semantic phase since it is already be handled in the parser phase to generate exact same semantic tokens as the PT pascal ones. 
+
+Result: 
+
+The result was outputted without any error token. 
+
+ 
+
+5. while_statement.pt 
+
+Purpose: 
+
+This is only to test if the repeat while {…} statement is handled correctly in the semantic phase since it is also already be handled in the parser phase to generate exact same semantic tokens as the PT pascal ones. 
+
+Result: 
+
+The result was outputted without any error token.

@@ -1,0 +1,5 @@
+using input;
+
+val nelements = 25;
+
+var list1 [nelements]: like 1;

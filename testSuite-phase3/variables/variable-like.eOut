@@ -274,6 +274,106 @@
    | syUndefined:
    ] or >
    @PublicDefinition
+    [ (sInitialValue)
+    | *:
+    >>
+   ;PublicDefinition
+   [ (sInitialValue)
+   | sInitialValue:
+   .tInitialValue
+   @Expression
+    @Operand
+     [ (sIdentifier)
+     | sIdentifier:
+     oSymbolStkPushIdentifier
+     [ oSymbolStkChooseKind (syConstant)
+     | *:
+     [ oSymbolStkChooseKind (syConstant)
+     | syConstant:
+     @ConstantOperand
+      oTypeStkPushSymbol
+      oValuePushSymbol
+      [ oTypeStkChooseKind (tpBoolean)
+      | tpBoolean:
+      .tLiteralBoolean
+      oEmitValue
+      % value emitted 1
+      ] or >
+      oValuePop
+      >>
+     ;ConstantOperand
+     ] or >
+     ] or >
+     >>
+    ;Operand
+    @UnaryOperator
+     [ (sExpnEnd)
+     | *:
+     >>
+    ;UnaryOperator
+    @BinaryOperator
+     [ (sExpnEnd)
+     | *:
+     >>
+    ;BinaryOperator
+    [ (sExpnEnd)
+    | sExpnEnd:
+    ] or >
+    >>
+   ;Expression
+   @TypeTblEnterIfNew
+    [ oTypeStkChooseTypeReference (yes)
+    | *:
+    >>
+   ;TypeTblEnterIfNew
+   .tInitEnd
+   .tLiteralAddress
+   @EmitStore
+    [ oTypeStkChooseKind (tpBoolean)
+    | tpBoolean:
+    .tStoreBoolean
+    ] or >
+    >>
+   ;EmitStore
+   oSymbolStkPop
+   ] or >
+   @EnterVariableAttributes
+    [ oSymbolStkChooseKind (syUndefined)
+    | *:
+    oSymbolStkSetKind(syVariable)
+    [ oTypeStkChooseKind (tpBoolean)
+    | *:
+    @AllocateVar
+     [ oSymbolStkChooseKind (syVariable)
+     | *:
+     [ oTypeStkChooseKind (tpBoolean)
+     | tpBoolean:
+     oSymbolStkEnterDataAddress
+     oAllocateVariable
+     ] or >
+     >>
+    ;AllocateVar
+    oSymbolStkEnterTypeReference
+    oSymbolTblEnter
+    >>
+   ;EnterVariableAttributes
+   oTypeStkPop
+   oSymbolStkPop
+   ] or >
+   >>
+  ;VariableDeclarations
+  ] or >
+  }
+  [ (sVar)
+  | sVar:
+  @VariableDeclarations
+   [ (sIdentifier)
+   | sIdentifier:
+   oSymbolStkPushLocalIdentifier
+   [ oSymbolStkChooseKind (syUndefined)
+   | syUndefined:
+   ] or >
+   @PublicDefinition
     [ (sLike)
     | *:
     >>
@@ -413,6 +513,72 @@
      [ (sIdentifier)
      | sIdentifier:
      oSymbolStkPushIdentifier
+     [ oSymbolStkChooseKind (syConstant)
+     | syConstant:
+     oTypeStkPushSymbol
+     ] or >
+     oSymbolStkPop
+     ] or >
+     >>
+    ;SimpleType
+    @TypeTblEnterIfNew
+     [ oTypeStkChooseTypeReference (yes)
+     | *:
+     >>
+    ;TypeTblEnterIfNew
+    >>
+   ;TypeBody
+   @EnterVariableAttributes
+    [ oSymbolStkChooseKind (syUndefined)
+    | *:
+    oSymbolStkSetKind(syVariable)
+    [ oTypeStkChooseKind (tpBoolean)
+    | *:
+    @AllocateVar
+     [ oSymbolStkChooseKind (syVariable)
+     | *:
+     [ oTypeStkChooseKind (tpBoolean)
+     | tpBoolean:
+     oSymbolStkEnterDataAddress
+     oAllocateVariable
+     ] or >
+     >>
+    ;AllocateVar
+    oSymbolStkEnterTypeReference
+    oSymbolTblEnter
+    >>
+   ;EnterVariableAttributes
+   oTypeStkPop
+   oSymbolStkPop
+   ] or >
+   >>
+  ;VariableDeclarations
+  ] or >
+  }
+  [ (sVar)
+  | sVar:
+  @VariableDeclarations
+   [ (sIdentifier)
+   | sIdentifier:
+   oSymbolStkPushLocalIdentifier
+   [ oSymbolStkChooseKind (syUndefined)
+   | syUndefined:
+   ] or >
+   @PublicDefinition
+    [ (sLike)
+    | *:
+    >>
+   ;PublicDefinition
+   [ (sLike)
+   | *:
+   @TypeBody
+    [ (sLike)
+    | *:
+    @SimpleType
+     ?sLike (sLike)
+     [ (sIdentifier)
+     | sIdentifier:
+     oSymbolStkPushIdentifier
      [ oSymbolStkChooseKind (syVariable)
      | syVariable:
      oTypeStkPushSymbol
@@ -506,6 +672,72 @@
      | *:
      [ oTypeStkChooseKind (tpChar)
      | tpChar:
+     oSymbolStkEnterDataAddress
+     oAllocateVariable
+     ] or >
+     >>
+    ;AllocateVar
+    oSymbolStkEnterTypeReference
+    oSymbolTblEnter
+    >>
+   ;EnterVariableAttributes
+   oTypeStkPop
+   oSymbolStkPop
+   ] or >
+   >>
+  ;VariableDeclarations
+  ] or >
+  }
+  [ (sVar)
+  | sVar:
+  @VariableDeclarations
+   [ (sIdentifier)
+   | sIdentifier:
+   oSymbolStkPushLocalIdentifier
+   [ oSymbolStkChooseKind (syUndefined)
+   | syUndefined:
+   ] or >
+   @PublicDefinition
+    [ (sLike)
+    | *:
+    >>
+   ;PublicDefinition
+   [ (sLike)
+   | *:
+   @TypeBody
+    [ (sLike)
+    | *:
+    @SimpleType
+     ?sLike (sLike)
+     [ (sIdentifier)
+     | sIdentifier:
+     oSymbolStkPushIdentifier
+     [ oSymbolStkChooseKind (syVariable)
+     | syVariable:
+     oTypeStkPushSymbol
+     ] or >
+     oSymbolStkPop
+     ] or >
+     >>
+    ;SimpleType
+    @TypeTblEnterIfNew
+     [ oTypeStkChooseTypeReference (yes)
+     | *:
+     >>
+    ;TypeTblEnterIfNew
+    >>
+   ;TypeBody
+   @EnterVariableAttributes
+    [ oSymbolStkChooseKind (syUndefined)
+    | *:
+    oSymbolStkSetKind(syVariable)
+    [ oTypeStkChooseKind (tpBoolean)
+    | *:
+    @AllocateVar
+     [ oSymbolStkChooseKind (syVariable)
+     | *:
+     [ oTypeStkChooseKind (tpBoolean)
+     | tpBoolean:
      oSymbolStkEnterDataAddress
      oAllocateVariable
      ] or >

@@ -1,0 +1,60 @@
+This test folder contains five tests: including array_boolean.pt, array_identifier.pt, array_integer.pt, array_nEle_val.pt, array_string.pt. Here are their corresponding purposes and results respectively. 
+
+ 
+
+1. array_boolean.pt 
+
+Purpose: 
+
+Test if Boolean type can be put into array. 
+
+Result: 
+
+No errors are detected. The output sequence is matched as expected. OTypeStkChooseKind (tpBoolean) is generated. 
+ 
+
+2. array_identifier.pt 
+
+Purpose: 
+
+Test if constant identifiers are accepted by array. (e.g, like x)  
+
+Result: 
+
+No errors are detected. The output sequence is matched as expected. ProgramParameter, is called and then oSymbolStkPushLocalIdentifier is emitted. Also, oTypeStkChooseKind (tpInteger) is generated. 
+
+ 
+
+3. array_integer.pt 
+
+Purpose: 
+
+Test if array can accept integer. (e.g, like 1) 
+
+Result: 
+
+No errors are detected. The output sequence is matched as expected.  
+
+ 
+
+4. array_nEle_val.pt 
+
+Purpose: 
+
+Test if predefined array size is accepted when initializing the array. 
+
+Result: 
+
+No errors are detected. The output sequence is matched as expected. oTypeStkChooseKind (tpInteger) is generated. 
+
+ 
+
+5. array_string.pt 
+
+Purpose: 
+
+Test if array can accept string. (e.g, like “Hello”) 
+
+Result: 
+
+No errors are detected. The output sequence is matched as expected. oTypeStkChooseKind (tpChar) is generated. 

@@ -1,8 +1,15 @@
 #!/bin/bash
-rm *.eOut
-for i in *.pt
+
+for f in $(find . -name '*.eOut')
 do
-    echo "=== pti $i ==="
-    ssltrace "ptc -o3 -t3 -L ../ptsrc/lib/pt ${i%%.*}.pt" ../ptsrc/lib/pt/semantic.def > ${i%%.*}.eOut
+    rm $f
 done
-echo "=== ==="
+
+for f in $(find . -name '*.pt')
+do
+    i=${f#.}
+    echo "=== pti $f ==="    
+    ssltrace "ptc -o3 -t3 -L ../ptsrc/lib/pt $f" ../ptsrc/lib/pt/semantic.def > .${i%%.*}.eOut
+done
+
+echo "=== Test Done. ==="

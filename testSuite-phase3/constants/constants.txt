@@ -1,0 +1,27 @@
+This test folder contains two tests: including constant-integer.pt and constant-types.pt. Here are their corresponding purposes and results respectively. 
+
+ 
+
+1. constant-integer.pt 
+
+Purpose: 
+
+Test if a single integer assignment and multiple integer assignments (separated by commas) are generated correct output sequence. 
+
+Result: 
+
+No errors are detected. The output sequence is matched as expected. oTypeStkPush(tpInteger) is generated. 
+
+ 
+
+2. constant-types.pt 
+
+Purpose: 
+
+Test if multiple different types of assignments (separated by commas) are generated correct output sequence. 
+
+Result: 
+
+No errors are detected. The output sequence is matched as expected. oTypeStkPush(tpInteger) and  
+
+oTypeStkPush(tpChar) are generated. 

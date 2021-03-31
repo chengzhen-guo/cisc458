@@ -1830,12 +1830,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                                         end;
                                     i := i - 1                                  
                                 end;
-                            if not symbolTblPublicFlag[symbolTblDisplay[lexicLevelStackTop]] then
-                                begin
-                                    symbolTblTop := symbolTblDisplay[lexicLevelStackTop];
-                                    typeTblTop := typeTblDisplay[lexicLevelStackTop];
-                                    lexicLevelStackTop := lexicLevelStackTop - 1;
-                                end;                            
+                            lexicLevelStackTop := lexicLevelStackTop - 1;
                         end;
 
                     oSymbolTblPreserveParameters:

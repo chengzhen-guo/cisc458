@@ -897,10 +897,10 @@ ConstantDefinitions :           % Process named constant definitions
                     | *:
                         #eMultiplyDefined
                         % The new definition will now obscure the old one
-                ]
-                oSymbolStkSetKind(syConstant)
+                ]                
                 % Check if the constant is public
-                @PublicDefinition              
+                @PublicDefinition
+                oSymbolStkSetKind(syConstant)
                 @ConstantValue
                 oSymbolStkEnterTypeReference
                 oTypeStkPop
@@ -1236,7 +1236,7 @@ ProcedureDefinition :
 
         oSymbolStkSetKind(syProcedure)
         oValuePushCodeAddress
-        oSymbolStkEnterValue
+        oSymbolStkEnterValue        
         oValuePop
         oTypeStkPush(tpNull)
         oTypeStkSetRecursionFlag(yes)

@@ -1,0 +1,47 @@
+This test folder contains four tests: including ‘package.pt’, ‘public-publicfun.pt’, ‘public-publicval.pt’ and ‘public-publicvar.pt’. 
+
+1. package.pt 
+
+Purpose: 
+
+To test if the declaration of a package can be identified in the ‘Like’ program specification. 
+
+Result: 
+
+The package’s symbol syPackage is pushed to the symbol table. 
+
+ 
+
+2. public-publicfun.pt 
+
+Purpose: 
+
+To test if Like routines (functions) that are declared as public can be referenced outside the package. 
+
+Result: 
+
+In the output, there was one oSymbolStkSetPublicFlag in the first ProcedureDefiniton for function F1 and non-public function F2. An error token #eUndefinedIdentifier was emitted when call function F2 outside the package. 
+
+ 
+
+3. public-publicval.pt 
+
+Purpose: 
+
+To test if Like constants that are declared as public can be referenced 
+
+Result: 
+
+In the output, there was one oSymbolStkSetPublicFlag in the first constantDefinition for two constant declarations x and y. An error token #eUndefinedIdentifier was emitted when reference the local constant y outside of the package. 
+
+ 
+
+4. public-publicvar.pt 
+
+Purpose: 
+
+To test if Like variables that are declared as public can be referenced 
+
+Result: 
+
+In the output, there was one oSymbolStkSetPublicFlag in the first variableDeclarations for two variable declarations x and y. An error token #eUndefinedIdentifier was emitted when reference the local constant y outside of the package. 

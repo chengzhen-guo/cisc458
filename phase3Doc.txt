@@ -1,0 +1,123 @@
+Token & T-codes 
+
+1. Semantic.ssl, Input section: replace sType with sLike, because sType is no longer used. 
+
+2. Semantic.ssl, Input section: added tokens sPackage, sPublic, sConcatenate, sRepeatString, sSubstring, sLength, sInitialValue, sCaseElse, because those new input tokens can be used in like. 
+
+3. Semantic.ssl, Input section: set the token lastSemanticToken to be sCaseElse, according to updated version to the input tokens. 
+
+4. Semantic.ssl, Output section: added t-codes tConcatenate, tRepeatString, tSubstring, tLength, tStringEQ, because they are used to handle Like string operations. Added tInitialValue, tInitEnd, tCaseElse, tCaseElseEnd, because they are used to andle Like var initial values and choose statement else alternatives. 
+
+ 
+
+Blocks 
+
+1.Since Like allows declarations and statements to be intermixed. The Block rule in semantic.ssl is changed to merge in the alternatives of the old PT Pascal Statement rule to remove the distinction.   
+
+2. Moved the emission of sBegin to the beginning of the rule and added a emission of sEnd at the end of the Block rule, since Like Parser outputs sequences of statements and declarations with sBegin at the beginning of each block and sEnd at the end 
+
+ 
+
+Variables and Types 
+
+1. Semantic.ssl: deleted the TypeDefinition rule 
+
+2. Semantic.ssl: VariableDeclarations rule: deleted the loop symbol {}, since like only accept only one var per declaration. 
+
+3. Semantic.ssl: Replaced the old Statement rule with one that pushes a new scope, calls the Block rule, then pops the scope. Since in Like each block of declarations and statements also defines its own scope. 
+
+4. Semantic.ssl: Replaced type names and subrange types with the like clause. 
+
+5. Semantic.ssl: Replaced the entire SimpleType rule to begin with sLike , added alternatives for a variable or constant identifier and for an integer.  
+
+6. Semantic.ssl: For the identifier case, added check that the identifier is a defined variable or constant, and push its type to the Type Stack. For the integer case, push the type tpInteger and link it to the standard integer type. 
+
+7. Semantic.ssl: Modified the IndexTyperule in semantic.ssl to remove the use of SimpleType for the array index bounds. Push the constant 1 (the lower bound of all Like arrays) instead and use the ConstantValue rule to accept and push the array's bounds to the Value Stack. 
+
+8. Semantic.ssl: Replaced the entire handling of the formal parameter type identifier in ProcedureParameterType with a call to SimpleType to handle the like clause instead. 
+
+
+Initial Values 
+
+1. Semantic.ssl, VariableDeclarations rule: added two options for initial values. 
+
+- The first option is used for when there is an initial value. The program is designed to emit tInitialValue, and the call the expression rule to accept the initial value and push its attributes to the type and symbol stacks. After that, emitted tInitEnd, tLiteralAddress, and call EmitSore rule to emit a reverse assignment of the value to the variable, then oSymbolStkPop is generated afterwards. 
+
+-The second option is used when there is no initial value. The program is designed to directly call the TypeBody rule. 
+
+2. Semantic.ssl: Add the handling of initial values (sInitialValue) in VariableDeclarations. The Expression rule is used to accept the value expression and push its attributes to the Type and Symbol Stacks. 
+
+3. Semantic.ssl:  Use EnterVariableAttributes to copy those to the new variable. A reverse assignment of the value is emitted to the variable using tLiteralAddress and EmitStore. 
+
+ 
+
+Package 
+
+1. Semantic.ssl, type SymbolKind section: added a new symbol kind syPackage, because it needs to be used as the package's declared symbol. 
+
+2. Semantic.ssl: Add a new PackageDefinition rule in semantic.ssl to handle the declaration of packages as specified in the Like language specification.  
+
+3. Semantic.ssl: Added PackageDefinition rule, which resembles the ProcedureDefinition rule in PT, but without the tSkipProc around the body and the tProcedureEndat the end. Since in the Like language the meaning of a package declaration is simply the execution of the declarations and statements in its body, and a package has no header or formal parameters to process. 
+
+4. Semantic.pt: In the symbol table and symbol stack, added two boolean flags symbolStkPublicFlag & symbolTblPublicFlag to indicate wether a symbol is public or not. 
+
+5.Semantic.ssl: Add the new semantic operation oSymbolStkSetPublicFlag to the SymbolStk mechanism in semantic.ssl and its implementation to semantic.pt, which simply sets the symbolStkTop on symbolStkPublicFlag as True. 
+
+6. Semantic.ssl: Updated the ConstantDefinitions, VariableDefinitions and ProcedureDefinition rules in to look for sPublic following the declared name, and set the flag for the new symbol if it's there. 
+
+7. Semantic.pt: Added a new semantic operation, oSymbolTblMergePublicScope to the SymbolTbl mechanism, and use it instead of oSymbolTblPopScope when processing the end of a package definition, which unlinks everything that is not public from the package's scope and then merge it with the enclosing one, transfering the public procedures to the enclosing scope. 
+
+8. Semantic.pt: Added a new semantic operation, oSymbolTblMergePublicScope to the SymbolTbl mechanism, which does the same as oSymbolTblPopScope (walks through all the symbols local to a scope, unlinking the identifier of each symbol, which effectively removes it invisible, and then pops the local symbol and type table frames from the tables), but oSymbolTblMergePublicScope  does not make the change for any symbol that is marked as public. And since public symbols and their types may be defined inside the package, it should not pop anything from the tables (i.e., it does not change symbolTblTop and typeTblTop). 
+
+ 
+
+Statements 
+
+1.  Nothing is done for the Like +=, –=, *=, /= and %= short form assignment statements, since the Parser is arranged to emitt a semantic token stream for the equivalent long-form assignments. 
+
+2. Nothing is done for the Like, because the same semantic token stream is outputed as the equivalent PT Pascal while and repeatloops, so the semantic phase can't tell anything has changed. 
+
+3. Nothing is done to the handling of the elseif in Like, since in phase 2 the "else if" is treated as a nested "if" statement.  
+
+4. Semantic.ssl: In CaseStmt, added the check for the sCaseElse after emitting the case branch table and before the statements of the else clause, and a tCaseElseEnd after.  
+
+ 
+
+String Constants and Variables 
+
+1. Semantic.ssl, Semantic.pt: Replaced the handling of PT Pascal's char data type and operations with Like's string data type and the corresponding operations and traps of Like strings. The type and T-code names (pidChar, tpChar, tFetchChar, tAssignChar, etc.) are kept the same but redefined to handle Like strings instead of PT chars. 
+
+2. Semantic.ssl: Removed all of PT Pascal's fake string literal and char array handling. Removed PT tpString type and the alternatives for handling. Removed the alternatives for outputting char arrays in WriteText and AssignProcedure. 
+
+3. Semantic.ssl: Added a definition for stringSize to the type of Integer. 
+
+4. Semantic.pt: Modified the implementation of the oAllocateVariable semantic operation for tpChar to handle allocation of strings (size 256 rather than 1), and stringarrays (256 bytes per element). 
+
+5. Semantic.pt: Changed the oValuePushChar operation to push the code address of the string literal (codeAreaEnd) rather than its value (since it's now more than one character), and modified the oEmitString operation to emit a zero following the string's characters. 
+
+6. Semantic.ssl: In StringLiteral rule, removed the handling of the single character cases (length of 0 and 1) and replaced PT’s char array by a simple push of tpChar on the Type Stack, and linked it to the stdChar standard type.  
+
+7. Semantic.ssl: In the Operand rule, changed the T-code emitted for a string literal to be tLiteralAdress codeaddress followed by tFetchChar. 
+
+8. Semantic.ssl: In SimpleType, added an alternative for sStringLiteral, which is similar to sInteger but it infers and links to tpChar.
+
+
+Modification of phase 2 
+
+1. Parserl.ssl, Block rule:  moved the ‘end;’ handling from ‘Block’ rule to specific rules. The keyword repeat case is then modified to two selections. The first option is for when there is a 'while' keyword, then the  WhileStmt rule is called. The second option is for other cases, the RepeatStmt is called. 
+
+2. Parserl.ssl, ConstantDefinitions & PublicConstantDefinition rule: added * to handle all other tokens that may causes infinite loop. 
+
+3. Parserl.ssl, LikeClause rule: Merged the handling for Array that was originally dealt specially to the general handling case. 
+
+4. Parserl.ssl, ProcedureHeading rule: Moved the capture of keyword ‘is’ from ‘Block’ to the rule. 
+
+5. Parserl.ssl, IfStmt rule: added elseif handling case. 
+
+6. Parserl.ssl, CaseStmt rule: merged the case end handling from else to the genral case. 
+
+7. Parserl.ssl, RepeatStmt rule:  removed the invocation of whileStmt rule here. Now the handling of the RepeatStmt is totally independent to the while statement handling in ‘Block’ rule. Repeat {...} while is handled here, and Repeat while {...} handling is moved to whileStmt rule.  
+
+8. Parserl.ssl, SimpleExpression, Term, Factor rules: removed string operation rule and moved the string operations to Factor rule, Term rule and SimpleExpression rule. 
+
+9. Parser.pt: pasted content from parser.dev 

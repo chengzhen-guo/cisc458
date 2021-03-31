@@ -818,7 +818,7 @@
       ] or >
       oTypeStkPushSymbol
       @VariableExtension
-       [ (sIdentifier)
+       [ (sInteger)
        | *:
        >>
       ;VariableExtension
@@ -836,51 +836,29 @@
      >>
     ;Operand
     @UnaryOperator
-     [ (sIdentifier)
+     [ (sInteger)
      | *:
      >>
     ;UnaryOperator
     @BinaryOperator
-     [ (sIdentifier)
+     [ (sInteger)
      | *:
      >>
     ;BinaryOperator
-    [ (sIdentifier)
+    [ (sInteger)
     | *:
     }
     @Operand
-     [ (sIdentifier)
-     | sIdentifier:
-     oSymbolStkPushIdentifier
-     [ oSymbolStkChooseKind (syVariable)
-     | *:
-     [ oSymbolStkChooseKind (syVariable)
-     | syVariable:
-     @Variable
-      [ oSymbolStkChooseKind (syVariable)
-      | syVariable:
-      .tLiteralAddress
-      oValuePushSymbol
-      oEmitValue
-      % value emitted 260
-      oValuePop
-      ] or >
-      oTypeStkPushSymbol
-      @VariableExtension
-       [ (sRepeatString)
-       | *:
-       >>
-      ;VariableExtension
-      >>
-     ;Variable
-     @VariableOperand
-      [ oTypeStkChooseKind (tpChar)
-      | tpChar:
-      .tFetchChar
-      ] or >
-      >>
-     ;VariableOperand
-     ] or >
+     [ (sInteger)
+     | sInteger:
+     oValuePushInteger
+     oSymbolStkPush(syExpression)
+     oTypeStkPush(tpInteger)
+     oTypeStkLinkToStandardType(stdInteger)
+     .tLiteralInteger
+     oEmitValue
+     % value emitted 5
+     oValuePop
      ] or >
      >>
     ;Operand
@@ -897,10 +875,9 @@
      [ oTypeStkChooseKind (tpChar)
      | tpChar:
      oTypeStkSwap
-     [ oTypeStkChooseKind (tpChar)
-     | *:
-     #eTypeMismatch
-     semantic error, line 10: type clash
+     [ oTypeStkChooseKind (tpInteger)
+     | tpInteger:
+     ] or >
      oTypeStkPop
      ] or >
      oTypeStkPop

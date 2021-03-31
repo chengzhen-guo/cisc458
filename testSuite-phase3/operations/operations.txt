@@ -1,0 +1,39 @@
+This test folder contains three tests: including like_operator.pt, short_form_assignment.pt  
+
+and string_operation.pt. Here are their corresponding purposes and results respectively. 
+
+ 
+
+1. like_operator.pt 
+
+Purpose: 
+
+Test if different operators work properly in Like, including =, /, %, ==, !=.  
+
+Result: 
+
+No errors are detected. The output sequence is matched as expected. 
+
+ 
+
+2. short_form_assignment.pt 
+
+Purpose: 
+
+Test if different short form assignments work properly in Like, including +=, -=, *=, /=, %=.  
+
+Result: 
+
+No errors are detected. The output sequence is matched as expected. 
+
+ 
+
+3. string_operation.pt 
+
+Purpose: 
+
+Test if different string operations work properly in Like, including string assignment, string operations and logical operations. 
+
+Result: 
+
+No errors are detected. The output sequence is matched as expected. 
