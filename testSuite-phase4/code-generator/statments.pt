@@ -1,0 +1,19 @@
+using output;
+
+var x = 1;
+var y = true;
+
+val a = 1, b = true;
+
+if 1 == 1 then
+    var x = 1;
+elseif 2 == 2 then
+    var y = 1;
+else
+    var z = 1;
+end;
+
+var x = 0;
+repeat while x < 10;
+    x = x + 1;
+end;
