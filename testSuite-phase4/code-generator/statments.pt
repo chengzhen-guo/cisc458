@@ -1,6 +1,6 @@
 using output;
 
-var x = 1;
+var x = 0;
 var y = true;
 
 val a = 1, b = true;
@@ -13,7 +13,6 @@ else
     var z = 1;
 end;
 
-var x = 0;
 repeat while x < 10;
     x = x + 1;
 end;
