@@ -71,109 +71,106 @@
   ] or >
   }
   [ (tIfBegin)
-  | *:
-  ] or >
-  @Statements
-   [ (tIfBegin)
-   | tIfBegin:
-   @IfStmt
-    oEmitSourceCoordinate
-    @OperandPushBooleanControlExpression
-     @OperandPushExpression
-      [ (tLiteralInteger)
-      | tLiteralInteger:
-      oOperandPushInteger
-      ] or >
-      }
-      [ (tLiteralInteger)
-      | tLiteralInteger:
-      oOperandPushInteger
-      ] or >
-      }
-      [ (tEQ)
-      | tEQ:
-      @OperandEqualPop
-       [ oOperandCompareLeftAndRight (yes)
-       | yes:
-       @OperandPopAndFreeTemp
-        [ oOperandChooseMode (mManifest)
-        | *:
-        oOperandPop
-        >>
-       ;OperandPopAndFreeTemp
-       @OperandPopAndFreeTemp
-        [ oOperandChooseMode (mManifest)
-        | *:
-        oOperandPop
-        >>
-       ;OperandPopAndFreeTemp
-       oOperandPushJumpCondition(iJalways)
-       ] or >
-       >>
-      ;OperandEqualPop
-      ] or >
-      }
-      [ (tIfThen)
-      | *:
-      ] or >
-      >>
-     ;OperandPushExpression
-     @OperandForceToJumpCondition
-      [ oOperandIsJumpCondition (yes)
+  | tIfBegin:
+  @IfStmt
+   oEmitSourceCoordinate
+   @OperandPushBooleanControlExpression
+    @OperandPushExpression
+     [ (tLiteralInteger)
+     | tLiteralInteger:
+     oOperandPushInteger
+     ] or >
+     }
+     [ (tLiteralInteger)
+     | tLiteralInteger:
+     oOperandPushInteger
+     ] or >
+     }
+     [ (tEQ)
+     | tEQ:
+     @OperandEqualPop
+      [ oOperandCompareLeftAndRight (yes)
       | yes:
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mManifest)
+       | *:
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mManifest)
+       | *:
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      oOperandPushJumpCondition(iJalways)
       ] or >
       >>
-     ;OperandForceToJumpCondition
-     >>
-    ;OperandPushBooleanControlExpression
-    ?tIfThen (tIfThen)
-    [ oOperandChooseJumpCondition (iJalways)
-    | iJalways:
-    @FoldIfStmt
-     [ oOperandChooseJumpCondition (iJalways)
-     | iJalways:
-     oFixAndFreeShuntList
-     oFixAndFreeFalseBranches
-     @Statements
-      [ (tIfEnd)
-      | *:
-      ] or >
-      >>
-     ;Statements
-     @SkipToEndIf
-      [ (tIfEnd)
-      | tIfEnd:
-      ] or >
-      >>
-     ;SkipToEndIf
+     ;OperandEqualPop
+     ] or >
+     }
+     [ (tIfThen)
+     | *:
      ] or >
      >>
-    ;FoldIfStmt
-    oOperandPop
+    ;OperandPushExpression
+    @OperandForceToJumpCondition
+     [ oOperandIsJumpCondition (yes)
+     | yes:
+     ] or >
+     >>
+    ;OperandForceToJumpCondition
+    >>
+   ;OperandPushBooleanControlExpression
+   ?tIfThen (tIfThen)
+   [ oOperandChooseJumpCondition (iJalways)
+   | iJalways:
+   @FoldIfStmt
+    [ oOperandChooseJumpCondition (iJalways)
+    | iJalways:
+    oFixAndFreeShuntList
+    oFixAndFreeFalseBranches
+    @Statements
+     @Block
+      [ (tIfEnd)
+      | *:
+      ] or >
+      >>
+     ;Block
+     >>
+    ;Statements
+    @SkipToEndIf
+     [ (tIfEnd)
+     | tIfEnd:
+     ] or >
+     >>
+    ;SkipToEndIf
     ] or >
     >>
-   ;IfStmt
-   ] or >
-   }
-   [ (tTrapBegin)
-   | tTrapBegin:
-   @TrapStmt
-    oEmitSourceCoordinate
-    [ (tTrap)
-    | *:
-    ?tTrap (tTrap)
-    oOperandPushTrap
-    oEmitSingle(iCall)
-    oOperandPop
-    >>
-   ;TrapStmt
-   ] or >
-   }
-   [ (tEndOfFile)
-   | *:
+   ;FoldIfStmt
+   oOperandPop
    ] or >
    >>
-  ;Statements
+  ;IfStmt
+  ] or >
+  }
+  [ (tTrapBegin)
+  | tTrapBegin:
+  @TrapStmt
+   oEmitSourceCoordinate
+   [ (tTrap)
+   | *:
+   ?tTrap (tTrap)
+   oOperandPushTrap
+   oEmitSingle(iCall)
+   oOperandPop
+   >>
+  ;TrapStmt
+  ] or >
+  }
+  [ (tEndOfFile)
+  | *:
+  ] or >
   >>
  ;Block
  @EmitProgramEpilogue

@@ -70,54 +70,18 @@
   ;OperandAssignIntegerPopPop
   ] or >
   }
-  [ (tSkipProc)
-  | tSkipProc:
-  oEmitUnconditionalForwardBranch
-  oFixPushLastAddress
-  @Routine
-   oEmitProcLabel(mProc)
-   oEmitNone(iEnter)
-   [ (tParmEnd)
-   | tParmEnd:
+  [ (tInitialValue)
+  | tInitialValue:
+  @OperandPushExpression
+   [ (tSkipString)
+   | tSkipString:
+   oEmitNone(iData)
+   ?tStringData (tStringData)
+   oEmitString
+   oEmitNone(iText)
    ] or >
-   @Block
-    [ (tProcedureEnd)
-    | *:
-    ] or >
-    >>
-   ;Block
-   ?tProcedureEnd (tProcedureEnd)
-   oEmitNone(iLeave)
-   oEmitNone(iReturn)
-   >>
-  ;Routine
-  oFixForwardBranch
-  oFixPopAddress
-  ] or >
-  }
-  [ (tTrapBegin)
-  | tTrapBegin:
-  @TrapStmt
-   oEmitSourceCoordinate
-   [ (tTrap)
-   | *:
-   ?tTrap (tTrap)
-   oOperandPushTrap
-   oEmitSingle(iCall)
-   oOperandPop
-   >>
-  ;TrapStmt
-  ] or >
-  }
-  [ (tEndOfFile)
-  | *:
-  ] or >
-  >>
- ;Block
- @EmitProgramEpilogue
-  oEmitNone(iLeave)
-  oEmitNone(iReturn)
-  >>
- ;EmitProgramEpilogue
- >>
-;Program
+   }
+   [ (tMultiply)
+   | tMultiply:
+   @OperandMultiplyPop
+    @OperandAreLeftAndRightManifest

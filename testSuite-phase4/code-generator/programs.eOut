@@ -71,28 +71,22 @@
   ] or >
   }
   [ (tTrapBegin)
+  | tTrapBegin:
+  @TrapStmt
+   oEmitSourceCoordinate
+   [ (tTrap)
+   | *:
+   ?tTrap (tTrap)
+   oOperandPushTrap
+   oEmitSingle(iCall)
+   oOperandPop
+   >>
+  ;TrapStmt
+  ] or >
+  }
+  [ (tEndOfFile)
   | *:
   ] or >
-  @Statements
-   [ (tTrapBegin)
-   | tTrapBegin:
-   @TrapStmt
-    oEmitSourceCoordinate
-    [ (tTrap)
-    | *:
-    ?tTrap (tTrap)
-    oOperandPushTrap
-    oEmitSingle(iCall)
-    oOperandPop
-    >>
-   ;TrapStmt
-   ] or >
-   }
-   [ (tEndOfFile)
-   | *:
-   ] or >
-   >>
-  ;Statements
   >>
  ;Block
  @EmitProgramEpilogue

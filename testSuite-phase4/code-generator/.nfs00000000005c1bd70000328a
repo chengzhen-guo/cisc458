@@ -70,48 +70,15 @@
   ;OperandAssignIntegerPopPop
   ] or >
   }
-  [ (tSkipProc)
-  | tSkipProc:
-  oEmitUnconditionalForwardBranch
-  oFixPushLastAddress
-  @Routine
-   oEmitProcLabel(mProc)
-   oEmitNone(iEnter)
-   [ (tParmEnd)
-   | tParmEnd:
-   ] or >
-   @Block
-    [ (tProcedureEnd)
-    | *:
-    ] or >
-    >>
-   ;Block
-   ?tProcedureEnd (tProcedureEnd)
-   oEmitNone(iLeave)
-   oEmitNone(iReturn)
-   >>
-  ;Routine
-  oFixForwardBranch
-  oFixPopAddress
-  ] or >
-  }
-  [ (tTrapBegin)
-  | tTrapBegin:
-  @TrapStmt
-   oEmitSourceCoordinate
-   [ (tTrap)
-   | *:
-   ?tTrap (tTrap)
-   oOperandPushTrap
-   oEmitSingle(iCall)
-   oOperandPop
-   >>
-  ;TrapStmt
-  ] or >
-  }
-  [ (tEndOfFile)
+  [ (tInitialValue)
   | *:
   ] or >
+  @Statements
+   [ (tInitialValue)
+   | *:
+   ] or >
+   >>
+  ;Statements
   >>
  ;Block
  @EmitProgramEpilogue
@@ -121,3 +88,5 @@
  ;EmitProgramEpilogue
  >>
 ;Program
+### Coder assertion 25 failed: coder phase ended without consuming all of tCode token streamwhile processing line          1
+

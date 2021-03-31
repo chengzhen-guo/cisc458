@@ -269,12 +269,6 @@
     [ (tProcedureEnd)
     | *:
     ] or >
-    @Statements
-     [ (tProcedureEnd)
-     | *:
-     ] or >
-     >>
-    ;Statements
     >>
    ;Block
    ?tProcedureEnd (tProcedureEnd)
@@ -287,149 +281,143 @@
   ] or >
   }
   [ (tCallBegin)
+  | tCallBegin:
+  @CallStmt
+   oEmitSourceCoordinate
+   oOperandPushMode(mManifest)
+   oOperandSetLength(two)
+   oOperandSetValue(zero)
+   [ (tLiteralInteger)
+   | *:
+   @OperandPushExpression
+    [ (tLiteralInteger)
+    | tLiteralInteger:
+    oOperandPushInteger
+    ] or >
+    }
+    [ (tParmEnd)
+    | *:
+    ] or >
+    >>
+   ;OperandPushExpression
+   @OperandConvertJumpConditionToData
+    [ oOperandIsJumpCondition (no)
+    | no:
+    ] or >
+    >>
+   ;OperandConvertJumpConditionToData
+   [ (tParmEnd)
+   | *:
+   @OperandForceToStack
+    [ oOperandChooseLength (two)
+    | two:
+    ] or >
+    oEmitSingle(iPush)
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mManifest)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    oOperandPushMode(mStack)
+    >>
+   ;OperandForceToStack
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mStack)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   ?tParmEnd (tParmEnd)
+   oOperandPushMode(mManifest)
+   oOperandSetLength(two)
+   oOperandSetValue(four)
+   oOperandAddManifestValues
+   oOperandPop
+   }
+   [ (tLiteralInteger)
+   | *:
+   @OperandPushExpression
+    [ (tLiteralInteger)
+    | tLiteralInteger:
+    oOperandPushInteger
+    ] or >
+    }
+    [ (tParmEnd)
+    | *:
+    ] or >
+    >>
+   ;OperandPushExpression
+   @OperandConvertJumpConditionToData
+    [ oOperandIsJumpCondition (no)
+    | no:
+    ] or >
+    >>
+   ;OperandConvertJumpConditionToData
+   [ (tParmEnd)
+   | *:
+   @OperandForceToStack
+    [ oOperandChooseLength (two)
+    | two:
+    ] or >
+    oEmitSingle(iPush)
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mManifest)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    oOperandPushMode(mStack)
+    >>
+   ;OperandForceToStack
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mStack)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   ?tParmEnd (tParmEnd)
+   oOperandPushMode(mManifest)
+   oOperandSetLength(two)
+   oOperandSetValue(four)
+   oOperandAddManifestValues
+   oOperandPop
+   }
+   [ (tCallEnd)
+   | tCallEnd:
+   ] or >
+   oOperandPushProcedure
+   oOperandSetMode(mProc)
+   oEmitSingle(iCall)
+   oOperandPop
+   oOperandPushMode(mStackReg)
+   oOperandSetLength(two)
+   oOperandSwap
+   oEmitDouble(iAdd)
+   oOperandPop
+   oOperandPop
+   oEmitMergeSourceCoordinate
+   >>
+  ;CallStmt
+  ] or >
+  }
+  [ (tTrapBegin)
+  | tTrapBegin:
+  @TrapStmt
+   oEmitSourceCoordinate
+   [ (tTrap)
+   | *:
+   ?tTrap (tTrap)
+   oOperandPushTrap
+   oEmitSingle(iCall)
+   oOperandPop
+   >>
+  ;TrapStmt
+  ] or >
+  }
+  [ (tEndOfFile)
   | *:
   ] or >
-  @Statements
-   [ (tCallBegin)
-   | tCallBegin:
-   @CallStmt
-    oEmitSourceCoordinate
-    oOperandPushMode(mManifest)
-    oOperandSetLength(two)
-    oOperandSetValue(zero)
-    [ (tLiteralInteger)
-    | *:
-    @OperandPushExpression
-     [ (tLiteralInteger)
-     | tLiteralInteger:
-     oOperandPushInteger
-     ] or >
-     }
-     [ (tParmEnd)
-     | *:
-     ] or >
-     >>
-    ;OperandPushExpression
-    @OperandConvertJumpConditionToData
-     [ oOperandIsJumpCondition (no)
-     | no:
-     ] or >
-     >>
-    ;OperandConvertJumpConditionToData
-    [ (tParmEnd)
-    | *:
-    @OperandForceToStack
-     [ oOperandChooseLength (two)
-     | two:
-     ] or >
-     oEmitSingle(iPush)
-     @OperandPopAndFreeTemp
-      [ oOperandChooseMode (mManifest)
-      | *:
-      oOperandPop
-      >>
-     ;OperandPopAndFreeTemp
-     oOperandPushMode(mStack)
-     >>
-    ;OperandForceToStack
-    @OperandPopAndFreeTemp
-     [ oOperandChooseMode (mStack)
-     | *:
-     oOperandPop
-     >>
-    ;OperandPopAndFreeTemp
-    ?tParmEnd (tParmEnd)
-    oOperandPushMode(mManifest)
-    oOperandSetLength(two)
-    oOperandSetValue(four)
-    oOperandAddManifestValues
-    oOperandPop
-    }
-    [ (tLiteralInteger)
-    | *:
-    @OperandPushExpression
-     [ (tLiteralInteger)
-     | tLiteralInteger:
-     oOperandPushInteger
-     ] or >
-     }
-     [ (tParmEnd)
-     | *:
-     ] or >
-     >>
-    ;OperandPushExpression
-    @OperandConvertJumpConditionToData
-     [ oOperandIsJumpCondition (no)
-     | no:
-     ] or >
-     >>
-    ;OperandConvertJumpConditionToData
-    [ (tParmEnd)
-    | *:
-    @OperandForceToStack
-     [ oOperandChooseLength (two)
-     | two:
-     ] or >
-     oEmitSingle(iPush)
-     @OperandPopAndFreeTemp
-      [ oOperandChooseMode (mManifest)
-      | *:
-      oOperandPop
-      >>
-     ;OperandPopAndFreeTemp
-     oOperandPushMode(mStack)
-     >>
-    ;OperandForceToStack
-    @OperandPopAndFreeTemp
-     [ oOperandChooseMode (mStack)
-     | *:
-     oOperandPop
-     >>
-    ;OperandPopAndFreeTemp
-    ?tParmEnd (tParmEnd)
-    oOperandPushMode(mManifest)
-    oOperandSetLength(two)
-    oOperandSetValue(four)
-    oOperandAddManifestValues
-    oOperandPop
-    }
-    [ (tCallEnd)
-    | tCallEnd:
-    ] or >
-    oOperandPushProcedure
-    oOperandSetMode(mProc)
-    oEmitSingle(iCall)
-    oOperandPop
-    oOperandPushMode(mStackReg)
-    oOperandSetLength(two)
-    oOperandSwap
-    oEmitDouble(iAdd)
-    oOperandPop
-    oOperandPop
-    oEmitMergeSourceCoordinate
-    >>
-   ;CallStmt
-   ] or >
-   }
-   [ (tTrapBegin)
-   | tTrapBegin:
-   @TrapStmt
-    oEmitSourceCoordinate
-    [ (tTrap)
-    | *:
-    ?tTrap (tTrap)
-    oOperandPushTrap
-    oEmitSingle(iCall)
-    oOperandPop
-    >>
-   ;TrapStmt
-   ] or >
-   }
-   [ (tEndOfFile)
-   | *:
-   ] or >
-   >>
-  ;Statements
   >>
  ;Block
  @EmitProgramEpilogue
