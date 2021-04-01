@@ -98,8 +98,7 @@
   [ (sVar)
   | sVar:
   @VariableDeclarations
-   [ (sIdentifier)
-   | sIdentifier:
+   ?sIdentifier (sIdentifier)
    oSymbolStkPushLocalIdentifier
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
@@ -153,7 +152,6 @@
    ;EnterVariableAttributes
    oTypeStkPop
    oSymbolStkPop
-   ] or >
    >>
   ;VariableDeclarations
   ] or >
@@ -161,8 +159,7 @@
   [ (sVar)
   | sVar:
   @VariableDeclarations
-   [ (sIdentifier)
-   | sIdentifier:
+   ?sIdentifier (sIdentifier)
    oSymbolStkPushLocalIdentifier
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
@@ -216,7 +213,6 @@
    ;EnterVariableAttributes
    oTypeStkPop
    oSymbolStkPop
-   ] or >
    >>
   ;VariableDeclarations
   ] or >
@@ -256,12 +252,12 @@
        | sStringLiteral:
        oSymbolStkPush(syExpression)
        @StringLiteral
-        oValuePushStringLength
         .tSkipString
         oFixPushForwardBranch
         oEmitNullAddress
         % value emitted -32767
         .tStringData
+        oValuePushStringLength
         oEmitValue
         % value emitted 28
         oValuePop
@@ -300,21 +296,12 @@
         oFixPopForwardBranch
         oTypeStkPush(tpChar)
         oTypeStkLinkToStandardType(stdChar)
-        oValuePush(one)
-        oValuePushStringLength
-        oTypeStkEnterBounds
-        oValuePop
-        oValuePop
-        oTypeTblEnter
         >>
        ;StringLiteral
-       [ oTypeStkChooseKind (tpChar)
-       | tpChar:
        .tLiteralAddress
        oEmitValue
        % value emitted -28
        .tFetchChar
-       ] or >
        oValuePop
        ] or >
        >>
@@ -339,12 +326,11 @@
       [ (sParmEnd)
       | *:
       [ oTypeStkChooseKind (tpChar)
-      | tpChar:
-      oValuePushTypeStkUpperBound
-      ] or >
+      | *:
+      oValuePush(zero)
       .tLiteralInteger
       oEmitValue
-      % value emitted 28
+      % value emitted 0
       oValuePop
       .tParmEnd
       [ oTypeStkChooseKind (tpChar)
@@ -505,8 +491,7 @@
   [ (sVar)
   | sVar:
   @VariableDeclarations
-   [ (sIdentifier)
-   | sIdentifier:
+   ?sIdentifier (sIdentifier)
    oSymbolStkPushLocalIdentifier
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
@@ -560,7 +545,6 @@
    ;EnterVariableAttributes
    oTypeStkPop
    oSymbolStkPop
-   ] or >
    >>
   ;VariableDeclarations
   ] or >
@@ -568,8 +552,7 @@
   [ (sVar)
   | sVar:
   @VariableDeclarations
-   [ (sIdentifier)
-   | sIdentifier:
+   ?sIdentifier (sIdentifier)
    oSymbolStkPushLocalIdentifier
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
@@ -623,7 +606,6 @@
    ;EnterVariableAttributes
    oTypeStkPop
    oSymbolStkPop
-   ] or >
    >>
   ;VariableDeclarations
   ] or >
@@ -663,12 +645,12 @@
        | sStringLiteral:
        oSymbolStkPush(syExpression)
        @StringLiteral
-        oValuePushStringLength
         .tSkipString
         oFixPushForwardBranch
         oEmitNullAddress
         % value emitted -32767
         .tStringData
+        oValuePushStringLength
         oEmitValue
         % value emitted 39
         oValuePop
@@ -718,21 +700,12 @@
         oFixPopForwardBranch
         oTypeStkPush(tpChar)
         oTypeStkLinkToStandardType(stdChar)
-        oValuePush(one)
-        oValuePushStringLength
-        oTypeStkEnterBounds
-        oValuePop
-        oValuePop
-        oTypeTblEnter
         >>
        ;StringLiteral
-       [ oTypeStkChooseKind (tpChar)
-       | tpChar:
        .tLiteralAddress
        oEmitValue
        % value emitted -105
        .tFetchChar
-       ] or >
        oValuePop
        ] or >
        >>
@@ -757,12 +730,11 @@
       [ (sParmEnd)
       | *:
       [ oTypeStkChooseKind (tpChar)
-      | tpChar:
-      oValuePushTypeStkUpperBound
-      ] or >
+      | *:
+      oValuePush(zero)
       .tLiteralInteger
       oEmitValue
-      % value emitted 39
+      % value emitted 0
       oValuePop
       .tParmEnd
       [ oTypeStkChooseKind (tpChar)
@@ -1243,8 +1215,7 @@
   [ (sVar)
   | sVar:
   @VariableDeclarations
-   [ (sIdentifier)
-   | sIdentifier:
+   ?sIdentifier (sIdentifier)
    oSymbolStkPushLocalIdentifier
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
@@ -1263,12 +1234,12 @@
      | sStringLiteral:
      oSymbolStkPush(syExpression)
      @StringLiteral
-      oValuePushStringLength
       .tSkipString
       oFixPushForwardBranch
       oEmitNullAddress
       % value emitted -32767
       .tStringData
+      oValuePushStringLength
       oEmitValue
       % value emitted 0
       oValuePop
@@ -1279,21 +1250,12 @@
       oFixPopForwardBranch
       oTypeStkPush(tpChar)
       oTypeStkLinkToStandardType(stdChar)
-      oValuePush(one)
-      oValuePushStringLength
-      oTypeStkEnterBounds
-      oValuePop
-      oValuePop
-      oTypeTblEnter
       >>
      ;StringLiteral
-     [ oTypeStkChooseKind (tpChar)
-     | tpChar:
      .tLiteralAddress
      oEmitValue
      % value emitted -210
      .tFetchChar
-     ] or >
      oValuePop
      ] or >
      >>
@@ -1313,22 +1275,13 @@
     ] or >
     >>
    ;Expression
+   .tInitEnd
    @TypeTblEnterIfNew
     [ oTypeStkChooseTypeReference (yes)
     | *:
     >>
    ;TypeTblEnterIfNew
-   .tInitEnd
-   .tLiteralAddress
-   @EmitStore
-    [ oTypeStkChooseKind (tpChar)
-    | tpChar:
-    .tStoreChar
-    ] or >
-    >>
-   ;EmitStore
    oSymbolStkPop
-   ] or >
    @EnterVariableAttributes
     [ oSymbolStkChooseKind (syUndefined)
     | *:
@@ -1349,9 +1302,23 @@
     oSymbolTblEnter
     >>
    ;EnterVariableAttributes
+   .tLiteralAddress
+   oValuePushSymbol
+   oEmitValue
+   % value emitted 24
+   oValuePop
+   [ oTypeStkChooseKind (tpChar)
+   | *:
+   @EmitStore
+    [ oTypeStkChooseKind (tpChar)
+    | tpChar:
+    .tStoreChar
+    ] or >
+    >>
+   ;EmitStore
+   ] or >
    oTypeStkPop
    oSymbolStkPop
-   ] or >
    >>
   ;VariableDeclarations
   ] or >
@@ -1359,8 +1326,7 @@
   [ (sVar)
   | sVar:
   @VariableDeclarations
-   [ (sIdentifier)
-   | sIdentifier:
+   ?sIdentifier (sIdentifier)
    oSymbolStkPushLocalIdentifier
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
@@ -1379,12 +1345,12 @@
      | sStringLiteral:
      oSymbolStkPush(syExpression)
      @StringLiteral
-      oValuePushStringLength
       .tSkipString
       oFixPushForwardBranch
       oEmitNullAddress
       % value emitted -32767
       .tStringData
+      oValuePushStringLength
       oEmitValue
       % value emitted 0
       oValuePop
@@ -1395,21 +1361,12 @@
       oFixPopForwardBranch
       oTypeStkPush(tpChar)
       oTypeStkLinkToStandardType(stdChar)
-      oValuePush(one)
-      oValuePushStringLength
-      oTypeStkEnterBounds
-      oValuePop
-      oValuePop
-      oTypeTblEnter
       >>
      ;StringLiteral
-     [ oTypeStkChooseKind (tpChar)
-     | tpChar:
      .tLiteralAddress
      oEmitValue
-     % value emitted -222
+     % value emitted -223
      .tFetchChar
-     ] or >
      oValuePop
      ] or >
      >>
@@ -1429,22 +1386,13 @@
     ] or >
     >>
    ;Expression
+   .tInitEnd
    @TypeTblEnterIfNew
     [ oTypeStkChooseTypeReference (yes)
     | *:
     >>
    ;TypeTblEnterIfNew
-   .tInitEnd
-   .tLiteralAddress
-   @EmitStore
-    [ oTypeStkChooseKind (tpChar)
-    | tpChar:
-    .tStoreChar
-    ] or >
-    >>
-   ;EmitStore
    oSymbolStkPop
-   ] or >
    @EnterVariableAttributes
     [ oSymbolStkChooseKind (syUndefined)
     | *:
@@ -1465,9 +1413,23 @@
     oSymbolTblEnter
     >>
    ;EnterVariableAttributes
+   .tLiteralAddress
+   oValuePushSymbol
+   oEmitValue
+   % value emitted 280
+   oValuePop
+   [ oTypeStkChooseKind (tpChar)
+   | *:
+   @EmitStore
+    [ oTypeStkChooseKind (tpChar)
+    | tpChar:
+    .tStoreChar
+    ] or >
+    >>
+   ;EmitStore
+   ] or >
    oTypeStkPop
    oSymbolStkPop
-   ] or >
    >>
   ;VariableDeclarations
   ] or >
@@ -1475,8 +1437,7 @@
   [ (sVar)
   | sVar:
   @VariableDeclarations
-   [ (sIdentifier)
-   | sIdentifier:
+   ?sIdentifier (sIdentifier)
    oSymbolStkPushLocalIdentifier
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
@@ -1495,12 +1456,12 @@
      | sStringLiteral:
      oSymbolStkPush(syExpression)
      @StringLiteral
-      oValuePushStringLength
       .tSkipString
       oFixPushForwardBranch
       oEmitNullAddress
       % value emitted -32767
       .tStringData
+      oValuePushStringLength
       oEmitValue
       % value emitted 0
       oValuePop
@@ -1511,21 +1472,12 @@
       oFixPopForwardBranch
       oTypeStkPush(tpChar)
       oTypeStkLinkToStandardType(stdChar)
-      oValuePush(one)
-      oValuePushStringLength
-      oTypeStkEnterBounds
-      oValuePop
-      oValuePop
-      oTypeTblEnter
       >>
      ;StringLiteral
-     [ oTypeStkChooseKind (tpChar)
-     | tpChar:
      .tLiteralAddress
      oEmitValue
-     % value emitted -234
+     % value emitted -236
      .tFetchChar
-     ] or >
      oValuePop
      ] or >
      >>
@@ -1545,22 +1497,13 @@
     ] or >
     >>
    ;Expression
+   .tInitEnd
    @TypeTblEnterIfNew
     [ oTypeStkChooseTypeReference (yes)
     | *:
     >>
    ;TypeTblEnterIfNew
-   .tInitEnd
-   .tLiteralAddress
-   @EmitStore
-    [ oTypeStkChooseKind (tpChar)
-    | tpChar:
-    .tStoreChar
-    ] or >
-    >>
-   ;EmitStore
    oSymbolStkPop
-   ] or >
    @EnterVariableAttributes
     [ oSymbolStkChooseKind (syUndefined)
     | *:
@@ -1581,9 +1524,23 @@
     oSymbolTblEnter
     >>
    ;EnterVariableAttributes
+   .tLiteralAddress
+   oValuePushSymbol
+   oEmitValue
+   % value emitted 536
+   oValuePop
+   [ oTypeStkChooseKind (tpChar)
+   | *:
+   @EmitStore
+    [ oTypeStkChooseKind (tpChar)
+    | tpChar:
+    .tStoreChar
+    ] or >
+    >>
+   ;EmitStore
+   ] or >
    oTypeStkPop
    oSymbolStkPop
-   ] or >
    >>
   ;VariableDeclarations
   ] or >
@@ -1591,8 +1548,7 @@
   [ (sVar)
   | sVar:
   @VariableDeclarations
-   [ (sIdentifier)
-   | sIdentifier:
+   ?sIdentifier (sIdentifier)
    oSymbolStkPushLocalIdentifier
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
@@ -1635,22 +1591,13 @@
     ] or >
     >>
    ;Expression
+   .tInitEnd
    @TypeTblEnterIfNew
     [ oTypeStkChooseTypeReference (yes)
     | *:
     >>
    ;TypeTblEnterIfNew
-   .tInitEnd
-   .tLiteralAddress
-   @EmitStore
-    [ oTypeStkChooseKind (tpInteger)
-    | tpInteger:
-    .tStoreInteger
-    ] or >
-    >>
-   ;EmitStore
    oSymbolStkPop
-   ] or >
    @EnterVariableAttributes
     [ oSymbolStkChooseKind (syUndefined)
     | *:
@@ -1672,9 +1619,23 @@
     oSymbolTblEnter
     >>
    ;EnterVariableAttributes
+   .tLiteralAddress
+   oValuePushSymbol
+   oEmitValue
+   % value emitted 792
+   oValuePop
+   [ oTypeStkChooseKind (tpInteger)
+   | *:
+   @EmitStore
+    [ oTypeStkChooseKind (tpInteger)
+    | tpInteger:
+    .tStoreInteger
+    ] or >
+    >>
+   ;EmitStore
+   ] or >
    oTypeStkPop
    oSymbolStkPop
-   ] or >
    >>
   ;VariableDeclarations
   ] or >
@@ -2200,12 +2161,12 @@
            | sStringLiteral:
            oSymbolStkPush(syExpression)
            @StringLiteral
-            oValuePushStringLength
             .tSkipString
             oFixPushForwardBranch
             oEmitNullAddress
             % value emitted -32767
             .tStringData
+            oValuePushStringLength
             oEmitValue
             % value emitted 1
             oValuePop
@@ -2217,21 +2178,12 @@
             oFixPopForwardBranch
             oTypeStkPush(tpChar)
             oTypeStkLinkToStandardType(stdChar)
-            oValuePush(one)
-            oValuePushStringLength
-            oTypeStkEnterBounds
-            oValuePop
-            oValuePop
-            oTypeTblEnter
             >>
            ;StringLiteral
-           [ oTypeStkChooseKind (tpChar)
-           | tpChar:
            .tLiteralAddress
            oEmitValue
-           % value emitted -292
+           % value emitted -296
            .tFetchChar
-           ] or >
            oValuePop
            ] or >
            >>
@@ -2246,16 +2198,33 @@
            | sConcatenate:
            .tConcatenate
            oTypeStkPush(tpChar)
-           [ oTypeStkChooseKind (tpChar)
-           | tpChar:
-           oTypeStkSwap
-           [ oTypeStkChooseKind (tpChar)
-           | tpChar:
-           ] or >
-           oTypeStkPop
-           ] or >
-           oTypeStkPop
-           oSymbolStkPop
+           @CompareOperandAndResultTypes
+            @CompareAndSwapTypes
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             oTypeStkSwap
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             ] or >
+             ] or >
+             >>
+            ;CompareAndSwapTypes
+            oTypeStkPop
+            @CompareAndSwapTypes
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             oTypeStkSwap
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             ] or >
+             ] or >
+             >>
+            ;CompareAndSwapTypes
+            oTypeStkPop
+            oSymbolStkPop
+            oSymbolStkSetKind(syExpression)
+            >>
+           ;CompareOperandAndResultTypes
            ] or >
            oSymbolStkSetKind(syExpression)
            >>
@@ -2370,12 +2339,12 @@
            | sStringLiteral:
            oSymbolStkPush(syExpression)
            @StringLiteral
-            oValuePushStringLength
             .tSkipString
             oFixPushForwardBranch
             oEmitNullAddress
             % value emitted -32767
             .tStringData
+            oValuePushStringLength
             oEmitValue
             % value emitted 1
             oValuePop
@@ -2387,21 +2356,12 @@
             oFixPopForwardBranch
             oTypeStkPush(tpChar)
             oTypeStkLinkToStandardType(stdChar)
-            oValuePush(one)
-            oValuePushStringLength
-            oTypeStkEnterBounds
-            oValuePop
-            oValuePop
-            oTypeTblEnter
             >>
            ;StringLiteral
-           [ oTypeStkChooseKind (tpChar)
-           | tpChar:
            .tLiteralAddress
            oEmitValue
-           % value emitted -311
+           % value emitted -315
            .tFetchChar
-           ] or >
            oValuePop
            ] or >
            >>
@@ -2416,16 +2376,33 @@
            | sConcatenate:
            .tConcatenate
            oTypeStkPush(tpChar)
-           [ oTypeStkChooseKind (tpChar)
-           | tpChar:
-           oTypeStkSwap
-           [ oTypeStkChooseKind (tpChar)
-           | tpChar:
-           ] or >
-           oTypeStkPop
-           ] or >
-           oTypeStkPop
-           oSymbolStkPop
+           @CompareOperandAndResultTypes
+            @CompareAndSwapTypes
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             oTypeStkSwap
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             ] or >
+             ] or >
+             >>
+            ;CompareAndSwapTypes
+            oTypeStkPop
+            @CompareAndSwapTypes
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             oTypeStkSwap
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             ] or >
+             ] or >
+             >>
+            ;CompareAndSwapTypes
+            oTypeStkPop
+            oSymbolStkPop
+            oSymbolStkSetKind(syExpression)
+            >>
+           ;CompareOperandAndResultTypes
            ] or >
            oSymbolStkSetKind(syExpression)
            >>
@@ -2540,12 +2517,12 @@
            | sStringLiteral:
            oSymbolStkPush(syExpression)
            @StringLiteral
-            oValuePushStringLength
             .tSkipString
             oFixPushForwardBranch
             oEmitNullAddress
             % value emitted -32767
             .tStringData
+            oValuePushStringLength
             oEmitValue
             % value emitted 1
             oValuePop
@@ -2557,21 +2534,12 @@
             oFixPopForwardBranch
             oTypeStkPush(tpChar)
             oTypeStkLinkToStandardType(stdChar)
-            oValuePush(one)
-            oValuePushStringLength
-            oTypeStkEnterBounds
-            oValuePop
-            oValuePop
-            oTypeTblEnter
             >>
            ;StringLiteral
-           [ oTypeStkChooseKind (tpChar)
-           | tpChar:
            .tLiteralAddress
            oEmitValue
-           % value emitted -330
+           % value emitted -334
            .tFetchChar
-           ] or >
            oValuePop
            ] or >
            >>
@@ -2586,16 +2554,33 @@
            | sConcatenate:
            .tConcatenate
            oTypeStkPush(tpChar)
-           [ oTypeStkChooseKind (tpChar)
-           | tpChar:
-           oTypeStkSwap
-           [ oTypeStkChooseKind (tpChar)
-           | tpChar:
-           ] or >
-           oTypeStkPop
-           ] or >
-           oTypeStkPop
-           oSymbolStkPop
+           @CompareOperandAndResultTypes
+            @CompareAndSwapTypes
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             oTypeStkSwap
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             ] or >
+             ] or >
+             >>
+            ;CompareAndSwapTypes
+            oTypeStkPop
+            @CompareAndSwapTypes
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             oTypeStkSwap
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             ] or >
+             ] or >
+             >>
+            ;CompareAndSwapTypes
+            oTypeStkPop
+            oSymbolStkPop
+            oSymbolStkSetKind(syExpression)
+            >>
+           ;CompareOperandAndResultTypes
            ] or >
            oSymbolStkSetKind(syExpression)
            >>
@@ -2731,12 +2716,12 @@
            | sStringLiteral:
            oSymbolStkPush(syExpression)
            @StringLiteral
-            oValuePushStringLength
             .tSkipString
             oFixPushForwardBranch
             oEmitNullAddress
             % value emitted -32767
             .tStringData
+            oValuePushStringLength
             oEmitValue
             % value emitted 1
             oValuePop
@@ -2748,21 +2733,12 @@
             oFixPopForwardBranch
             oTypeStkPush(tpChar)
             oTypeStkLinkToStandardType(stdChar)
-            oValuePush(one)
-            oValuePushStringLength
-            oTypeStkEnterBounds
-            oValuePop
-            oValuePop
-            oTypeTblEnter
             >>
            ;StringLiteral
-           [ oTypeStkChooseKind (tpChar)
-           | tpChar:
            .tLiteralAddress
            oEmitValue
-           % value emitted -351
+           % value emitted -355
            .tFetchChar
-           ] or >
            oValuePop
            ] or >
            >>
@@ -2777,16 +2753,33 @@
            | sConcatenate:
            .tConcatenate
            oTypeStkPush(tpChar)
-           [ oTypeStkChooseKind (tpChar)
-           | tpChar:
-           oTypeStkSwap
-           [ oTypeStkChooseKind (tpChar)
-           | tpChar:
-           ] or >
-           oTypeStkPop
-           ] or >
-           oTypeStkPop
-           oSymbolStkPop
+           @CompareOperandAndResultTypes
+            @CompareAndSwapTypes
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             oTypeStkSwap
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             ] or >
+             ] or >
+             >>
+            ;CompareAndSwapTypes
+            oTypeStkPop
+            @CompareAndSwapTypes
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             oTypeStkSwap
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             ] or >
+             ] or >
+             >>
+            ;CompareAndSwapTypes
+            oTypeStkPop
+            oSymbolStkPop
+            oSymbolStkSetKind(syExpression)
+            >>
+           ;CompareOperandAndResultTypes
            ] or >
            oSymbolStkSetKind(syExpression)
            >>
@@ -2901,12 +2894,12 @@
            | sStringLiteral:
            oSymbolStkPush(syExpression)
            @StringLiteral
-            oValuePushStringLength
             .tSkipString
             oFixPushForwardBranch
             oEmitNullAddress
             % value emitted -32767
             .tStringData
+            oValuePushStringLength
             oEmitValue
             % value emitted 1
             oValuePop
@@ -2918,21 +2911,12 @@
             oFixPopForwardBranch
             oTypeStkPush(tpChar)
             oTypeStkLinkToStandardType(stdChar)
-            oValuePush(one)
-            oValuePushStringLength
-            oTypeStkEnterBounds
-            oValuePop
-            oValuePop
-            oTypeTblEnter
             >>
            ;StringLiteral
-           [ oTypeStkChooseKind (tpChar)
-           | tpChar:
            .tLiteralAddress
            oEmitValue
-           % value emitted -370
+           % value emitted -374
            .tFetchChar
-           ] or >
            oValuePop
            ] or >
            >>
@@ -2947,16 +2931,33 @@
            | sConcatenate:
            .tConcatenate
            oTypeStkPush(tpChar)
-           [ oTypeStkChooseKind (tpChar)
-           | tpChar:
-           oTypeStkSwap
-           [ oTypeStkChooseKind (tpChar)
-           | tpChar:
-           ] or >
-           oTypeStkPop
-           ] or >
-           oTypeStkPop
-           oSymbolStkPop
+           @CompareOperandAndResultTypes
+            @CompareAndSwapTypes
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             oTypeStkSwap
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             ] or >
+             ] or >
+             >>
+            ;CompareAndSwapTypes
+            oTypeStkPop
+            @CompareAndSwapTypes
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             oTypeStkSwap
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             ] or >
+             ] or >
+             >>
+            ;CompareAndSwapTypes
+            oTypeStkPop
+            oSymbolStkPop
+            oSymbolStkSetKind(syExpression)
+            >>
+           ;CompareOperandAndResultTypes
            ] or >
            oSymbolStkSetKind(syExpression)
            >>
@@ -3071,12 +3072,12 @@
            | sStringLiteral:
            oSymbolStkPush(syExpression)
            @StringLiteral
-            oValuePushStringLength
             .tSkipString
             oFixPushForwardBranch
             oEmitNullAddress
             % value emitted -32767
             .tStringData
+            oValuePushStringLength
             oEmitValue
             % value emitted 1
             oValuePop
@@ -3088,21 +3089,12 @@
             oFixPopForwardBranch
             oTypeStkPush(tpChar)
             oTypeStkLinkToStandardType(stdChar)
-            oValuePush(one)
-            oValuePushStringLength
-            oTypeStkEnterBounds
-            oValuePop
-            oValuePop
-            oTypeTblEnter
             >>
            ;StringLiteral
-           [ oTypeStkChooseKind (tpChar)
-           | tpChar:
            .tLiteralAddress
            oEmitValue
-           % value emitted -389
+           % value emitted -393
            .tFetchChar
-           ] or >
            oValuePop
            ] or >
            >>
@@ -3117,16 +3109,33 @@
            | sConcatenate:
            .tConcatenate
            oTypeStkPush(tpChar)
-           [ oTypeStkChooseKind (tpChar)
-           | tpChar:
-           oTypeStkSwap
-           [ oTypeStkChooseKind (tpChar)
-           | tpChar:
-           ] or >
-           oTypeStkPop
-           ] or >
-           oTypeStkPop
-           oSymbolStkPop
+           @CompareOperandAndResultTypes
+            @CompareAndSwapTypes
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             oTypeStkSwap
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             ] or >
+             ] or >
+             >>
+            ;CompareAndSwapTypes
+            oTypeStkPop
+            @CompareAndSwapTypes
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             oTypeStkSwap
+             [ oTypeStkChooseKind (tpChar)
+             | tpChar:
+             ] or >
+             ] or >
+             >>
+            ;CompareAndSwapTypes
+            oTypeStkPop
+            oSymbolStkPop
+            oSymbolStkSetKind(syExpression)
+            >>
+           ;CompareOperandAndResultTypes
            ] or >
            oSymbolStkSetKind(syExpression)
            >>
@@ -3348,7 +3357,7 @@
    ;Statement
    .tWhileEnd
    oFixPopTargetAddress
-   % value emitted 252
+   % value emitted 256
    oFixPopForwardBranch
    >>
   ;WhileStmt
@@ -3441,9 +3450,8 @@
      [ (sParmEnd)
      | *:
      [ oTypeStkChooseKind (tpChar)
-     | tpChar:
-     oValuePushTypeStkUpperBound
-     ] or >
+     | *:
+     oValuePush(zero)
      .tLiteralInteger
      oEmitValue
      % value emitted 0
@@ -3748,8 +3756,7 @@
      [ (sVar)
      | sVar:
      @VariableDeclarations
-      [ (sIdentifier)
-      | sIdentifier:
+      ?sIdentifier (sIdentifier)
       oSymbolStkPushLocalIdentifier
       [ oSymbolStkChooseKind (syUndefined)
       | syUndefined:
@@ -3792,22 +3799,13 @@
        ] or >
        >>
       ;Expression
+      .tInitEnd
       @TypeTblEnterIfNew
        [ oTypeStkChooseTypeReference (yes)
        | *:
        >>
       ;TypeTblEnterIfNew
-      .tInitEnd
-      .tLiteralAddress
-      @EmitStore
-       [ oTypeStkChooseKind (tpInteger)
-       | tpInteger:
-       .tStoreInteger
-       ] or >
-       >>
-      ;EmitStore
       oSymbolStkPop
-      ] or >
       @EnterVariableAttributes
        [ oSymbolStkChooseKind (syUndefined)
        | *:
@@ -3829,9 +3827,23 @@
        oSymbolTblEnter
        >>
       ;EnterVariableAttributes
+      .tLiteralAddress
+      oValuePushSymbol
+      oEmitValue
+      % value emitted 796
+      oValuePop
+      [ oTypeStkChooseKind (tpInteger)
+      | *:
+      @EmitStore
+       [ oTypeStkChooseKind (tpInteger)
+       | tpInteger:
+       .tStoreInteger
+       ] or >
+       >>
+      ;EmitStore
+      ] or >
       oTypeStkPop
       oSymbolStkPop
-      ] or >
       >>
      ;VariableDeclarations
      ] or >
@@ -4143,9 +4155,8 @@
            [ (sParmEnd)
            | *:
            [ oTypeStkChooseKind (tpChar)
-           | tpChar:
-           oValuePushTypeStkUpperBound
-           ] or >
+           | *:
+           oValuePush(zero)
            .tLiteralInteger
            oEmitValue
            % value emitted 0
@@ -4394,7 +4405,7 @@
       ;Statement
       .tWhileEnd
       oFixPopTargetAddress
-      % value emitted 471
+      % value emitted 476
       oFixPopForwardBranch
       >>
      ;WhileStmt
@@ -4487,9 +4498,8 @@
         [ (sParmEnd)
         | *:
         [ oTypeStkChooseKind (tpChar)
-        | tpChar:
-        oValuePushTypeStkUpperBound
-        ] or >
+        | *:
+        oValuePush(zero)
         .tLiteralInteger
         oEmitValue
         % value emitted 0
@@ -4738,7 +4748,7 @@
    ;Statement
    .tWhileEnd
    oFixPopTargetAddress
-   % value emitted 451
+   % value emitted 455
    oFixPopForwardBranch
    >>
   ;WhileStmt

@@ -60,11 +60,6 @@
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
    ] or >
-   @PublicDefinition
-    [ (sIdentifier)
-    | *:
-    >>
-   ;PublicDefinition
    .tSkipProc
    oFixPushForwardBranch
    oEmitNullAddress
@@ -77,6 +72,11 @@
    oTypeStkSetRecursionFlag(yes)
    oTypeTblEnter
    oSymbolStkEnterTypeReference
+   @PublicDefinition
+    [ (sIdentifier)
+    | *:
+    >>
+   ;PublicDefinition
    oSymbolTblEnter
    oSymbolTblPushScope
    @ProcedureHeading

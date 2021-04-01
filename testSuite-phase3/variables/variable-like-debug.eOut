@@ -55,8 +55,7 @@
   [ (sVar)
   | sVar:
   @VariableDeclarations
-   [ (sIdentifier)
-   | sIdentifier:
+   ?sIdentifier (sIdentifier)
    oSymbolStkPushLocalIdentifier
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
@@ -110,7 +109,6 @@
    ;EnterVariableAttributes
    oTypeStkPop
    oSymbolStkPop
-   ] or >
    >>
   ;VariableDeclarations
   ] or >

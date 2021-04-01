@@ -55,8 +55,7 @@
   [ (sVar)
   | sVar:
   @VariableDeclarations
-   [ (sIdentifier)
-   | sIdentifier:
+   ?sIdentifier (sIdentifier)
    oSymbolStkPushLocalIdentifier
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
@@ -99,22 +98,13 @@
     ] or >
     >>
    ;Expression
+   .tInitEnd
    @TypeTblEnterIfNew
     [ oTypeStkChooseTypeReference (yes)
     | *:
     >>
    ;TypeTblEnterIfNew
-   .tInitEnd
-   .tLiteralAddress
-   @EmitStore
-    [ oTypeStkChooseKind (tpInteger)
-    | tpInteger:
-    .tStoreInteger
-    ] or >
-    >>
-   ;EmitStore
    oSymbolStkPop
-   ] or >
    @EnterVariableAttributes
     [ oSymbolStkChooseKind (syUndefined)
     | *:
@@ -136,9 +126,23 @@
     oSymbolTblEnter
     >>
    ;EnterVariableAttributes
+   .tLiteralAddress
+   oValuePushSymbol
+   oEmitValue
+   % value emitted 4
+   oValuePop
+   [ oTypeStkChooseKind (tpInteger)
+   | *:
+   @EmitStore
+    [ oTypeStkChooseKind (tpInteger)
+    | tpInteger:
+    .tStoreInteger
+    ] or >
+    >>
+   ;EmitStore
+   ] or >
    oTypeStkPop
    oSymbolStkPop
-   ] or >
    >>
   ;VariableDeclarations
   ] or >
@@ -146,8 +150,7 @@
   [ (sVar)
   | sVar:
   @VariableDeclarations
-   [ (sIdentifier)
-   | sIdentifier:
+   ?sIdentifier (sIdentifier)
    oSymbolStkPushLocalIdentifier
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
@@ -190,22 +193,13 @@
     ] or >
     >>
    ;Expression
+   .tInitEnd
    @TypeTblEnterIfNew
     [ oTypeStkChooseTypeReference (yes)
     | *:
     >>
    ;TypeTblEnterIfNew
-   .tInitEnd
-   .tLiteralAddress
-   @EmitStore
-    [ oTypeStkChooseKind (tpInteger)
-    | tpInteger:
-    .tStoreInteger
-    ] or >
-    >>
-   ;EmitStore
    oSymbolStkPop
-   ] or >
    @EnterVariableAttributes
     [ oSymbolStkChooseKind (syUndefined)
     | *:
@@ -227,9 +221,23 @@
     oSymbolTblEnter
     >>
    ;EnterVariableAttributes
+   .tLiteralAddress
+   oValuePushSymbol
+   oEmitValue
+   % value emitted 8
+   oValuePop
+   [ oTypeStkChooseKind (tpInteger)
+   | *:
+   @EmitStore
+    [ oTypeStkChooseKind (tpInteger)
+    | tpInteger:
+    .tStoreInteger
+    ] or >
+    >>
+   ;EmitStore
+   ] or >
    oTypeStkPop
    oSymbolStkPop
-   ] or >
    >>
   ;VariableDeclarations
   ] or >
@@ -237,8 +245,7 @@
   [ (sVar)
   | sVar:
   @VariableDeclarations
-   [ (sIdentifier)
-   | sIdentifier:
+   ?sIdentifier (sIdentifier)
    oSymbolStkPushLocalIdentifier
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
@@ -291,22 +298,13 @@
     ] or >
     >>
    ;Expression
+   .tInitEnd
    @TypeTblEnterIfNew
     [ oTypeStkChooseTypeReference (yes)
     | *:
     >>
    ;TypeTblEnterIfNew
-   .tInitEnd
-   .tLiteralAddress
-   @EmitStore
-    [ oTypeStkChooseKind (tpBoolean)
-    | tpBoolean:
-    .tStoreBoolean
-    ] or >
-    >>
-   ;EmitStore
    oSymbolStkPop
-   ] or >
    @EnterVariableAttributes
     [ oSymbolStkChooseKind (syUndefined)
     | *:
@@ -327,9 +325,23 @@
     oSymbolTblEnter
     >>
    ;EnterVariableAttributes
+   .tLiteralAddress
+   oValuePushSymbol
+   oEmitValue
+   % value emitted 12
+   oValuePop
+   [ oTypeStkChooseKind (tpBoolean)
+   | *:
+   @EmitStore
+    [ oTypeStkChooseKind (tpBoolean)
+    | tpBoolean:
+    .tStoreBoolean
+    ] or >
+    >>
+   ;EmitStore
+   ] or >
    oTypeStkPop
    oSymbolStkPop
-   ] or >
    >>
   ;VariableDeclarations
   ] or >
@@ -865,8 +877,7 @@
   [ (sVar)
   | sVar:
   @VariableDeclarations
-   [ (sIdentifier)
-   | sIdentifier:
+   ?sIdentifier (sIdentifier)
    oSymbolStkPushLocalIdentifier
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
@@ -967,6 +978,7 @@
     ] or >
     >>
    ;Expression
+   .tInitEnd
    @TypeTblEnterIfNew
     [ oTypeStkChooseTypeReference (no)
     | no:
@@ -974,17 +986,7 @@
     ] or >
     >>
    ;TypeTblEnterIfNew
-   .tInitEnd
-   .tLiteralAddress
-   @EmitStore
-    [ oTypeStkChooseKind (tpInteger)
-    | tpInteger:
-    .tStoreInteger
-    ] or >
-    >>
-   ;EmitStore
    oSymbolStkPop
-   ] or >
    @EnterVariableAttributes
     [ oSymbolStkChooseKind (syUndefined)
     | *:
@@ -1006,9 +1008,23 @@
     oSymbolTblEnter
     >>
    ;EnterVariableAttributes
+   .tLiteralAddress
+   oValuePushSymbol
+   oEmitValue
+   % value emitted 16
+   oValuePop
+   [ oTypeStkChooseKind (tpInteger)
+   | *:
+   @EmitStore
+    [ oTypeStkChooseKind (tpInteger)
+    | tpInteger:
+    .tStoreInteger
+    ] or >
+    >>
+   ;EmitStore
+   ] or >
    oTypeStkPop
    oSymbolStkPop
-   ] or >
    >>
   ;VariableDeclarations
   ] or >
@@ -1016,8 +1032,7 @@
   [ (sVar)
   | sVar:
   @VariableDeclarations
-   [ (sIdentifier)
-   | sIdentifier:
+   ?sIdentifier (sIdentifier)
    oSymbolStkPushLocalIdentifier
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
@@ -1118,6 +1133,7 @@
     ] or >
     >>
    ;Expression
+   .tInitEnd
    @TypeTblEnterIfNew
     [ oTypeStkChooseTypeReference (no)
     | no:
@@ -1125,17 +1141,7 @@
     ] or >
     >>
    ;TypeTblEnterIfNew
-   .tInitEnd
-   .tLiteralAddress
-   @EmitStore
-    [ oTypeStkChooseKind (tpInteger)
-    | tpInteger:
-    .tStoreInteger
-    ] or >
-    >>
-   ;EmitStore
    oSymbolStkPop
-   ] or >
    @EnterVariableAttributes
     [ oSymbolStkChooseKind (syUndefined)
     | *:
@@ -1157,9 +1163,23 @@
     oSymbolTblEnter
     >>
    ;EnterVariableAttributes
+   .tLiteralAddress
+   oValuePushSymbol
+   oEmitValue
+   % value emitted 20
+   oValuePop
+   [ oTypeStkChooseKind (tpInteger)
+   | *:
+   @EmitStore
+    [ oTypeStkChooseKind (tpInteger)
+    | tpInteger:
+    .tStoreInteger
+    ] or >
+    >>
+   ;EmitStore
+   ] or >
    oTypeStkPop
    oSymbolStkPop
-   ] or >
    >>
   ;VariableDeclarations
   ] or >
@@ -1167,8 +1187,7 @@
   [ (sVar)
   | sVar:
   @VariableDeclarations
-   [ (sIdentifier)
-   | sIdentifier:
+   ?sIdentifier (sIdentifier)
    oSymbolStkPushLocalIdentifier
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
@@ -1257,6 +1276,7 @@
     ] or >
     >>
    ;Expression
+   .tInitEnd
    @TypeTblEnterIfNew
     [ oTypeStkChooseTypeReference (no)
     | no:
@@ -1264,17 +1284,7 @@
     ] or >
     >>
    ;TypeTblEnterIfNew
-   .tInitEnd
-   .tLiteralAddress
-   @EmitStore
-    [ oTypeStkChooseKind (tpBoolean)
-    | tpBoolean:
-    .tStoreBoolean
-    ] or >
-    >>
-   ;EmitStore
    oSymbolStkPop
-   ] or >
    @EnterVariableAttributes
     [ oSymbolStkChooseKind (syUndefined)
     | *:
@@ -1295,9 +1305,23 @@
     oSymbolTblEnter
     >>
    ;EnterVariableAttributes
+   .tLiteralAddress
+   oValuePushSymbol
+   oEmitValue
+   % value emitted 24
+   oValuePop
+   [ oTypeStkChooseKind (tpBoolean)
+   | *:
+   @EmitStore
+    [ oTypeStkChooseKind (tpBoolean)
+    | tpBoolean:
+    .tStoreBoolean
+    ] or >
+    >>
+   ;EmitStore
+   ] or >
    oTypeStkPop
    oSymbolStkPop
-   ] or >
    >>
   ;VariableDeclarations
   ] or >
@@ -1305,8 +1329,7 @@
   [ (sVar)
   | sVar:
   @VariableDeclarations
-   [ (sIdentifier)
-   | sIdentifier:
+   ?sIdentifier (sIdentifier)
    oSymbolStkPushLocalIdentifier
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
@@ -1395,6 +1418,7 @@
     ] or >
     >>
    ;Expression
+   .tInitEnd
    @TypeTblEnterIfNew
     [ oTypeStkChooseTypeReference (no)
     | no:
@@ -1402,17 +1426,7 @@
     ] or >
     >>
    ;TypeTblEnterIfNew
-   .tInitEnd
-   .tLiteralAddress
-   @EmitStore
-    [ oTypeStkChooseKind (tpBoolean)
-    | tpBoolean:
-    .tStoreBoolean
-    ] or >
-    >>
-   ;EmitStore
    oSymbolStkPop
-   ] or >
    @EnterVariableAttributes
     [ oSymbolStkChooseKind (syUndefined)
     | *:
@@ -1433,9 +1447,23 @@
     oSymbolTblEnter
     >>
    ;EnterVariableAttributes
+   .tLiteralAddress
+   oValuePushSymbol
+   oEmitValue
+   % value emitted 25
+   oValuePop
+   [ oTypeStkChooseKind (tpBoolean)
+   | *:
+   @EmitStore
+    [ oTypeStkChooseKind (tpBoolean)
+    | tpBoolean:
+    .tStoreBoolean
+    ] or >
+    >>
+   ;EmitStore
+   ] or >
    oTypeStkPop
    oSymbolStkPop
-   ] or >
    >>
   ;VariableDeclarations
   ] or >

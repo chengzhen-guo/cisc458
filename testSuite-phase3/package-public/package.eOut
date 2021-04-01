@@ -61,11 +61,7 @@
    | syUndefined:
    ] or >
    oSymbolStkSetKind(syPackage)
-   oValuePushCodeAddress
-   oSymbolStkEnterValue
-   oValuePop
    oTypeStkPush(tpNull)
-   oTypeStkSetRecursionFlag(yes)
    oTypeTblEnter
    oSymbolStkEnterTypeReference
    oSymbolTblEnter
@@ -78,7 +74,6 @@
     ?sEnd (sEnd)
     >>
    ;Block
-   oTypeStkSetRecursionFlag(no)
    oTypeTblUpdate
    oTypeStkPop
    oSymbolTblUpdate

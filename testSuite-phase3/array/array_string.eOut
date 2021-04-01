@@ -55,8 +55,7 @@
   [ (sVar)
   | sVar:
   @VariableDeclarations
-   [ (sIdentifier)
-   | sIdentifier:
+   ?sIdentifier (sIdentifier)
    oSymbolStkPushLocalIdentifier
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
@@ -87,19 +86,18 @@
      ;ConstantValue
      [ oTypeStkChooseKind (tpInteger)
      | tpInteger:
-     oValuePushTypeStkLowerBound
-     oValuePushTypeStkUpperBound
      ] or >
      oTypeStkPop
      oTypeStkEnterBounds
      [ oTypeStkVerifyBounds (yes)
      | yes:
-     oValuePop
      ] or >
      oValuePop
      oValuePop
      >>
     ;IndexType
+    [ (sLike)
+    | *:
     @ComponentType
      @SimpleType
       ?sLike (sLike)
@@ -122,78 +120,5 @@
      >>
     ;ComponentType
     oValuePop
-    ] or >
-    @TypeTblEnterIfNew
-     [ oTypeStkChooseTypeReference (no)
-     | no:
-     oTypeTblEnter
-     ] or >
-     >>
-    ;TypeTblEnterIfNew
-    >>
-   ;TypeBody
-   @EnterVariableAttributes
-    [ oSymbolStkChooseKind (syUndefined)
-    | *:
-    oSymbolStkSetKind(syVariable)
-    [ oTypeStkChooseKind (tpArray)
-    | *:
-    @AllocateVar
-     [ oSymbolStkChooseKind (syVariable)
-     | *:
-     [ oTypeStkChooseKind (tpArray)
-     | tpArray:
-     .tArrayDescriptor
-     oAllocateAlignOnWord
-     oSymbolStkEnterDataAddress
-     .tLiteralInteger
-     oValuePushTypeStkLowerBound
-     oEmitValue
-     % value emitted 0
-     oValuePop
-     .tLiteralAddress
-     oEmitDataAddress
-     % value emitted 4
-     .tStoreInteger
-     oAllocateDescriptor
-     .tLiteralInteger
-     oValuePushTypeStkUpperBound
-     oEmitValue
-     % value emitted 0
-     oValuePop
-     .tLiteralAddress
-     oEmitDataAddress
-     % value emitted 8
-     .tStoreInteger
-     oAllocateDescriptor
-     oAllocateVariable
-     ] or >
-     >>
-    ;AllocateVar
-    oSymbolStkEnterTypeReference
-    oSymbolTblEnter
-    >>
-   ;EnterVariableAttributes
-   oTypeStkPop
-   oSymbolStkPop
-   ] or >
-   >>
-  ;VariableDeclarations
-  ] or >
-  }
-  [ (sEnd)
-  | *:
-  ] or >
-  ?sEnd (sEnd)
-  >>
- ;Block
- [ oSymbolTblLookupExternal (no)
- | *:
- oSymbolTblPopScope
- oSymbolStkPop
- .tTrapBegin
- .tTrap
- oEmitTrapKind(trHalt)
- % value emitted 0
- >>
-;Program
+### Semantic assertion 20 failed: empty value stack in oValuePop
+while processing line          3

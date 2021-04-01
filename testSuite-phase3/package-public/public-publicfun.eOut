@@ -61,11 +61,7 @@
    | syUndefined:
    ] or >
    oSymbolStkSetKind(syPackage)
-   oValuePushCodeAddress
-   oSymbolStkEnterValue
-   oValuePop
    oTypeStkPush(tpNull)
-   oTypeStkSetRecursionFlag(yes)
    oTypeTblEnter
    oSymbolStkEnterTypeReference
    oSymbolTblEnter
@@ -80,13 +76,6 @@
      [ oSymbolStkChooseKind (syUndefined)
      | syUndefined:
      ] or >
-     @PublicDefinition
-      [ (sPublic)
-      | sPublic:
-      oSymbolStkSetPublicFlag
-      ] or >
-      >>
-     ;PublicDefinition
      .tSkipProc
      oFixPushForwardBranch
      oEmitNullAddress
@@ -99,6 +88,13 @@
      oTypeStkSetRecursionFlag(yes)
      oTypeTblEnter
      oSymbolStkEnterTypeReference
+     @PublicDefinition
+      [ (sPublic)
+      | sPublic:
+      oSymbolStkSetPublicFlag
+      ] or >
+      >>
+     ;PublicDefinition
      oSymbolTblEnter
      oSymbolTblPushScope
      @ProcedureHeading
@@ -153,11 +149,6 @@
      [ oSymbolStkChooseKind (syUndefined)
      | syUndefined:
      ] or >
-     @PublicDefinition
-      [ (sParmEnd)
-      | *:
-      >>
-     ;PublicDefinition
      .tSkipProc
      oFixPushForwardBranch
      oEmitNullAddress
@@ -170,6 +161,11 @@
      oTypeStkSetRecursionFlag(yes)
      oTypeTblEnter
      oSymbolStkEnterTypeReference
+     @PublicDefinition
+      [ (sParmEnd)
+      | *:
+      >>
+     ;PublicDefinition
      oSymbolTblEnter
      oSymbolTblPushScope
      @ProcedureHeading
@@ -222,7 +218,6 @@
     ?sEnd (sEnd)
     >>
    ;Block
-   oTypeStkSetRecursionFlag(no)
    oTypeTblUpdate
    oTypeStkPop
    oSymbolTblUpdate

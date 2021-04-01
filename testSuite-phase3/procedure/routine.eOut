@@ -60,11 +60,6 @@
    [ oSymbolStkChooseKind (syUndefined)
    | syUndefined:
    ] or >
-   @PublicDefinition
-    [ (sParmEnd)
-    | *:
-    >>
-   ;PublicDefinition
    .tSkipProc
    oFixPushForwardBranch
    oEmitNullAddress
@@ -77,6 +72,11 @@
    oTypeStkSetRecursionFlag(yes)
    oTypeTblEnter
    oSymbolStkEnterTypeReference
+   @PublicDefinition
+    [ (sParmEnd)
+    | *:
+    >>
+   ;PublicDefinition
    oSymbolTblEnter
    oSymbolTblPushScope
    @ProcedureHeading
@@ -107,8 +107,7 @@
     [ (sVar)
     | sVar:
     @VariableDeclarations
-     [ (sIdentifier)
-     | sIdentifier:
+     ?sIdentifier (sIdentifier)
      oSymbolStkPushLocalIdentifier
      [ oSymbolStkChooseKind (syUndefined)
      | syUndefined:
@@ -151,22 +150,13 @@
       ] or >
       >>
      ;Expression
+     .tInitEnd
      @TypeTblEnterIfNew
       [ oTypeStkChooseTypeReference (yes)
       | *:
       >>
      ;TypeTblEnterIfNew
-     .tInitEnd
-     .tLiteralAddress
-     @EmitStore
-      [ oTypeStkChooseKind (tpInteger)
-      | tpInteger:
-      .tStoreInteger
-      ] or >
-      >>
-     ;EmitStore
      oSymbolStkPop
-     ] or >
      @EnterVariableAttributes
       [ oSymbolStkChooseKind (syUndefined)
       | *:
@@ -188,9 +178,23 @@
       oSymbolTblEnter
       >>
      ;EnterVariableAttributes
+     .tLiteralAddress
+     oValuePushSymbol
+     oEmitValue
+     % value emitted 4
+     oValuePop
+     [ oTypeStkChooseKind (tpInteger)
+     | *:
+     @EmitStore
+      [ oTypeStkChooseKind (tpInteger)
+      | tpInteger:
+      .tStoreInteger
+      ] or >
+      >>
+     ;EmitStore
+     ] or >
      oTypeStkPop
      oSymbolStkPop
-     ] or >
      >>
     ;VariableDeclarations
     ] or >
