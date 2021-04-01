@@ -863,27 +863,19 @@ PackageDefinition :
         % so we need to branch around the procedure's code
 
         oSymbolStkSetKind(syPackage)
-        oValuePushCodeAddress
-        oSymbolStkEnterValue
-        oValuePop
         oTypeStkPush(tpNull)
-        oTypeStkSetRecursionFlag(yes)
         oTypeTblEnter
         oSymbolStkEnterTypeReference
         oSymbolTblEnter
-
         oSymbolTblPushScope     % procedure scope
 
         @Block
 
-        oTypeStkSetRecursionFlag(no)
         oTypeTblUpdate
         oTypeStkPop
         oSymbolTblUpdate
         oSymbolStkPop
-
         oSymbolTblMergePublicScope;
-        %oSymbolTblPopScope;   % fix branch around procedure above
 
 ConstantDefinitions :           % Process named constant definitions
         {[
@@ -898,9 +890,9 @@ ConstantDefinitions :           % Process named constant definitions
                         #eMultiplyDefined
                         % The new definition will now obscure the old one
                 ]                
-                % Check if the constant is public
-                @PublicDefinition
+                % Check if the constant is public                
                 oSymbolStkSetKind(syConstant)
+                @PublicDefinition
                 @ConstantValue
                 oSymbolStkEnterTypeReference
                 oTypeStkPop
@@ -962,6 +954,11 @@ TypeBody :
             | sArray:
                 oTypeStkPush(tpArray)
                 @IndexType
+                [
+                    | sFile:
+                        #eScalarReqd
+                    | *:
+                ]
                 @ComponentType
                 oValuePop
             | sFile:
@@ -985,19 +982,17 @@ IndexType :
         oValuePush(one)
         @ConstantValue
         [ oTypeStkChooseKind
-            | tpInteger:            
-                oValuePushTypeStkLowerBound
-                oValuePushTypeStkUpperBound
+            | tpInteger:                
             | *:
-                oValuePush(two)
+                #eSimpleTypeReqd
         ]
         oTypeStkPop     % index type
         % Enter and check the bounds of the array type
         oTypeStkEnterBounds
         [ oTypeStkVerifyBounds
-            | yes:
-                oValuePop
+            | yes:                
             | *:
+                #eBounds
                 oValuePop
                 @ValuePushValuePlusOne
                 oTypeStkEnterBounds
@@ -1028,7 +1023,7 @@ SimpleType :
             | sIdentifier:
                 oSymbolStkPushIdentifier
                 [ oSymbolStkChooseKind
-                    | syConstant, syVariable:
+                    | syConstant, syVariable, syVarParameter:
                         oTypeStkPushSymbol
                     | syUndefined:
                         #eUndefinedIdentifier
@@ -1089,38 +1084,44 @@ SubrangeUpperBound :
         ];
 
 VariableDeclarations :
-        [
-            | sIdentifier:
-                oSymbolStkPushLocalIdentifier
-
-                % Check not previously defined
-                [ oSymbolStkChooseKind
-                    | syUndefined, syExternal:
-                    | *:
-                        #eMultiplyDefined
-                        % The new definition will obscure the old one
-                ]
-                % Check if the variable is public
-                @PublicDefinition
-                % Accepts a type specification and pushes its type to the Type Stack.
-                % Creates type table entries for the type and any new subtypes as necessary.
-                [
-                    | sInitialValue:
-                        .tInitialValue
-                        @Expression             % Pushes symbol and type stack entries for the expression
-                        @TypeTblEnterIfNew
-                        .tInitEnd
-                        .tLiteralAddress
-                        @EmitStore
-                        oSymbolStkPop
-                    | *:
-                        @TypeBody
-                ]
-                @EnterVariableAttributes
-                oTypeStkPop
-                oSymbolStkPop
+        sIdentifier
+        oSymbolStkPushLocalIdentifier
+        % Check not previously defined
+        [ oSymbolStkChooseKind
+            | syUndefined, syExternal:
             | *:
-        ];
+                #eMultiplyDefined
+                % The new definition will obscure the old one
+        ]
+        % Check if the variable is public
+        @PublicDefinition
+        % Accepts a type specification and pushes its type to the Type Stack.
+        % Creates type table entries for the type and any new subtypes as necessary.
+        [
+            | sInitialValue:
+                .tInitialValue
+                @Expression             % Pushes symbol and type stack entries for the expression
+                .tInitEnd
+                @TypeTblEnterIfNew
+                oSymbolStkPop
+                @EnterVariableAttributes
+                .tLiteralAddress
+                oValuePushSymbol
+                oEmitValue
+                oValuePop
+                % store the inital value in the variable
+                [ oTypeStkChooseKind
+                    | tpArray:
+                        #eScalarReqd	% can't assign whole arrays
+                    | *:                
+                        @EmitStore
+                ]
+            | *:
+                @TypeBody
+                @EnterVariableAttributes
+        ]        
+        oTypeStkPop
+        oSymbolStkPop;
 
 EnterVariableAttributes :
         % Enter the type on top of the Type Stack as the type of 
@@ -1227,7 +1228,7 @@ ProcedureDefinition :
                 #eMultiplyDefined
                 % New definition obscures old one.
         ]
-        @PublicDefinition
+        
         % Procedure bodies only execute when the routine is called
         % so we need to branch around the procedure's code
         .tSkipProc              % branch around procedure definition
@@ -1242,6 +1243,7 @@ ProcedureDefinition :
         oTypeStkSetRecursionFlag(yes)
         oTypeTblEnter
         oSymbolStkEnterTypeReference
+        @PublicDefinition
         oSymbolTblEnter
 
         oSymbolTblPushScope     % procedure scope
@@ -1591,14 +1593,15 @@ CaseStmt :
                 @CaseAlternative
         ]}        
         .tCaseEnd
+        oFixPopForwardBranch
+        oEmitCaseBranchTable
         [
             | sCaseElse:
+                .tCaseElse
                 @Statement
                 .tCaseElseEnd
             | *:
         ]
-        oFixPopForwardBranch
-        oEmitCaseBranchTable
         % emit merge branches for case alternatives
         {[ oCountChoose         % number of case alternatives
             | zero:
@@ -1723,15 +1726,9 @@ Operand :
             | sStringLiteral:
                 oSymbolStkPush(syExpression)
                 @StringLiteral  % pushes type and value
-                [ oTypeStkChooseKind
-                    | tpChar:
-                        .tLiteralAddress
-                        oEmitValue
-                        .tFetchChar
-                    | *:
-                        .tLiteralString
-                        oEmitValue
-                ]
+                .tLiteralAddress
+                oEmitValue
+                .tFetchChar
                 oValuePop
             | sFile:
                 @Expression
@@ -1744,14 +1741,13 @@ StringLiteral :
         % a single character or a packed array of characters.
         % Pushes the type and value. 
         % The value of a packed array is its address.
-
-        oValuePushStringLength
         % branch around the literal string since
         % it is stored in the code area
         .tSkipString
         oFixPushForwardBranch
         oEmitNullAddress
         .tStringData
+        oValuePushStringLength
         oEmitValue                      % string length
         oValuePop
         oValuePushCodeAddress           % The string's characters are in the code area
@@ -1759,13 +1755,7 @@ StringLiteral :
         oEmitString                     % string's characters
         oFixPopForwardBranch
         oTypeStkPush(tpChar)
-        oTypeStkLinkToStandardType(stdChar)
-        oValuePush(one)                 % strings are indexed from 1
-        oValuePushStringLength
-        oTypeStkEnterBounds
-        oValuePop
-        oValuePop
-        oTypeTblEnter;
+        oTypeStkLinkToStandardType(stdChar);
 
 UnaryOperator :
         [
@@ -1781,19 +1771,11 @@ UnaryOperator :
                 oTypeStkPop
             | sLength:
                 .tLength
-                oTypeStkPush(tpInteger) % result type
-                [ oTypeStkChooseKind
-                    | tpInteger:
-                        oTypeStkSwap
-                        [ oTypeStkChooseKind
-                            | tpChar:
-                            | *:
-                                #eTypeMismatch
-                        ]
-                    | *:
-                        #eTypeMismatch
-                ]
+                oTypeStkPush(tpChar)    % str, str
+                @CompareAndSwapTypes    
                 oTypeStkPop
+                oTypeStkPop
+                oTypeStkPush(tpInteger) % result type
             | *:
                 >>
         ]
@@ -1835,9 +1817,9 @@ BinaryOperator :
                 @CompareEqualityOperandTypes
             | sNE:
                 [ oTypeStkChooseKind
-                    | tpChar:
-                        .tNot
+                    | tpChar:                        
                         .tStringEQ
+                        .tNot
                     | *:
                         .tNE
                 ]
@@ -1868,62 +1850,16 @@ BinaryOperator :
                 @CompareOperandAndResultTypes
             | sConcatenate:
                 .tConcatenate
-                oTypeStkPush(tpChar)
-                [ oTypeStkChooseKind
-                    | tpChar:
-                        oTypeStkSwap
-                        [ oTypeStkChooseKind
-                            | tpChar:
-                            | *:
-                                #eTypeMismatch
-                        ]
-                        oTypeStkPop
-                    | *:
-                        #eTypeMismatch
-                ]
-                oTypeStkPop
-                oSymbolStkPop
+                oTypeStkPush(tpChar) % result type
+                @CompareOperandAndResultTypes
             | sRepeatString:
                 .tRepeatString
-                oTypeStkPush(tpChar)
-                [ oTypeStkChooseKind
-                    | tpChar:
-                        oTypeStkSwap
-                        [ oTypeStkChooseKind
-                            | tpInteger:
-                            | *:
-                                #eTypeMismatch
-                        ]
-                        oTypeStkPop
-                    | *:
-                        #eTypeMismatch
-                ]
-                oTypeStkPop
-                oSymbolStkPop
+                oTypeStkPush(tpChar) % result type
+                @CompareStringRepeatOperandAndResultTypes
             | sSubstring:
                 .tSubstring
                 oTypeStkPush(tpChar)
-                [ oTypeStkChooseKind
-                    | tpChar:
-                        oTypeStkSwap
-                        [ oTypeStkChooseKind
-                            | tpInteger:
-                                [ oTypeStkChooseKind
-                                    | tpInteger:
-                                    | *:
-                                        #eTypeMismatch
-                                ]
-                                oTypeStkPop
-                            | *:
-                                #eTypeMismatch
-                        ]
-                        oTypeStkPop
-                    | *:
-                        #eTypeMismatch
-                ]                
-                oTypeStkPop
-                oSymbolStkPop
-                oSymbolStkPop
+                @CompareSubstringOperandAndResultTypes
             | *:
                 >>
         ]
@@ -1974,6 +1910,50 @@ CompareAndSwapTypes :
                 ]
         ];
 
+CompareStringRepeatOperandAndResultTypes :
+        % Compare the operand types and the result type for string repeat
+        % compatibility.  Pop the operand symbol and type stack entries
+        % leaving the result symbol and type stack entries.
+
+        % str, int, rstr
+        oTypeStkSwap
+        [ oTypeStkChooseKind    % str, rstr, int
+            | tpInteger:
+            | *:
+                #eIntegerExpnReqd
+        ]
+        oTypeStkPop             % str, rstr
+        @CompareAndSwapTypes    % rstr, str
+        oTypeStkPop             % only result type remains
+        oSymbolStkPop
+        oSymbolStkSetKind(syExpression);
+
+CompareSubstringOperandAndResultTypes :
+        % Compare the operand types and the result type for string repeat
+        % compatibility.  Pop the operand symbol and type stack entries
+        % leaving the result symbol and type stack entries.
+
+        % str, int, int, rstr
+        oTypeStkSwap
+        [ oTypeStkChooseKind    % str, int, rstr, int
+            | tpInteger:
+            | *:
+                #eIntegerExpnReqd
+        ]
+        oTypeStkPop             % str, int, rstr
+        oTypeStkSwap
+        [ oTypeStkChooseKind    % str, rstr, int
+            | tpInteger:
+            | *:
+                #eIntegerExpnReqd
+        ]
+        oTypeStkPop             % str, rstr
+        @CompareAndSwapTypes    % rstr, str
+        oTypeStkPop             % only result type remains
+        oSymbolStkPop
+        oSymbolStkPop
+        oSymbolStkSetKind(syExpression);
+
 CompareOperandAndResultTypes :
         % Compare the two operand types and the result type for assignment
         % compatibility.  Pop the operand symbol and type stack entries
@@ -1998,13 +1978,6 @@ CompareRelationalOperandTypes :
                 oTypeStkPop
                 [ oTypeStkChooseKind
                     | tpInteger, tpSubrange:
-                    | *:
-                        #eOperandOperatorTypeMismatch
-                ]
-            | tpChar:
-                oTypeStkPop
-                [ oTypeStkChooseKind
-                    | tpChar:
                     | *:
                         #eOperandOperatorTypeMismatch
                 ]
@@ -2131,14 +2104,12 @@ ConstantOperand :
             | tpInteger, tpSubrange:
                 .tLiteralInteger
                 oEmitValue
-            %| tpChar:
-                %.tLiteralChar
-                %oEmitValue
+            | tpChar:
+                .tLiteralAddress
+                oEmitValue
+                .tFetchChar
             | tpBoolean:
                 .tLiteralBoolean
-                oEmitValue
-            | tpChar:         % a named literal string
-                .tLiteralString
                 oEmitValue
         ]
         oValuePop;
@@ -2334,9 +2305,9 @@ AssignProcedure :
                         .tParmEnd
                         % need the length of the file name as well
                         [ oTypeStkChooseKind
-                            | tpChar, tpArray:   
+                            | tpChar:   
                                 .tLiteralInteger
-                                oValuePushTypeStkUpperBound
+                                oValuePush(stringSize)
                                 oEmitValue
                                 oValuePop
                                 sParmEnd
@@ -2530,8 +2501,6 @@ WriteText :
                 [ oTypeStkChooseKind    % of expression being written
                     | tpInteger, tpSubrange:
                         oValuePush(ten)
-                    | tpChar:
-                        oValuePushTypeStkUpperBound     % actual length of string
                     | *:        
                         % error flagged below
                         oValuePush(zero)
