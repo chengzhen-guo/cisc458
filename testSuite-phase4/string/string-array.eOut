@@ -1,0 +1,108 @@
+@Program
+### Semantic assertion 20 failed: empty value stack in oValuePop
+while processing line          3
+Input token accepted 50;  Line 1;  Next input token 41
+Table index 0;  Operation 0;  Argument 7
+Table index 7;  Operation 12;  Argument 22
+Table index 9;  Operation 68;  Argument 12
+Table index 10;  Operation 12;  Argument 20
+Table index 12;  Operation 16;  Argument 12
+Table index 13;  Operation 12;  Argument 2
+Table index 15;  Operation 34;  Argument 43
+Table index 16;  Operation 43;  Argument 12
+Table index 17;  Operation 12;  Argument 15
+Table index 19;  Operation 16;  Argument 12
+Table index 20;  Operation 12;  Argument 24
+Table index 22;  Operation 70;  Argument 59
+Table index 23;  Operation 59;  Argument 59
+Table index 24;  Operation 59;  Argument 12
+Table index 25;  Operation 12;  Argument 16
+Table index 27;  Operation 67;  Argument 12
+Table index 28;  Operation 12;  Argument 20
+Table index 30;  Operation 16;  Argument 12
+Table index 31;  Operation 12;  Argument 2
+Table index 33;  Operation 34;  Argument 12
+Table index 34;  Operation 12;  Argument 0
+Table index 36;  Operation 37;  Argument 12
+Table index 37;  Operation 12;  Argument 23
+Table index 39;  Operation 69;  Argument 59
+Table index 40;  Operation 59;  Argument 12
+Table index 41;  Operation 12;  Argument 21
+Table index 43;  Operation 68;  Argument 12
+Table index 44;  Operation 12;  Argument 17
+Table index 46;  Operation 16;  Argument 12
+Table index 47;  Operation 12;  Argument 20
+Table index 49;  Operation 69;  Argument 12
+Table index 50;  Operation 12;  Argument 17
+Table index 52;  Operation 67;  Argument 59
+Table index 53;  Operation 59;  Argument 12
+Table index 54;  Operation 12;  Argument 18
+Table index 56;  Operation 68;  Argument 1
+Table index 57;  Operation 1;  Argument 12
+Table index 2;  Operation 0;  Argument 65
+Table index 65;  Operation 7;  Argument 143
+Choice tag 41 (matched)
+Input token accepted 41;  Line 1;  Next input token 67
+Table index 104;  Operation 5;  Argument 67
+Input token accepted 67;  Line 1;  Next input token 42
+Table index 106;  Operation 19;  Argument 5
+Table index 107;  Operation 5;  Argument 42
+Input token accepted 42;  Line 1;  Next input token 66
+Table index 109;  Operation 5;  Argument 66
+Input token accepted 66;  Line 1;  Next input token 32
+Table index 111;  Operation 18;  Argument 5
+Table index 112;  Operation 5;  Argument 32
+Input token accepted 32;  Line 1;  Next input token 85
+Table index 114;  Operation 56;  Argument 0
+Table index 115;  Operation 0;  Argument 3205
+Table index 3205;  Operation 44;  Argument 10
+Table index 3206;  Operation 10;  Argument 14
+Choice tag 0 (matched)
+Table index 3213;  Operation 0;  Argument 3968
+Table index 3968;  Operation 0;  Argument 3853
+Table index 3853;  Operation 17;  Argument 10
+Table index 3854;  Operation 10;  Argument 6
+Choice tag 10 (not matched)
+Table index 3864;  Operation 56;  Argument 17
+Table index 3865;  Operation 17;  Argument 10
+Table index 3866;  Operation 10;  Argument 7
+Choice tag 1 (not matched)
+Table index 3877;  Operation 56;  Argument 13
+Table index 3878;  Operation 13;  Argument 0
+Table index 3880;  Operation 1;  Argument 2
+Table index 3970;  Operation 10;  Argument 6
+Choice tag 0 (not matched)
+Table index 3980;  Operation 17;  Argument 10
+Table index 3981;  Operation 10;  Argument 6
+Choice tag 10 (matched)
+Table index 3983;  Operation 12;  Argument 10
+Table index 3985;  Operation 70;  Argument 4
+Table index 3986;  Operation 4;  Argument 14
+Table index 4001;  Operation 1;  Argument 36
+Table index 3215;  Operation 0;  Argument 3249
+Table index 3249;  Operation 17;  Argument 10
+Table index 3250;  Operation 10;  Argument 4
+Choice tag 10 (not matched)
+Table index 3260;  Operation 59;  Argument 1
+Table index 3261;  Operation 1;  Argument 17
+Table index 3217;  Operation 0;  Argument 3249
+Table index 3249;  Operation 17;  Argument 10
+Table index 3250;  Operation 10;  Argument 4
+Choice tag 1 (not matched)
+Table index 3260;  Operation 59;  Argument 1
+Table index 3261;  Operation 1;  Argument 17
+Table index 3219;  Operation 4;  Argument 7
+Table index 3227;  Operation 1;  Argument 0
+Table index 117;  Operation 4;  Argument 122
+Table index 240;  Operation 3;  Argument 176
+Table index 65;  Operation 7;  Argument 143
+Choice tag 85 (not matched)
+Table index 238;  Operation 4;  Argument 3
+Table index 242;  Operation 1;  Argument 12
+Table index 4;  Operation 0;  Argument 58
+Table index 58;  Operation 12;  Argument 19
+Table index 60;  Operation 68;  Argument 12
+Table index 61;  Operation 12;  Argument 17
+Table index 63;  Operation 68;  Argument 1
+Table index 64;  Operation 1;  Argument 7
+Table index 6;  Operation 1;  Argument 12

@@ -128,7 +128,6 @@
        oOperandSetLength(two)
        >>
       ;OperandPushTempWord
-      ] or >
       oOperandSwap
       oEmitDouble(iMov)
       @OperandPopAndFreeTemp
@@ -138,6 +137,7 @@
        >>
       ;OperandPopAndFreeTemp
       oOperandSetMode(mTemp)
+      ] or >
       >>
      ;OperandForceIntoTemp
      oOperandSwapLeftAndDest
@@ -218,7 +218,6 @@
        oOperandSetLength(two)
        >>
       ;OperandPushTempWord
-      ] or >
       oOperandSwap
       oEmitDouble(iMov)
       @OperandPopAndFreeTemp
@@ -228,6 +227,7 @@
        >>
       ;OperandPopAndFreeTemp
       oOperandSetMode(mTemp)
+      ] or >
       >>
      ;OperandForceIntoTemp
      oOperandSwapLeftAndDest
