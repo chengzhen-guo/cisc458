@@ -1887,7 +1887,8 @@ program Coder (output, coderSsl, tCode, object, options);
                                         read (tCode, compoundTokenText[i]);
                                         i := i + 1
                                     end;
-                                nextTCodeAddress := nextTCodeAddress + compoundTokenLength;
+                                read (tCode, compoundTokenText[i]);
+                                nextTCodeAddress := nextTCodeAddress + compoundTokenLength + 1;
                             end;
                     end         { case compoundToken }
                 end;
