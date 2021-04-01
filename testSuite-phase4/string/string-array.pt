@@ -1,0 +1,12 @@
+using output;
+
+var animal [8] : like "fly";
+
+animal [1] = "fly";
+animal [2] = "spider";
+animal [3] = "bird";
+animal [4] = "cat";
+animal [5] = "dog";
+animal [6] = "goat";
+animal [7] = "cow";
+animal [8] = "horse";

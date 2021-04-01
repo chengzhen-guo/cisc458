@@ -1,0 +1,5 @@
+using output;
+
+var x : like "Hello";
+x = "Hello";
+y = "World";
