@@ -87,11 +87,75 @@
   ?tLiteralAddress (tLiteralAddress)
   oOperandPushVariable
   oOperandSwap
+  [ (tStoreBoolean)
+  | tStoreBoolean:
+  oOperandSetLength(one)
+  @OperandAssignBooleanPopPop
+   @OperandConvertJumpConditionToData
+    [ oOperandIsJumpCondition (no)
+    | no:
+    ] or >
+    >>
+   ;OperandConvertJumpConditionToData
+   oOperandSetLength(one)
+   @EmitMove
+    @OperandLeftOrRightIsTemp
+     [ oOperandChooseMode (mManifest)
+     | *:
+     oOperandSwap
+     [ oOperandChooseMode (mStatic)
+     | *:
+     oOperandSwap
+     >>no
+    ;OperandLeftOrRightIsTemp
+    [@OperandLeftOrRightIsTemp (no)
+    | *:
+    [ oOperandChooseMode (mManifest)
+    | mManifest:
+    oEmitDouble(iMov)
+    ] or >
+    >>
+   ;EmitMove
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mManifest)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mStatic)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   >>
+  ;OperandAssignBooleanPopPop
+  ] or >
+  ] or >
+  }
   [ (tTrapBegin)
+  | tTrapBegin:
+  @TrapStmt
+   oEmitSourceCoordinate
+   [ (tTrap)
+   | *:
+   ?tTrap (tTrap)
+   oOperandPushTrap
+   oEmitSingle(iCall)
+   oOperandPop
+   >>
+  ;TrapStmt
+  ] or >
+  }
+  [ (tEndOfFile)
   | *:
-  ?tStoreInteger (tTrapBegin)
-### Coder S/SL program failure:  syntax error in Tcode token stream
-    (semantic pass output stream does not match expected input stream)
-while processing line          3
-### Coder assertion 7 failed: internal error in coder.pt (report to maintainer)while processing line          3
-
+  ] or >
+  >>
+ ;Block
+ @EmitProgramEpilogue
+  oEmitNone(iLeave)
+  oEmitNone(iReturn)
+  >>
+ ;EmitProgramEpilogue
+ >>
+;Program
