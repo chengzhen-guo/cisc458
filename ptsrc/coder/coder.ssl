@@ -2824,11 +2824,10 @@ OperandAssignCharPopPop:
     @OperandForceAddressIntoTemp
     @OperandForcetoStack        % The file descriptor
     @OperandPopAndFreeTemp
-    
+
     @OperandForceAddressIntoTemp
     @OperandForcetoStack        % The file descriptor
     @OperandPopAndFreeTemp
-    oOperandPop
 
     % Call the trAssignString trap routine to test the end of line condition
     oOperandPushMode(mTrap)
