@@ -166,32 +166,45 @@
       oOperandPop
       >>
      ;OperandPopAndFreeTemp
-     oOperandPop
-     oOperandPushMode(mTrap)
-     oOperandSetValue(trAssignString)
-     oOperandSetLength(two)
-     oEmitSingle(iCall)
-     oOperandPop
-     oOperandPushMode(mStackReg)
-     oOperandSetLength(two)
-     oOperandPushMode(mManifest)
-     oOperandSetLength(two)
-     oOperandSetValue(four)
-     oEmitDouble(iAdd)
-     oOperandPop
-     oOperandPop
-     @RestoreTempRegsFromStack
-      oOperandPushMode(mTemp)
+     @OperandForceAddressIntoTemp
+      [ oOperandChooseMode (mStatic)
+      | mStatic:
+      @OperandPushTempWord
+       oTempAllocate
+       oOperandPushTemp
+       oOperandSetValue(zero)
+       oOperandSetLength(two)
+       >>
+      ;OperandPushTempWord
+      oOperandSwap
+      oEmitDouble(iLoada)
+      oOperandPop
+      ] or >
       oOperandSetLength(two)
-      oOperandSetRegnum(four)
-      oEmitSingle(iPop)
-      oOperandSetRegnum(regCX)
-      oEmitSingle(iPop)
-      oOperandSetRegnum(two)
-      oEmitSingle(iPop)
-      oOperandSetRegnum(one)
-      oEmitSingle(iPop)
+      >>
+     ;OperandForceAddressIntoTemp
+     @OperandForceToStack
+      [ oOperandChooseLength (two)
+      | two:
+      ] or >
+      oEmitSingle(iPush)
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mTemp)
+       | mTemp:
+       oTempFree
+       ] or >
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      oOperandPushMode(mStack)
+      >>
+     ;OperandForceToStack
+     @OperandPopAndFreeTemp
+      [ oOperandChooseMode (mStack)
+      | *:
       oOperandPop
       >>
-     ;RestoreTempRegsFromStack
-     @OperandForceIntoTemp
+     ;OperandPopAndFreeTemp
+     oOperandPop
+### Coder assertion 13 failed: empty operand stack in oOperandPopwhile processing line          4
+
