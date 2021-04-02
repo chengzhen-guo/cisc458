@@ -2816,19 +2816,38 @@ OperandAssignIntegerPopPop:
 
 
 OperandAssignCharPopPop:
-    % Generate code to assign the right (top) operand's value to
-    % the left (second) operand and pop both operands.
+    % First save the temp registers, since we are called in an
+    % expression, they  may be in use
+    @SaveTempRegsToStack        %       pushl %eax .. %edx
 
-    % Changed to:
-    @OperandEolnFunction
+    % Now send the arguments
     @OperandForceAddressIntoTemp
-    @OperandForceToStack
-    @OperandPopAndFreeTemp;
+    @OperandForcetoStack        % The file descriptor
+    @OperandPopAndFreeTemp
+    oOperandPop
 
-    %oOperandSetLength(byte)
-    %@EmitMove                   %       movb    y, x
-    %@OperandPopAndFreeTemp
-    %@OperandPopAndFreeTemp;
+    % Call the eoln trap routine to test the end of line condition
+    oOperandPushMode(mTrap)
+    oOperandSetValue(trEoln)
+    oOperandSetLength(word)
+    oEmitSingle(iCall)          %       call    pttrapNN
+    oOperandPop
+
+    % Pop argument
+    oOperandPushMode(mStackReg)
+    oOperandSetLength(word)
+    oOperandPushMode(mManifest)
+    oOperandSetLength(word)
+    oOperandSetValue(four)      % ... %esp, 1arg*4
+    oEmitDouble(iAdd)           %       addl    $4, %esp
+    oOperandPop
+    oOperandPop
+
+    % Restore temp regs
+    @RestoreTempRegsFromStack   %       popl    %edx .. $eax
+
+    @OperandForceIntoTemp       %       movl    %S1, %T
+    oOperandSetLength(byte);;
 
 
 OperandAssignBooleanPopPop:
