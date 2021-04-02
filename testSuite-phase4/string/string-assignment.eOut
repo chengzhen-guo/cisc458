@@ -205,6 +205,31 @@
       oOperandPop
       >>
      ;OperandPopAndFreeTemp
+     oOperandPushMode(mTrap)
+     oOperandSetValue(trAssignString)
+     oOperandSetLength(two)
+     oEmitSingle(iCall)
      oOperandPop
-### Coder assertion 13 failed: empty operand stack in oOperandPopwhile processing line          4
-
+     oOperandPushMode(mStackReg)
+     oOperandSetLength(two)
+     oOperandPushMode(mManifest)
+     oOperandSetLength(two)
+     oOperandSetValue(four)
+     oEmitDouble(iAdd)
+     oOperandPop
+     oOperandPop
+     @RestoreTempRegsFromStack
+      oOperandPushMode(mTemp)
+      oOperandSetLength(two)
+      oOperandSetRegnum(four)
+      oEmitSingle(iPop)
+      oOperandSetRegnum(regCX)
+      oEmitSingle(iPop)
+      oOperandSetRegnum(two)
+      oEmitSingle(iPop)
+      oOperandSetRegnum(one)
+      oEmitSingle(iPop)
+      oOperandPop
+      >>
+     ;RestoreTempRegsFromStack
+     @OperandForceIntoTemp
