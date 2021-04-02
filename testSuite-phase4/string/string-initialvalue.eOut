@@ -163,6 +163,7 @@
     oOperandPop
     >>
    ;OperandPopAndFreeTemp
+   oOperandPop
    oOperandPushMode(mTrap)
    oOperandSetValue(trAssignString)
    oOperandSetLength(regCX)
@@ -191,62 +192,3 @@
     >>
    ;RestoreTempRegsFromStack
    @OperandForceIntoTemp
-    [ oOperandChooseMode (mStatic)
-    | *:
-    [ oOperandChooseLength (two)
-    | two:
-    @OperandPushTempWord
-     oTempAllocate
-     oOperandPushTemp
-     oOperandSetValue(zero)
-     oOperandSetLength(two)
-     >>
-    ;OperandPushTempWord
-    oOperandSwap
-    oEmitDouble(iMov)
-    @OperandPopAndFreeTemp
-     [ oOperandChooseMode (mStatic)
-     | *:
-     oOperandPop
-     >>
-    ;OperandPopAndFreeTemp
-    oOperandSetMode(mTemp)
-    ] or >
-    >>
-   ;OperandForceIntoTemp
-   oOperandSetLength(one)
-   >>
-  ;OperandAssignCharPopPop
-  ] or >
-  ] or >
-  }
-  [ (tTrapBegin)
-  | tTrapBegin:
-  @TrapStmt
-   oEmitSourceCoordinate
-   Line          3 temp reg not free:          1 %eax
-   [ (tTrap)
-   | *:
-   ?tTrap (tTrap)
-   oOperandPushTrap
-   oEmitSingle(iCall)
-   oOperandPop
-   >>
-  ;TrapStmt
-  ] or >
-  }
-  [ (tEndOfFile)
-  | *:
-  ] or >
-  >>
- ;Block
- @EmitProgramEpilogue
-  oEmitNone(iLeave)
-  oEmitNone(iReturn)
-  >>
- ;EmitProgramEpilogue
- >>
-;Program
-Line          3 temp reg not free:          1 %eax
-### Coder assertion 45 failed: operand stack not empty at end of coder phasewhile processing line          3
-
