@@ -2826,7 +2826,7 @@ OperandAssignCharPopPop:
     @OperandPopAndFreeTemp
     oOperandPop
 
-    % Call the eoln trap routine to test the end of line condition
+    % Call the trAssignString trap routine to test the end of line condition
     oOperandPushMode(mTrap)
     oOperandSetValue(trAssignString)
     oOperandSetLength(word)
