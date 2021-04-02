@@ -2821,14 +2821,7 @@ OperandAssignCharPopPop:
     @SaveTempRegsToStack        %       pushl %eax .. %edx
 
     % Now send the arguments
-    @OperandForceAddressIntoTemp
-    @OperandForcetoStack        % The file descriptor
-    @OperandPopAndFreeTemp
-
-    @OperandForceAddressIntoTemp
-    @OperandForcetoStack        % The file descriptor
-    @OperandPopAndFreeTemp
-    
+    @OperandForcetoStack        % The file descriptor 
     oOperandPop
 
     % Call the trAssignString trap routine to test the end of line condition
