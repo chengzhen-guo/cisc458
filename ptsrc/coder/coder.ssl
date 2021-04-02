@@ -2821,8 +2821,8 @@ OperandAssignCharPopPop:
     @SaveTempRegsToStack        %       pushl %eax .. %edx
 
     % Now send the arguments
-    @OperandForcetoStack        % The file descriptor 
-    oOperandPop
+    @OperandForcetoStack        % The file descriptor
+    @OperandPopAndFreeTemp
 
     % Call the trAssignString trap routine to test the end of line condition
     oOperandPushMode(mTrap)
