@@ -15,17 +15,9 @@ s16:    .asciz  "Hello"
     pushl    %edx
     lea    s16,%eax
     pushl    %eax
-    call    pttrap15
+    call    pttrap101
     addl    $4,%esp
-    movl    %eax,%esi
     popl    %edx
     popl    %ecx
     popl    %ebx
     popl    %eax
-    movl    %esi,%eax
-    movb    %al,%ebx
-    pushl    %ebx
-    movl    $3,n
-    call    pttrap0
-    leave    
-    ret    

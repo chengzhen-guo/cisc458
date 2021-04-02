@@ -113,118 +113,23 @@
     [ (tAssignChar)
     | tAssignChar:
     @OperandAssignCharPopPop
-     @OperandEolnFunction
-      @SaveTempRegsToStack
-       oOperandPushMode(mTemp)
-       oOperandSetLength(two)
-       oOperandSetRegnum(one)
-       oEmitSingle(iPush)
-       oOperandSetRegnum(two)
-       oEmitSingle(iPush)
-       oOperandSetRegnum(regCX)
-       oEmitSingle(iPush)
-       oOperandSetRegnum(four)
-       oEmitSingle(iPush)
-       oOperandPop
-       >>
-      ;SaveTempRegsToStack
-      @OperandForceToStack
-       [ oOperandChooseLength (regCX)
-       | regCX:
-       @OperandForceAddressIntoTemp
-        [ oOperandChooseMode (mStatic)
-        | mStatic:
-        @OperandPushTempWord
-         oTempAllocate
-         oOperandPushTemp
-         oOperandSetValue(zero)
-         oOperandSetLength(two)
-         >>
-        ;OperandPushTempWord
-        oOperandSwap
-        oEmitDouble(iLoada)
-        oOperandPop
-        ] or >
-        oOperandSetLength(two)
-        >>
-       ;OperandForceAddressIntoTemp
-       ] or >
-       oEmitSingle(iPush)
-       @OperandPopAndFreeTemp
-        [ oOperandChooseMode (mTemp)
-        | mTemp:
-        oTempFree
-        ] or >
-        oOperandPop
-        >>
-       ;OperandPopAndFreeTemp
-       oOperandPushMode(mStack)
-       >>
-      ;OperandForceToStack
-      oOperandPop
-      oOperandPushMode(mTrap)
-      oOperandSetValue(trEoln)
+     @SaveTempRegsToStack
+      oOperandPushMode(mTemp)
       oOperandSetLength(two)
-      oEmitSingle(iCall)
+      oOperandSetRegnum(one)
+      oEmitSingle(iPush)
+      oOperandSetRegnum(two)
+      oEmitSingle(iPush)
+      oOperandSetRegnum(regCX)
+      oEmitSingle(iPush)
+      oOperandSetRegnum(four)
+      oEmitSingle(iPush)
       oOperandPop
-      oOperandPushMode(mStackReg)
-      oOperandSetLength(two)
-      oOperandPushMode(mManifest)
-      oOperandSetLength(two)
-      oOperandSetValue(four)
-      oEmitDouble(iAdd)
-      oOperandPop
-      oOperandPop
-      oOperandPushMode(mScratchReg1)
-      oOperandSetLength(two)
-      oOperandPushMode(mResultReg)
-      oOperandSetLength(two)
-      oEmitDouble(iMov)
-      oOperandPop
-      @RestoreTempRegsFromStack
-       oOperandPushMode(mTemp)
-       oOperandSetLength(two)
-       oOperandSetRegnum(four)
-       oEmitSingle(iPop)
-       oOperandSetRegnum(regCX)
-       oEmitSingle(iPop)
-       oOperandSetRegnum(two)
-       oEmitSingle(iPop)
-       oOperandSetRegnum(one)
-       oEmitSingle(iPop)
-       oOperandPop
-       >>
-      ;RestoreTempRegsFromStack
-      @OperandForceIntoTemp
-       [ oOperandChooseMode (mScratchReg1)
-       | *:
-       [ oOperandChooseLength (two)
-       | two:
-       @OperandPushTempWord
-        oTempAllocate
-        oOperandPushTemp
-        oOperandSetValue(zero)
-        oOperandSetLength(two)
-        >>
-       ;OperandPushTempWord
-       oOperandSwap
-       oEmitDouble(iMov)
-       @OperandPopAndFreeTemp
-        [ oOperandChooseMode (mScratchReg1)
-        | *:
-        oOperandPop
-        >>
-       ;OperandPopAndFreeTemp
-       oOperandSetMode(mTemp)
-       ] or >
-       >>
-      ;OperandForceIntoTemp
-      oOperandSetLength(one)
       >>
-     ;OperandEolnFunction
+     ;SaveTempRegsToStack
      @OperandForceAddressIntoTemp
-      [ oOperandChooseMode (mTemp)
-      | *:
+      [ oOperandChooseMode (mStatic)
+      | mStatic:
       @OperandPushTempWord
        oTempAllocate
        oOperandPushTemp
@@ -233,15 +138,9 @@
        >>
       ;OperandPushTempWord
       oOperandSwap
-      oEmitDouble(iMov)
-      @OperandPopAndFreeTemp
-       [ oOperandChooseMode (mTemp)
-       | mTemp:
-       oTempFree
-       ] or >
-       oOperandPop
-       >>
-      ;OperandPopAndFreeTemp
+      oEmitDouble(iLoada)
+      oOperandPop
+      ] or >
       oOperandSetLength(two)
       >>
      ;OperandForceAddressIntoTemp
@@ -267,40 +166,32 @@
       oOperandPop
       >>
      ;OperandPopAndFreeTemp
-     >>
-    ;OperandAssignCharPopPop
-    ] or >
-    >>
-   ;OperandPushExpressionAssignPopPop
-   >>
-  ;AssignStmt
-  ] or >
-  }
-  [ (tTrapBegin)
-  | tTrapBegin:
-  @TrapStmt
-   oEmitSourceCoordinate
-   [ (tTrap)
-   | *:
-   ?tTrap (tTrap)
-   oOperandPushTrap
-   oEmitSingle(iCall)
-   oOperandPop
-   >>
-  ;TrapStmt
-  ] or >
-  }
-  [ (tEndOfFile)
-  | *:
-  ] or >
-  >>
- ;Block
- @EmitProgramEpilogue
-  oEmitNone(iLeave)
-  oEmitNone(iReturn)
-  >>
- ;EmitProgramEpilogue
- >>
-;Program
-### Coder assertion 45 failed: operand stack not empty at end of coder phasewhile processing line          4
-
+     oOperandPop
+     oOperandPushMode(mTrap)
+     oOperandSetValue(trAssignString)
+     oOperandSetLength(two)
+     oEmitSingle(iCall)
+     oOperandPop
+     oOperandPushMode(mStackReg)
+     oOperandSetLength(two)
+     oOperandPushMode(mManifest)
+     oOperandSetLength(two)
+     oOperandSetValue(four)
+     oEmitDouble(iAdd)
+     oOperandPop
+     oOperandPop
+     @RestoreTempRegsFromStack
+      oOperandPushMode(mTemp)
+      oOperandSetLength(two)
+      oOperandSetRegnum(four)
+      oEmitSingle(iPop)
+      oOperandSetRegnum(regCX)
+      oEmitSingle(iPop)
+      oOperandSetRegnum(two)
+      oEmitSingle(iPop)
+      oOperandSetRegnum(one)
+      oEmitSingle(iPop)
+      oOperandPop
+      >>
+     ;RestoreTempRegsFromStack
+     @OperandForceIntoTemp
