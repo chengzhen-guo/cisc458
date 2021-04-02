@@ -157,7 +157,12 @@
     oOperandPushMode(mStack)
     >>
    ;OperandForceToStack
-   oOperandPop
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mStack)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
    oOperandPushMode(mTrap)
    oOperandSetValue(trAssignString)
    oOperandSetLength(regCX)
