@@ -2821,6 +2821,7 @@ OperandAssignCharPopPop:
     @SaveTempRegsToStack        %       pushl %eax .. %edx
 
     % Now send the arguments
+    @OperandForceAddressIntoTemp
     @OperandForcetoStack        % The file descriptor
     @OperandPopAndFreeTemp
     
