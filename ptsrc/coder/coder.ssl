@@ -2824,6 +2824,10 @@ OperandAssignCharPopPop:
     @OperandForceAddressIntoTemp
     @OperandForcetoStack        % The file descriptor
     @OperandPopAndFreeTemp
+
+    @OperandForceAddressIntoTemp
+    @OperandForcetoStack        % The file descriptor
+    @OperandPopAndFreeTemp
     
     oOperandPop
 
