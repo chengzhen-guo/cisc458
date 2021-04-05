@@ -2828,8 +2828,6 @@ OperandAssignCharPopPop:
     @OperandForceAddressIntoTemp
     @OperandForcetoStack
     @OperandPopAndFreeTemp
-    
-    oOperandPop
 
     % Call the trAssignString trap routine to test the end of line condition
     oOperandPushMode(mTrap)
