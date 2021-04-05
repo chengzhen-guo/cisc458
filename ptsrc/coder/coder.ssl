@@ -2847,10 +2847,7 @@ OperandAssignCharPopPop:
     oOperandPop
 
     % Restore temp regs
-    @RestoreTempRegsFromStack   %       popl    %edx .. $eax
-
-    @OperandForceIntoTemp       %       movl    %S1, %T
-    oOperandSetLength(byte);
+    @RestoreTempRegsFromStack;
 
 
 OperandAssignBooleanPopPop:
