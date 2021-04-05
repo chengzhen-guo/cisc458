@@ -2841,7 +2841,7 @@ OperandAssignCharPopPop:
     oOperandSetLength(word)
     oOperandPushMode(mManifest)
     oOperandSetLength(word)
-    oOperandSetValue(four)      % ... %esp, 1arg*4
+    oOperandSetValue(eight)      % ... %esp, 1arg*4
     oEmitDouble(iAdd)           %       addl    $4, %esp
     oOperandPop
     oOperandPop
