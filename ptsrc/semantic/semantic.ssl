@@ -960,7 +960,6 @@ TypeBody :
                     | *:
                 ]
                 @ComponentType
-                oValuePop
             | sFile:
                 oTypeStkPush(tpFile)
                 @ComponentType
