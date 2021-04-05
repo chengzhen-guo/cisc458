@@ -2822,11 +2822,11 @@ OperandAssignCharPopPop:
 
     % Now send the arguments
     @OperandForceAddressIntoTemp
-    @OperandForcetoStack        % The file descriptor
+    @OperandForcetoStack
     @OperandPopAndFreeTemp
 
     @OperandForceAddressIntoTemp
-    @OperandForcetoStack        % The file descriptor
+    @OperandForcetoStack
     @OperandPopAndFreeTemp
     
     oOperandPop
