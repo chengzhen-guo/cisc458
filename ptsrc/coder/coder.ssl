@@ -2187,7 +2187,7 @@ OperandRepeatStringPop:
     @RestoreTempRegsFromStack
 
     @OperandForceIntoTemp       %       movl    %S1, %T
-    oOperandSetLength(byte);
+    oOperandSetLength(word);
 
 OperandSubstringPopPop:
     % First save the temp registers, since we are called in an
@@ -2232,7 +2232,7 @@ OperandSubstringPopPop:
     @RestoreTempRegsFromStack
 
     @OperandForceIntoTemp       %       movl    %S1, %T
-    oOperandSetLength(byte);
+    oOperandSetLength(word);
 
 OperandLength:
     % First save the temp registers, since we are called in an
@@ -2320,7 +2320,7 @@ OperandStringEqualPop:
     @RestoreTempRegsFromStack
 
     @OperandForceIntoTemp       %       movl    %S1, %T
-    oOperandSetLength(byte);
+    oOperandSetLength(word);
 
 OperandNegateAssignPopPop:
     % Assign the negation of the right (top) operand's value to
