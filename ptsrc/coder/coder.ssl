@@ -2112,10 +2112,6 @@ OperandConcatenatePop:
     @OperandForcetoStack
     @OperandPopAndFreeTemp
 
-    @OperandForceAddressIntoTemp
-    @OperandForcetoStack
-    @OperandPopAndFreeTemp
-
     % Call the trAssignString trap routine to test the end of line condition
     oOperandPushMode(mTrap)
     oOperandSetValue(trConcatenate)
@@ -2133,6 +2129,14 @@ OperandConcatenatePop:
 
     oOperandPop
     oOperandPop
+
+    @OperandForceAddressIntoTemp
+    @OperandForcetoStack
+    @OperandPopAndFreeTemp
+
+    @OperandForceAddressIntoTemp
+    @OperandForcetoStack
+    @OperandPopAndFreeTemp
 
     oOperandPushMode(mStackReg)
     oOperandSetLength(word)
