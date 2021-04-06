@@ -403,6 +403,7 @@
       >>
      ;Statements
      ?tCaseElseEnd (tCaseElseEnd)
+     oEmitSingle(iJmp)
      oEmitCaseMergeBranch
      ] or >
      >>

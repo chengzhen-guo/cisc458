@@ -275,8 +275,22 @@
      oOperandPop
      >>
     ;SaveTempRegsToStack
+    @OperandForceToStack
+     [ oOperandChooseLength (two)
+     | two:
+     ] or >
+     oEmitSingle(iPush)
+     @OperandPopAndFreeTemp
+      [ oOperandChooseMode (mManifest)
+      | *:
+      oOperandPop
+      >>
+     ;OperandPopAndFreeTemp
+     oOperandPushMode(mStack)
+     >>
+    ;OperandForceToStack
     @OperandForceAddressIntoTemp
-     [ oOperandChooseMode (mManifest)
+     [ oOperandChooseMode (mStack)
      | *:
      @OperandPushTempWord
       oTempAllocate
@@ -288,50 +302,11 @@
      oOperandSwap
      oEmitDouble(iMov)
      @OperandPopAndFreeTemp
-      [ oOperandChooseMode (mManifest)
+      [ oOperandChooseMode (mStack)
       | *:
       oOperandPop
       >>
      ;OperandPopAndFreeTemp
-     oOperandSetLength(two)
-     >>
-    ;OperandForceAddressIntoTemp
-    @OperandForceToStack
-     [ oOperandChooseLength (two)
-     | two:
-     ] or >
-     oEmitSingle(iPush)
-     @OperandPopAndFreeTemp
-      [ oOperandChooseMode (mTemp)
-      | mTemp:
-      oTempFree
-      ] or >
-      oOperandPop
-      >>
-     ;OperandPopAndFreeTemp
-     oOperandPushMode(mStack)
-     >>
-    ;OperandForceToStack
-    @OperandPopAndFreeTemp
-     [ oOperandChooseMode (mStack)
-     | *:
-     oOperandPop
-     >>
-    ;OperandPopAndFreeTemp
-    @OperandForceAddressIntoTemp
-     [ oOperandChooseMode (mStatic)
-     | mStatic:
-     @OperandPushTempWord
-      oTempAllocate
-      oOperandPushTemp
-      oOperandSetValue(zero)
-      oOperandSetLength(two)
-      >>
-     ;OperandPushTempWord
-     oOperandSwap
-     oEmitDouble(iLoada)
-     oOperandPop
-     ] or >
      oOperandSetLength(two)
      >>
     ;OperandForceAddressIntoTemp
@@ -588,3 +563,5 @@
  ;EmitProgramEpilogue
  >>
 ;Program
+### Coder assertion 45 failed: operand stack not empty at end of coder phasewhile processing line          5
+
