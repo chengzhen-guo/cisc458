@@ -2366,7 +2366,7 @@
             ] or >
             >>
            ;OperandForceIntoTemp
-           oOperandSetLength(one)
+           oOperandSetLength(two)
            >>
           ;OperandConcatenatePop
           ] or >
@@ -2716,7 +2716,7 @@
             ] or >
             >>
            ;OperandForceIntoTemp
-           oOperandSetLength(one)
+           oOperandSetLength(two)
            >>
           ;OperandConcatenatePop
           ] or >
@@ -3066,7 +3066,7 @@
             ] or >
             >>
            ;OperandForceIntoTemp
-           oOperandSetLength(one)
+           oOperandSetLength(two)
            >>
           ;OperandConcatenatePop
           ] or >
@@ -3432,7 +3432,7 @@
             ] or >
             >>
            ;OperandForceIntoTemp
-           oOperandSetLength(one)
+           oOperandSetLength(two)
            >>
           ;OperandConcatenatePop
           ] or >
@@ -3782,7 +3782,7 @@
             ] or >
             >>
            ;OperandForceIntoTemp
-           oOperandSetLength(one)
+           oOperandSetLength(two)
            >>
           ;OperandConcatenatePop
           ] or >
@@ -4132,7 +4132,7 @@
             ] or >
             >>
            ;OperandForceIntoTemp
-           oOperandSetLength(one)
+           oOperandSetLength(two)
            >>
           ;OperandConcatenatePop
           ] or >

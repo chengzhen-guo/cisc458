@@ -585,7 +585,7 @@
      ] or >
      >>
     ;OperandForceIntoTemp
-    oOperandSetLength(one)
+    oOperandSetLength(two)
     >>
    ;OperandConcatenatePop
    ] or >
