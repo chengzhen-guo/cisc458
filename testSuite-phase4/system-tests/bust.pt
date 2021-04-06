@@ -384,11 +384,11 @@ fun player is
 
     var softhand : like true;
 
-    put("1");
+    put("player1"); putln;
 
     evaluate (playerscards, playershand, softhand, playerscount);
 
-    put("2");
+    put("player2"); putln;
 
     if playerscount == 21 then
         writeplayersname;
@@ -410,7 +410,7 @@ fun player is
         end;
     end;
 
-    put("3");
+    put("player3"); putln;
 
     if playerstops then
         writeplayersname;
@@ -478,15 +478,25 @@ repeat while continue
     repeat while continue
         deal;
 
+        put("player repeat"); putln;
+
         repeat while not playerstops
             player;
         end;
+
+        put("player end"); putln;
+
+        put("dealer repeat"); putln;
 
         repeat while not dealerstops
             dealer;
         end;
 
+        put("dealer end"); putln;
+
         playing (continue);
+
+        put("playing (continue)"); putln;
     end;
 
     somebodyplays (continue);
