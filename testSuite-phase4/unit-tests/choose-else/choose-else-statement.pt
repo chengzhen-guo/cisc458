@@ -4,12 +4,12 @@ var i = 1;
 
 choose i of
     when 42, 43 then
-        put("1"); putln();
+        put("1"); putln;
         var x = 1;
     when 44 then
-        put("2"); putln();
+        put("2"); putln;
         var y = 1;
     else
-        put("3"); putln();
+        put("3"); putln;
         var z = 1;
 end;
