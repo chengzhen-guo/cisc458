@@ -2150,9 +2150,7 @@ OperandRepeatStringPop:
     @SaveTempRegsToStack        %       pushl %eax .. %edx
 
     % Now send the arguments
-    @OperandForceAddressIntoTemp
     @OperandForcetoStack
-    @OperandPopAndFreeTemp
 
     @OperandForceAddressIntoTemp
     @OperandForcetoStack
@@ -2196,13 +2194,8 @@ OperandSubstringPopPop:
     @SaveTempRegsToStack        %       pushl %eax .. %edx
 
     % Now send the arguments
-    @OperandForceAddressIntoTemp
     @OperandForcetoStack
-    @OperandPopAndFreeTemp
-
-    @OperandForceAddressIntoTemp
     @OperandForcetoStack
-    @OperandPopAndFreeTemp
 
     @OperandForceAddressIntoTemp
     @OperandForcetoStack
@@ -2220,7 +2213,7 @@ OperandSubstringPopPop:
     oOperandSetLength(word)
     oOperandPushMode(mManifest)
     oOperandSetLength(word)
-    oOperandSetValue(eight)      % ... %esp, 1arg*4
+    oOperandSetValue(12)      % ... %esp, 1arg*4
     oEmitDouble(iAdd)           %       addl    $4, %esp
 
     oOperandPop
