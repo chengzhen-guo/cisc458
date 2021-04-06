@@ -10,4 +10,4 @@ var s2 = x | y;
 var s3 = x || 5;
 
 var eq = x == y;
-var ne = x != y;
+// var ne = x != y;
