@@ -1,0 +1,6 @@
+using input;
+
+var x = "Hello";
+var y = "World";
+
+var z = x != y;
