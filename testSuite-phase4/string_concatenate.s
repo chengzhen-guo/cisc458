@@ -48,3 +48,5 @@ s36:    .asciz  "World"
     pushl    %eax
     lea    u+4,%eax
     pushl    %eax
+    call    pttrap103
+    addl    $8,%esp
