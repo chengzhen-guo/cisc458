@@ -3,4 +3,4 @@ using output;
 var x = "Hello";
 var y = x != "World";
 
-put ("", y); putln;
+put (y); putln;
