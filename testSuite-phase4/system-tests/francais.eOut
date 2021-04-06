@@ -906,7 +906,7 @@
         ] or >
         >>
        ;OperandForceIntoTemp
-       oOperandSetLength(one)
+       oOperandSetLength(two)
        >>
       ;OperandLength
       ] or >
@@ -970,15 +970,8 @@
         >>
        ;SaveTempRegsToStack
        @OperandForceToStack
-        [ oOperandChooseLength (one)
-        | one:
-        @OperandForceIntoTemp
-         [ oOperandChooseMode (mTemp)
-         | mTemp:
-         ] or >
-         >>
-        ;OperandForceIntoTemp
-        oOperandSetLength(two)
+        [ oOperandChooseLength (two)
+        | two:
         ] or >
         oEmitSingle(iPush)
         @OperandPopAndFreeTemp
