@@ -1061,46 +1061,57 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
             { reset }
             symbolTblKind[pidReset] := syProcedure;
             symbolTblValue[pidReset] := -rtReset;
+            symbolTblTypeTblLink[pidReset] := null;
 
             { rewrite }
             symbolTblKind[pidRewrite] := syProcedure;
             symbolTblValue[pidRewrite] := -rtRewrite;
+            symbolTblTypeTblLink[pidRewrite] := null;
 
             { write }
             symbolTblKind[pidWrite] := syProcedure;
             symbolTblValue[pidWrite] := -rtWrite;
+            symbolTblTypeTblLink[pidWrite] := null;
 
             { writeln }
             symbolTblKind[pidWriteln] := syProcedure;
             symbolTblValue[pidWriteln] := -rtWriteln;
+            symbolTblTypeTblLink[pidWriteln] := null;
 
             { read }
             symbolTblKind[pidRead] := syProcedure;
             symbolTblValue[pidRead] := -rtRead;
+            symbolTblTypeTblLink[pidRead] := null;
 
             { readln }
             symbolTblKind[pidReadln] := syProcedure;
             symbolTblValue[pidReadln] := -rtReadln;
+            symbolTblTypeTblLink[pidReadln] := null;
 
             { chr }
             symbolTblKind[pidChr] := syFunction;
             symbolTblValue[pidChr] := -rtChr;
+            symbolTblTypeTblLink[pidChr] := null;
 
             { ord }
             symbolTblKind[pidOrd] := syFunction;
             symbolTblValue[pidOrd] := -rtOrd;
+            symbolTblTypeTblLink[pidOrd] := null;
 
             { eoln }
             symbolTblKind[pidEoln] := syFunction;
             symbolTblValue[pidEoln] := -rtEoln;
+            symbolTblTypeTblLink[pidEoln] := null;
 
             { eof }
             symbolTblKind[pidEof] := syFunction;
             symbolTblValue[pidEof] := -rtEof;
+            symbolTblTypeTblLink[pidEof] := null;
 
             { assign }
             symbolTblKind[pidAssign] := syProcedure;
             symbolTblValue[pidAssign] := -rtAssign;
+            symbolTblTypeTblLink[pidAssign] := null;
 
             Assert(lastPredeclaredId = pidAssign, assert58);
 
@@ -1733,7 +1744,6 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                                 symbolTblTypeTblLink[symbolTblTop] := 
                                     symbolStkTypeTblLink[symbolStkTop];
                                 symbolStkSymbolTblRef[symbolStkTop] := symbolTblTop;
-                                symbolTblPublicFlag[symbolTblTop] := symbolStkPublicFlag[symbolStkTop];
 
                                 { Update identifier table links }
                                 link := symbolStkIdentTblRef[symbolStkTop];
@@ -1762,7 +1772,6 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
 
                             symbolTblValue[symbolRef] := symbolStkValue[symbolStkTop];
                             symbolTblTypeTblLink[symbolRef] := symbolStkTypeTblLink[symbolStkTop];
-                            symbolTblPublicFlag[symbolRef] := symbolStkPublicFlag[symbolStkTop];
                         end;
 
                     oSymbolTblPushScope:
