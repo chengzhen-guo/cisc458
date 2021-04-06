@@ -1,5 +1,3 @@
 using input;
 
-var x = "Hello";
-
-var y = x || 5;
+put ("Hello " || 5);
