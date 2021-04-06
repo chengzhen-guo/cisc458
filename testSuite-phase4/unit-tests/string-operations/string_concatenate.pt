@@ -1,4 +1,4 @@
-using input;
+using output;
 
 var x = "Hello";
 var y = " ";
