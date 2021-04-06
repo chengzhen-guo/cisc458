@@ -1211,7 +1211,6 @@ EmitDefaultCaseAbort:
         | tCaseElse:
             @Statements
             tCaseElseEnd
-            oEmitSingle(iJmp)
             oEmitCaseMergeBranch
         | *:
             % Call case abort trap (never returns)
