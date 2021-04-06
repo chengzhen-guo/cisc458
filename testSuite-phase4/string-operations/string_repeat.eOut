@@ -370,14 +370,6 @@
     oEmitDouble(iAdd)
     oOperandPop
     oOperandPop
-    oOperandPushMode(mStackReg)
-    oOperandSetLength(two)
-    oOperandPushMode(mManifest)
-    oOperandSetLength(two)
-    oOperandSetValue(eight)
-    oEmitDouble(iAdd)
-    oOperandPop
-    oOperandPop
     oOperandPushMode(mScratchReg1)
     oOperandSetLength(two)
     oOperandPushMode(mResultReg)
