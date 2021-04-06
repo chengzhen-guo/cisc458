@@ -4,4 +4,4 @@ var x = "Hello";
 var y = " ";
 var z = "World";
 
-put (x | y | z);
+put (x | y | z); putln;

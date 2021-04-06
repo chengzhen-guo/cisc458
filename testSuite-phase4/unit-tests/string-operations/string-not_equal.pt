@@ -2,4 +2,4 @@ using output;
 
 var x = "Hello";
 
-put (x != "World");
+put (x != "World"); putln;
