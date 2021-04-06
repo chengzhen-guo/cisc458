@@ -1454,7 +1454,7 @@
        ] or >
        >>
       ;OperandForceIntoTemp
-      oOperandSetLength(two)
+      oOperandSetLength(one)
       >>
      ;OperandStringEqualPop
      ] or >
@@ -1468,11 +1468,11 @@
        [ oOperandChooseManifestValue ()
        | *:
        @EmitTst
-        [ oOperandChooseLength (two)
-        | two:
+        [ oOperandChooseLength (one)
+        | one:
         oOperandPushMode(mManifest)
         oOperandSetValue(zero)
-        oOperandSetLength(two)
+        oOperandSetLength(one)
         ] or >
         @EmitCmp
          oOperandSwap
