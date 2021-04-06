@@ -2129,7 +2129,7 @@ OperandConcatenatePop:
 
     oOperandPop
     oOperandPop
-    
+
     % Accept result
     oOperandPushMode(mScratchReg1)
     oOperandSetLength(word)
@@ -2166,16 +2166,6 @@ OperandRepeatStringPop:
     oOperandPop
 
     % Pop argument
-    oOperandPushMode(mStackReg)
-    oOperandSetLength(word)
-    oOperandPushMode(mManifest)
-    oOperandSetLength(word)
-    oOperandSetValue(eight)      % ... %esp, 1arg*4
-    oEmitDouble(iAdd)           %       addl    $4, %esp
-
-    oOperandPop
-    oOperandPop
-
     oOperandPushMode(mStackReg)
     oOperandSetLength(word)
     oOperandPushMode(mManifest)
@@ -2236,16 +2226,6 @@ OperandSubstringPopPop:
     oOperandPop
     oOperandPop
 
-    oOperandPushMode(mStackReg)
-    oOperandSetLength(word)
-    oOperandPushMode(mManifest)
-    oOperandSetLength(word)
-    oOperandSetValue(eight)      % ... %esp, 1arg*4
-    oEmitDouble(iAdd)           %       addl    $4, %esp
-
-    oOperandPop
-    oOperandPop
-
     % Accept result
     oOperandPushMode(mScratchReg1)
     oOperandSetLength(word)
@@ -2288,16 +2268,6 @@ OperandLength:
     oOperandPop
     oOperandPop
 
-    oOperandPushMode(mStackReg)
-    oOperandSetLength(word)
-    oOperandPushMode(mManifest)
-    oOperandSetLength(word)
-    oOperandSetValue(eight)      % ... %esp, 1arg*4
-    oEmitDouble(iAdd)           %       addl    $4, %esp
-
-    oOperandPop
-    oOperandPop
-
     % Accept result
     oOperandPushMode(mScratchReg1)
     oOperandSetLength(word)
@@ -2334,16 +2304,6 @@ OperandStringEqualPop:
     oOperandPop
 
     % Pop argument
-    oOperandPushMode(mStackReg)
-    oOperandSetLength(word)
-    oOperandPushMode(mManifest)
-    oOperandSetLength(word)
-    oOperandSetValue(eight)      % ... %esp, 1arg*4
-    oEmitDouble(iAdd)           %       addl    $4, %esp
-
-    oOperandPop
-    oOperandPop
-
     oOperandPushMode(mStackReg)
     oOperandSetLength(word)
     oOperandPushMode(mManifest)
