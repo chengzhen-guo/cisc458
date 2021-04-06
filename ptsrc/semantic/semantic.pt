@@ -1726,6 +1726,9 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                             begin
                                 symbolTblTop := symbolTblTop + 1;
                                 symbolTblKind[symbolTblTop] := symbolStkKind[symbolStkTop];
+
+                                symbolTblPublicFlag[symbolTblTop] := symbolStkPublicFlag[symbolStkTop];
+
                                 symbolTblValue[symbolTblTop] := symbolStkValue[symbolStkTop];
                                 symbolTblTypeTblLink[symbolTblTop] := 
                                     symbolStkTypeTblLink[symbolStkTop];
@@ -1754,6 +1757,9 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                             Assert((symbolStkSymbolTblRef[symbolStkTop] <> null), assert5);
                             symbolRef := symbolStkSymbolTblRef[symbolStkTop];
                             symbolTblKind[symbolRef] := symbolStkKind[symbolStkTop];
+
+                            symbolTblPublicFlag[symbolRef] := symbolStkPublicFlag[symbolStkTop];
+
                             symbolTblValue[symbolRef] := symbolStkValue[symbolStkTop];
                             symbolTblTypeTblLink[symbolRef] := symbolStkTypeTblLink[symbolStkTop];
                             symbolTblPublicFlag[symbolRef] := symbolStkPublicFlag[symbolStkTop];
