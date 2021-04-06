@@ -1884,13 +1884,7 @@ OperandCheckedSubscriptNonManifestCharPop:
         | *:
     ]
 
-    % Normalize subscript                       % ... arraydesc, %T
-    oOperandSwap                                % ... %T, arraydesc
-    @OperandPushArrayLowerBound                 % ... %T, arraydesc, lower
-    oOperandSwapLeftAndDest                     % ... arraydesc, %T, lower
-    @OperandSubtractPop                         %       subl lower, %T
-
-    % Add normalized subscript to array address
+    % Add normalized and scaled subscript to array address
     oOperandSwap                                % ... %T, arraydesc
     [ oOperandChooseMode
         | mStatic:
@@ -1898,8 +1892,7 @@ OperandCheckedSubscriptNonManifestCharPop:
             oOperandPushMode(mManifest)
             oOperandSetLength(word)
             oOperandSetValue(eight)
-            %oOperandAddManifestValues          % ... %T, arraydesc+8, 8
-            oEmitDouble(iShl)                   %       shll    $2, %T
+            oOperandAddManifestValues           % ... %T, arraydesc+8, 8
             oOperandPop                         % ... %T, arraydesc+8
             @OperandForceAddressIntoTemp        %       mov     $arraydesc+8, %T2
                                                 % ... %T, %T2
@@ -1912,7 +1905,7 @@ OperandCheckedSubscriptNonManifestCharPop:
             oOperandPushMode(mManifest)
             oOperandSetLength(word)
             oOperandSetValue(eight)             % ... %T, %T2, 8
-            oEmitDouble(iAdd)                   %       addl    $8, %T2     org: iAdd <- iShl
+            oEmitDouble(iAdd)                   %       addl    $8, %T2
             oOperandPop                         % ... %T, %T2
             oEmitDouble(iAdd)                   %       addl    %T2, %T
             @OperandPopAndFreeTemp              % ... %T
