@@ -1,5 +1,3 @@
 using input;
 
-var x = "Hello";
-
 put ("Hello world" / 4 : 5);
