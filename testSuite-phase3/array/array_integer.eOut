@@ -119,6 +119,77 @@
      oTypeStkPop
      >>
     ;ComponentType
-    oValuePop
-### Semantic assertion 20 failed: empty value stack in oValuePop
-while processing line          3
+    ] or >
+    @TypeTblEnterIfNew
+     [ oTypeStkChooseTypeReference (no)
+     | no:
+     oTypeTblEnter
+     ] or >
+     >>
+    ;TypeTblEnterIfNew
+    >>
+   ;TypeBody
+   @EnterVariableAttributes
+    [ oSymbolStkChooseKind (syUndefined)
+    | *:
+    oSymbolStkSetKind(syVariable)
+    [ oTypeStkChooseKind (tpArray)
+    | *:
+    @AllocateVar
+     [ oSymbolStkChooseKind (syVariable)
+     | *:
+     [ oTypeStkChooseKind (tpArray)
+     | tpArray:
+     .tArrayDescriptor
+     oAllocateAlignOnWord
+     oSymbolStkEnterDataAddress
+     .tLiteralInteger
+     oValuePushTypeStkLowerBound
+     oEmitValue
+     % value emitted 1
+     oValuePop
+     .tLiteralAddress
+     oEmitDataAddress
+     % value emitted 4
+     .tStoreInteger
+     oAllocateDescriptor
+     .tLiteralInteger
+     oValuePushTypeStkUpperBound
+     oEmitValue
+     % value emitted 25
+     oValuePop
+     .tLiteralAddress
+     oEmitDataAddress
+     % value emitted 8
+     .tStoreInteger
+     oAllocateDescriptor
+     oAllocateVariable
+     ] or >
+     >>
+    ;AllocateVar
+    oSymbolStkEnterTypeReference
+    oSymbolTblEnter
+    >>
+   ;EnterVariableAttributes
+   oTypeStkPop
+   oSymbolStkPop
+   >>
+  ;VariableDeclarations
+  ] or >
+  }
+  [ (sEnd)
+  | *:
+  ] or >
+  ?sEnd (sEnd)
+  >>
+ ;Block
+ [ oSymbolTblLookupExternal (no)
+ | *:
+ oSymbolTblPopScope
+ oSymbolStkPop
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0
+ >>
+;Program

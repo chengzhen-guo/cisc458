@@ -259,6 +259,206 @@
      oTypeStkPop
      >>
     ;ComponentType
-    oValuePop
-### Semantic assertion 20 failed: empty value stack in oValuePop
-while processing line          6
+    ] or >
+    @TypeTblEnterIfNew
+     [ oTypeStkChooseTypeReference (no)
+     | no:
+     oTypeTblEnter
+     ] or >
+     >>
+    ;TypeTblEnterIfNew
+    >>
+   ;TypeBody
+   @EnterVariableAttributes
+    [ oSymbolStkChooseKind (syUndefined)
+    | *:
+    oSymbolStkSetKind(syVariable)
+    [ oTypeStkChooseKind (tpArray)
+    | *:
+    @AllocateVar
+     [ oSymbolStkChooseKind (syVariable)
+     | *:
+     [ oTypeStkChooseKind (tpArray)
+     | tpArray:
+     .tArrayDescriptor
+     oAllocateAlignOnWord
+     oSymbolStkEnterDataAddress
+     .tLiteralInteger
+     oValuePushTypeStkLowerBound
+     oEmitValue
+     % value emitted 1
+     oValuePop
+     .tLiteralAddress
+     oEmitDataAddress
+     % value emitted 8
+     .tStoreInteger
+     oAllocateDescriptor
+     .tLiteralInteger
+     oValuePushTypeStkUpperBound
+     oEmitValue
+     % value emitted 25
+     oValuePop
+     .tLiteralAddress
+     oEmitDataAddress
+     % value emitted 12
+     .tStoreInteger
+     oAllocateDescriptor
+     oAllocateVariable
+     ] or >
+     >>
+    ;AllocateVar
+    oSymbolStkEnterTypeReference
+    oSymbolTblEnter
+    >>
+   ;EnterVariableAttributes
+   oTypeStkPop
+   oSymbolStkPop
+   >>
+  ;VariableDeclarations
+  ] or >
+  }
+  [ (sVar)
+  | sVar:
+  @VariableDeclarations
+   ?sIdentifier (sIdentifier)
+   oSymbolStkPushLocalIdentifier
+   [ oSymbolStkChooseKind (syUndefined)
+   | syUndefined:
+   ] or >
+   @PublicDefinition
+    [ (sArray)
+    | *:
+    >>
+   ;PublicDefinition
+   [ (sArray)
+   | *:
+   @TypeBody
+    [ (sArray)
+    | sArray:
+    oTypeStkPush(tpArray)
+    @IndexType
+     oValuePush(one)
+     @ConstantValue
+      [ (sInteger)
+      | sInteger:
+      oTypeStkPush(tpInteger)
+      oTypeStkLinkToStandardType(stdInteger)
+      oValuePushInteger
+      [ (sLike)
+      | *:
+      ] or >
+      >>
+     ;ConstantValue
+     [ oTypeStkChooseKind (tpInteger)
+     | tpInteger:
+     ] or >
+     oTypeStkPop
+     oTypeStkEnterBounds
+     [ oTypeStkVerifyBounds (yes)
+     | yes:
+     ] or >
+     oValuePop
+     oValuePop
+     >>
+    ;IndexType
+    [ (sLike)
+    | *:
+    @ComponentType
+     @SimpleType
+      ?sLike (sLike)
+      [ (sIdentifier)
+      | sIdentifier:
+      oSymbolStkPushIdentifier
+      [ oSymbolStkChooseKind (syVariable)
+      | syVariable:
+      oTypeStkPushSymbol
+      ] or >
+      oSymbolStkPop
+      ] or >
+      >>
+     ;SimpleType
+     [ oTypeStkChooseKind (tpInteger)
+     | *:
+     @TypeTblEnterIfNew
+      [ oTypeStkChooseTypeReference (yes)
+      | *:
+      >>
+     ;TypeTblEnterIfNew
+     oTypeStkEnterComponentReference
+     oTypeStkPop
+     >>
+    ;ComponentType
+    ] or >
+    @TypeTblEnterIfNew
+     [ oTypeStkChooseTypeReference (no)
+     | no:
+     oTypeTblEnter
+     ] or >
+     >>
+    ;TypeTblEnterIfNew
+    >>
+   ;TypeBody
+   @EnterVariableAttributes
+    [ oSymbolStkChooseKind (syUndefined)
+    | *:
+    oSymbolStkSetKind(syVariable)
+    [ oTypeStkChooseKind (tpArray)
+    | *:
+    @AllocateVar
+     [ oSymbolStkChooseKind (syVariable)
+     | *:
+     [ oTypeStkChooseKind (tpArray)
+     | tpArray:
+     .tArrayDescriptor
+     oAllocateAlignOnWord
+     oSymbolStkEnterDataAddress
+     .tLiteralInteger
+     oValuePushTypeStkLowerBound
+     oEmitValue
+     % value emitted 1
+     oValuePop
+     .tLiteralAddress
+     oEmitDataAddress
+     % value emitted 116
+     .tStoreInteger
+     oAllocateDescriptor
+     .tLiteralInteger
+     oValuePushTypeStkUpperBound
+     oEmitValue
+     % value emitted 25
+     oValuePop
+     .tLiteralAddress
+     oEmitDataAddress
+     % value emitted 120
+     .tStoreInteger
+     oAllocateDescriptor
+     oAllocateVariable
+     ] or >
+     >>
+    ;AllocateVar
+    oSymbolStkEnterTypeReference
+    oSymbolTblEnter
+    >>
+   ;EnterVariableAttributes
+   oTypeStkPop
+   oSymbolStkPop
+   >>
+  ;VariableDeclarations
+  ] or >
+  }
+  [ (sEnd)
+  | *:
+  ] or >
+  ?sEnd (sEnd)
+  >>
+ ;Block
+ [ oSymbolTblLookupExternal (no)
+ | *:
+ oSymbolTblPopScope
+ oSymbolStkPop
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0
+ >>
+;Program
