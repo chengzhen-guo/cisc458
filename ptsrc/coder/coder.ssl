@@ -1912,7 +1912,7 @@ OperandCheckedSubscriptNonManifestCharPop:
             oOperandPushMode(mManifest)
             oOperandSetLength(word)
             oOperandSetValue(eight)             % ... %T, %T2, 8
-            oEmitDouble(iShl)                   %       addl    $8, %T2     org: iAdd
+            oEmitDouble(iAdd)                   %       addl    $8, %T2     org: iAdd <- iShl
             oOperandPop                         % ... %T, %T2
             oEmitDouble(iAdd)                   %       addl    %T2, %T
             @OperandPopAndFreeTemp              % ... %T
