@@ -2129,17 +2129,7 @@ OperandConcatenatePop:
 
     oOperandPop
     oOperandPop
-
-    oOperandPushMode(mStackReg)
-    oOperandSetLength(word)
-    oOperandPushMode(mManifest)
-    oOperandSetLength(word)
-    oOperandSetValue(eight)      % ... %esp, 1arg*4
-    oEmitDouble(iAdd)           %       addl    $4, %esp
-
-    oOperandPop
-    oOperandPop
-
+    
     % Accept result
     oOperandPushMode(mScratchReg1)
     oOperandSetLength(word)
@@ -2224,6 +2214,10 @@ OperandSubstringPopPop:
     @OperandForcetoStack
     @OperandPopAndFreeTemp
 
+    @OperandForceAddressIntoTemp
+    @OperandForcetoStack
+    @OperandPopAndFreeTemp
+
     % Call the trAssignString trap routine to test the end of line condition
     oOperandPushMode(mTrap)
     oOperandSetValue(trSubstring)
@@ -2276,10 +2270,6 @@ OperandLength:
     @OperandForcetoStack
     @OperandPopAndFreeTemp
 
-    @OperandForceAddressIntoTemp
-    @OperandForcetoStack
-    @OperandPopAndFreeTemp
-
     % Call the trAssignString trap routine to test the end of line condition
     oOperandPushMode(mTrap)
     oOperandSetValue(trLength)
@@ -2292,7 +2282,7 @@ OperandLength:
     oOperandSetLength(word)
     oOperandPushMode(mManifest)
     oOperandSetLength(word)
-    oOperandSetValue(eight)      % ... %esp, 1arg*4
+    oOperandSetValue(four)      % ... %esp, 1arg*4
     oEmitDouble(iAdd)           %       addl    $4, %esp
 
     oOperandPop
