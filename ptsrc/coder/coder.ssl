@@ -2145,6 +2145,7 @@ OperandRepeatStringPop:
 
     % Now send the arguments
     @OperandForcetoStack
+    @OperandPopAndFreeTemp
 
     @OperandForceAddressIntoTemp
     @OperandForcetoStack
@@ -2189,7 +2190,9 @@ OperandSubstringPopPop:
 
     % Now send the arguments
     @OperandForcetoStack
+    @OperandPopAndFreeTemp
     @OperandForcetoStack
+    @OperandPopAndFreeTemp
 
     @OperandForceAddressIntoTemp
     @OperandForcetoStack
