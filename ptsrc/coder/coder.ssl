@@ -2130,10 +2130,6 @@ OperandConcatenatePop:
     oOperandPop
     oOperandPop
 
-    @OperandForceAddressIntoTemp
-    @OperandForcetoStack
-    @OperandPopAndFreeTemp
-
     oOperandPushMode(mStackReg)
     oOperandSetLength(word)
     oOperandPushMode(mManifest)
