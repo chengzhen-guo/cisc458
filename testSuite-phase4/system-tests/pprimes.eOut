@@ -1,0 +1,5188 @@
+@Program
+ @EmitProgramPrologue
+  oEmitNone(iData)
+  oOperandPushMode(mWord)
+  oOperandSetLength(two)
+  oOperandEnterValueFromDataAreaSize
+  oOperandPushMode(mGlobalBase)
+  oEmitDouble(iSpace)
+  oOperandPop
+  oOperandPop
+  oEmitProcLabel(mLineNum)
+  oOperandPushMode(mWord)
+  oOperandSetLength(two)
+  oOperandSetValue(zero)
+  oEmitSingle(iWord)
+  oOperandPop
+  oEmitNone(iText)
+  oOperandPushMode(mMainProc)
+  oEmitSingle(iGlobl)
+  oEmitProcLabel(mMainProc)
+  oOperandPop
+  oEmitNone(iEnter)
+  >>
+ ;EmitProgramPrologue
+ @Block
+  [ (tFileDescriptor)
+  | tFileDescriptor:
+  ?tLiteralInteger (tLiteralInteger)
+  oOperandPushInteger
+  ?tFileBind (tFileBind)
+  ?tLiteralAddress (tLiteralAddress)
+  oOperandPushVariable
+  ?tStoreInteger (tStoreInteger)
+  oOperandSwap
+  @OperandAssignIntegerPopPop
+   [ oOperandCompareLeftAndRight (no)
+   | no:
+   @EmitMove
+    @OperandLeftOrRightIsTemp
+     [ oOperandChooseMode (mManifest)
+     | *:
+     oOperandSwap
+     [ oOperandChooseMode (mStatic)
+     | *:
+     oOperandSwap
+     >>no
+    ;OperandLeftOrRightIsTemp
+    [@OperandLeftOrRightIsTemp (no)
+    | *:
+    [ oOperandChooseMode (mManifest)
+    | mManifest:
+    oEmitDouble(iMov)
+    ] or >
+    >>
+   ;EmitMove
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mManifest)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mStatic)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   ] or >
+   >>
+  ;OperandAssignIntegerPopPop
+  ] or >
+  }
+  [ (tInitialValue)
+  | tInitialValue:
+  @OperandPushExpression
+   [ (tLiteralInteger)
+   | tLiteralInteger:
+   oOperandPushInteger
+   ] or >
+   }
+   [ (tLiteralInteger)
+   | tLiteralInteger:
+   oOperandPushInteger
+   ] or >
+   }
+   [ (tDivide)
+   | tDivide:
+   @OperandDividePop
+    [ oOperandChooseManifestValue (two)
+    | *:
+    oOperandPushMode(mResultReg)
+    oOperandSetLength(two)
+    @OperandEmitDividePopPop
+     oOperandSwapRightAndDest
+     oOperandSwap
+     oOperandPushMode(mScratchReg1)
+     oOperandSetLength(two)
+     oOperandSwap
+     @EmitMove
+      @OperandLeftOrRightIsTemp
+       [ oOperandChooseMode (mManifest)
+       | *:
+       oOperandSwap
+       [ oOperandChooseMode (mScratchReg1)
+       | *:
+       oOperandSwap
+       >>no
+      ;OperandLeftOrRightIsTemp
+      [@OperandLeftOrRightIsTemp (no)
+      | *:
+      [ oOperandChooseMode (mManifest)
+      | mManifest:
+      oEmitDouble(iMov)
+      ] or >
+      >>
+     ;EmitMove
+     @OperandPopAndFreeTemp
+      [ oOperandChooseMode (mManifest)
+      | *:
+      oOperandPop
+      >>
+     ;OperandPopAndFreeTemp
+     oOperandSwap
+     oOperandPushMode(mScratchReg2)
+     oOperandSetLength(two)
+     oOperandSwap
+     @EmitMove
+      @OperandLeftOrRightIsTemp
+       [ oOperandChooseMode (mManifest)
+       | *:
+       oOperandSwap
+       [ oOperandChooseMode (mScratchReg2)
+       | *:
+       oOperandSwap
+       >>no
+      ;OperandLeftOrRightIsTemp
+      [@OperandLeftOrRightIsTemp (no)
+      | *:
+      [ oOperandChooseMode (mManifest)
+      | mManifest:
+      oEmitDouble(iMov)
+      ] or >
+      >>
+     ;EmitMove
+     @OperandPopAndFreeTemp
+      [ oOperandChooseMode (mManifest)
+      | *:
+      oOperandPop
+      >>
+     ;OperandPopAndFreeTemp
+     oOperandPushMode(mResultReg)
+     oOperandSetLength(two)
+     @OperandForceToStack
+      [ oOperandChooseLength (two)
+      | two:
+      ] or >
+      oEmitSingle(iPush)
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mResultReg)
+       | *:
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      oOperandPushMode(mStack)
+      >>
+     ;OperandForceToStack
+     oOperandPop
+     oOperandPushMode(mRemainderReg)
+     oOperandSetLength(two)
+     @OperandForceToStack
+      [ oOperandChooseLength (two)
+      | two:
+      ] or >
+      oEmitSingle(iPush)
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mRemainderReg)
+       | *:
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      oOperandPushMode(mStack)
+      >>
+     ;OperandForceToStack
+     oOperandPop
+     oOperandPushMode(mRemainderReg)
+     oOperandSetLength(two)
+     oOperandSwap
+     oEmitDouble(iMov)
+     oOperandPop
+     oOperandPushMode(mResultReg)
+     oOperandSetLength(two)
+     oOperandSwap
+     oEmitDouble(iMov)
+     oEmitSingle(iExtend)
+     oOperandPop
+     oOperandPop
+     oEmitSingle(iDiv)
+     oOperandPop
+     oOperandPushMode(mScratchReg1)
+     oOperandSetLength(two)
+     oOperandSwap
+     oEmitDouble(iMov)
+     oOperandPop
+     oOperandPushMode(mRemainderReg)
+     oOperandSetLength(two)
+     oEmitSingle(iPop)
+     oOperandPop
+     oOperandPushMode(mResultReg)
+     oOperandSetLength(two)
+     oEmitSingle(iPop)
+     oOperandPop
+     @OperandForceIntoTemp
+      [ oOperandChooseMode (mScratchReg1)
+      | *:
+      [ oOperandChooseLength (two)
+      | two:
+      @OperandPushTempWord
+       oTempAllocate
+       oOperandPushTemp
+       oOperandSetValue(zero)
+       oOperandSetLength(two)
+       >>
+      ;OperandPushTempWord
+      oOperandSwap
+      oEmitDouble(iMov)
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mScratchReg1)
+       | *:
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      oOperandSetMode(mTemp)
+      ] or >
+      >>
+     ;OperandForceIntoTemp
+     >>
+    ;OperandEmitDividePopPop
+    >>
+   ;OperandDividePop
+   ] or >
+   }
+   [ (tInitEnd)
+   | *:
+   ] or >
+   >>
+  ;OperandPushExpression
+  ?tInitEnd (tInitEnd)
+  ?tLiteralAddress (tLiteralAddress)
+  oOperandPushVariable
+  oOperandSwap
+  [ (tStoreInteger)
+  | tStoreInteger:
+  oOperandSetLength(two)
+  @OperandAssignIntegerPopPop
+   [ oOperandCompareLeftAndRight (no)
+   | no:
+   @EmitMove
+    @OperandLeftOrRightIsTemp
+     [ oOperandChooseMode (mTemp)
+     | mTemp:
+     >>yes
+    ;OperandLeftOrRightIsTemp
+    [@OperandLeftOrRightIsTemp (yes)
+    | yes:
+    oEmitDouble(iMov)
+    ] or >
+    >>
+   ;EmitMove
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mTemp)
+    | mTemp:
+    oTempFree
+    ] or >
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mStatic)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   ] or >
+   >>
+  ;OperandAssignIntegerPopPop
+  ] or >
+  ] or >
+  }
+  [ (tArrayDescriptor)
+  | tArrayDescriptor:
+  ?tLiteralInteger (tLiteralInteger)
+  oOperandPushInteger
+  ?tLiteralAddress (tLiteralAddress)
+  oOperandPushVariable
+  ?tStoreInteger (tStoreInteger)
+  oOperandSwap
+  oArrayEnterLowerBound
+  @OperandAssignIntegerPopPop
+   [ oOperandCompareLeftAndRight (no)
+   | no:
+   @EmitMove
+    @OperandLeftOrRightIsTemp
+     [ oOperandChooseMode (mManifest)
+     | *:
+     oOperandSwap
+     [ oOperandChooseMode (mStatic)
+     | *:
+     oOperandSwap
+     >>no
+    ;OperandLeftOrRightIsTemp
+    [@OperandLeftOrRightIsTemp (no)
+    | *:
+    [ oOperandChooseMode (mManifest)
+    | mManifest:
+    oEmitDouble(iMov)
+    ] or >
+    >>
+   ;EmitMove
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mManifest)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mStatic)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   ] or >
+   >>
+  ;OperandAssignIntegerPopPop
+  ?tLiteralInteger (tLiteralInteger)
+  oOperandPushInteger
+  ?tLiteralAddress (tLiteralAddress)
+  oOperandPushVariable
+  ?tStoreInteger (tStoreInteger)
+  oOperandSwap
+  oArrayEnterUpperBound
+  @OperandAssignIntegerPopPop
+   [ oOperandCompareLeftAndRight (no)
+   | no:
+   @EmitMove
+    @OperandLeftOrRightIsTemp
+     [ oOperandChooseMode (mManifest)
+     | *:
+     oOperandSwap
+     [ oOperandChooseMode (mStatic)
+     | *:
+     oOperandSwap
+     >>no
+    ;OperandLeftOrRightIsTemp
+    [@OperandLeftOrRightIsTemp (no)
+    | *:
+    [ oOperandChooseMode (mManifest)
+    | mManifest:
+    oEmitDouble(iMov)
+    ] or >
+    >>
+   ;EmitMove
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mManifest)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mStatic)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   ] or >
+   >>
+  ;OperandAssignIntegerPopPop
+  ] or >
+  }
+  [ (tSkipProc)
+  | tSkipProc:
+  oEmitUnconditionalForwardBranch
+  oFixPushLastAddress
+  @Routine
+   oEmitProcLabel(mProc)
+   oEmitNone(iEnter)
+   [ (tLiteralAddress)
+   | *:
+   oOperandPushMode(mArgument)
+   oOperandSetValue(four)
+   [ (tLiteralAddress)
+   | tLiteralAddress:
+   @OperandNextArgument
+    oOperandSetMode(mManifest)
+    oOperandPushMode(mManifest)
+    oOperandSetValue(four)
+    oOperandAddManifestValues
+    oOperandPop
+    oOperandSetMode(mArgument)
+    >>
+   ;OperandNextArgument
+   oOperandPushCopy
+   oOperandPushVariable
+   oOperandSwap
+   [ (tStoreBoolean)
+   | tStoreBoolean:
+   oOperandSetLength(one)
+   @OperandAssignBooleanPopPop
+    @OperandConvertJumpConditionToData
+     [ oOperandIsJumpCondition (no)
+     | no:
+     ] or >
+     >>
+    ;OperandConvertJumpConditionToData
+    oOperandSetLength(one)
+    @EmitMove
+     @OperandLeftOrRightIsTemp
+      [ oOperandChooseMode (mArgument)
+      | *:
+      oOperandSwap
+      [ oOperandChooseMode (mStatic)
+      | *:
+      oOperandSwap
+      >>no
+     ;OperandLeftOrRightIsTemp
+     [@OperandLeftOrRightIsTemp (no)
+     | *:
+     [ oOperandChooseMode (mArgument)
+     | *:
+     oOperandPushCopy
+     @OperandForceIntoTemp
+      [ oOperandChooseMode (mArgument)
+      | *:
+      [ oOperandChooseLength (one)
+      | one:
+      @OperandPushTempByte
+       oTempAllocate
+       oOperandPushTemp
+       oOperandSetValue(zero)
+       oOperandSetLength(one)
+       >>
+      ;OperandPushTempByte
+      oOperandSwap
+      oEmitDouble(iMov)
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mArgument)
+       | *:
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      oOperandSetMode(mTemp)
+      ] or >
+      >>
+     ;OperandForceIntoTemp
+     oOperandSwapLeftAndDest
+     oEmitDouble(iMov)
+     @OperandPopAndFreeTemp
+      [ oOperandChooseMode (mTemp)
+      | mTemp:
+      oTempFree
+      ] or >
+      oOperandPop
+      >>
+     ;OperandPopAndFreeTemp
+     oOperandSwap
+     >>
+    ;EmitMove
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mArgument)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mStatic)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    >>
+   ;OperandAssignBooleanPopPop
+   ] or >
+   ] or >
+   }
+   [ (tLiteralAddress)
+   | tLiteralAddress:
+   @OperandNextArgument
+    oOperandSetMode(mManifest)
+    oOperandPushMode(mManifest)
+    oOperandSetValue(four)
+    oOperandAddManifestValues
+    oOperandPop
+    oOperandSetMode(mArgument)
+    >>
+   ;OperandNextArgument
+   oOperandPushCopy
+   oOperandPushVariable
+   oOperandSwap
+   [ (tStoreInteger)
+   | tStoreInteger:
+   oOperandSetLength(two)
+   @OperandAssignIntegerPopPop
+    [ oOperandCompareLeftAndRight (no)
+    | no:
+    @EmitMove
+     @OperandLeftOrRightIsTemp
+      [ oOperandChooseMode (mArgument)
+      | *:
+      oOperandSwap
+      [ oOperandChooseMode (mStatic)
+      | *:
+      oOperandSwap
+      >>no
+     ;OperandLeftOrRightIsTemp
+     [@OperandLeftOrRightIsTemp (no)
+     | *:
+     [ oOperandChooseMode (mArgument)
+     | *:
+     oOperandPushCopy
+     @OperandForceIntoTemp
+      [ oOperandChooseMode (mArgument)
+      | *:
+      [ oOperandChooseLength (two)
+      | two:
+      @OperandPushTempWord
+       oTempAllocate
+       oOperandPushTemp
+       oOperandSetValue(zero)
+       oOperandSetLength(two)
+       >>
+      ;OperandPushTempWord
+      oOperandSwap
+      oEmitDouble(iMov)
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mArgument)
+       | *:
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      oOperandSetMode(mTemp)
+      ] or >
+      >>
+     ;OperandForceIntoTemp
+     oOperandSwapLeftAndDest
+     oEmitDouble(iMov)
+     @OperandPopAndFreeTemp
+      [ oOperandChooseMode (mTemp)
+      | mTemp:
+      oTempFree
+      ] or >
+      oOperandPop
+      >>
+     ;OperandPopAndFreeTemp
+     oOperandSwap
+     >>
+    ;EmitMove
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mArgument)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mStatic)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    ] or >
+    >>
+   ;OperandAssignIntegerPopPop
+   ] or >
+   ] or >
+   }
+   [ (tParmEnd)
+   | tParmEnd:
+   ] or >
+   oOperandPop
+   @Block
+    [ (tAssignBegin)
+    | tAssignBegin:
+    @AssignStmt
+     oEmitSourceCoordinate
+     ?tLiteralAddress (tLiteralAddress)
+     @OperandPushVariable
+      oOperandPushVariable
+      [ (tSubscriptBegin)
+      | *:
+      [ (tSubscriptBegin)
+      | tSubscriptBegin:
+      @OperandPushExpression
+       [ (tLiteralAddress)
+       | tLiteralAddress:
+       @OperandPushVariable
+        oOperandPushVariable
+        [ (tFetchInteger)
+        | *:
+        [ (tFetchInteger)
+        | *:
+        [ (tFetchInteger)
+        | tFetchInteger:
+        ] or >
+        >>
+       ;OperandPushVariable
+       ] or >
+       }
+       [ (tSubscriptBoolean)
+       | *:
+       ] or >
+       >>
+      ;OperandPushExpression
+      [ (tSubscriptBoolean)
+      | tSubscriptBoolean:
+      @OperandSubscriptBooleanPop
+       [ oOperandChooseMode (mStatic)
+       | *:
+       @OperandSubscriptNonManifestCharPop
+        [ oOptionTestChecking (yes)
+        | yes:
+        @OperandCheckedSubscriptNonManifestCharPop
+         @OperandForceIntoTemp
+          [ oOperandChooseMode (mStatic)
+          | *:
+          [ oOperandChooseLength (two)
+          | two:
+          @OperandPushTempWord
+           oTempAllocate
+           oOperandPushTemp
+           oOperandSetValue(zero)
+           oOperandSetLength(two)
+           >>
+          ;OperandPushTempWord
+          oOperandSwap
+          oEmitDouble(iMov)
+          @OperandPopAndFreeTemp
+           [ oOperandChooseMode (mStatic)
+           | *:
+           oOperandPop
+           >>
+          ;OperandPopAndFreeTemp
+          oOperandSetMode(mTemp)
+          ] or >
+          >>
+         ;OperandForceIntoTemp
+         [ oOptionTestChecking (yes)
+         | yes:
+         @EmitSubscriptRangeCheck
+          oOperandSwap
+          @OperandPushArrayUpperBound
+           [ oOperandChooseMode (mStatic)
+           | mStatic:
+           oOperandPushArrayUpperBound
+           ] or >
+           >>
+          ;OperandPushArrayUpperBound
+          oOperandSwapLeftAndDest
+          @EmitCmp
+           oOperandSwap
+           [ oOperandChooseMode (mTemp)
+           | *:
+           oOperandSwap
+           @OperandLeftOrRightIsTemp
+            [ oOperandChooseMode (mManifest)
+            | *:
+            oOperandSwap
+            [ oOperandChooseMode (mTemp)
+            | mTemp:
+            oOperandSwap
+            >>yes
+           ;OperandLeftOrRightIsTemp
+           [@OperandLeftOrRightIsTemp (yes)
+           | yes:
+           oEmitDouble(iCmp)
+           ] or >
+           >>
+          ;EmitCmp
+          oOperandPushJumpCondition(iJgt)
+          oEmitConditionalForwardBranch
+          oFixPushLastAddress
+          oOperandPop
+          oOperandPop
+          oOperandSwap
+          @OperandPushArrayLowerBound
+           [ oOperandChooseMode (mStatic)
+           | mStatic:
+           oOperandPushArrayLowerBound
+           ] or >
+           >>
+          ;OperandPushArrayLowerBound
+          oOperandSwapLeftAndDest
+          @EmitCmp
+           oOperandSwap
+           [ oOperandChooseMode (mTemp)
+           | *:
+           oOperandSwap
+           @OperandLeftOrRightIsTemp
+            [ oOperandChooseMode (mManifest)
+            | *:
+            oOperandSwap
+            [ oOperandChooseMode (mTemp)
+            | mTemp:
+            oOperandSwap
+            >>yes
+           ;OperandLeftOrRightIsTemp
+           [@OperandLeftOrRightIsTemp (yes)
+           | yes:
+           oEmitDouble(iCmp)
+           ] or >
+           >>
+          ;EmitCmp
+          oOperandPushJumpCondition(iJge)
+          oEmitConditionalForwardBranch
+          oFixPushLastAddress
+          oOperandPop
+          oOperandPop
+          oFixSwapAddresses
+          oFixForwardBranch
+          oFixPopAddress
+          @EmitSubscriptAbort
+           oOperandPushMode(mLineNum)
+           oOperandSetLength(two)
+           oEmitSingle(iPush)
+           oOperandPop
+           oOperandPushMode(mTrap)
+           oOperandSetValue(trSubscriptAbort)
+           oEmitSingle(iCall)
+           oOperandPop
+           >>
+          ;EmitSubscriptAbort
+          oFixForwardBranch
+          oFixPopAddress
+          >>
+         ;EmitSubscriptRangeCheck
+         ] or >
+         oOperandSwap
+         @OperandPushArrayLowerBound
+          [ oOperandChooseMode (mStatic)
+          | mStatic:
+          oOperandPushArrayLowerBound
+          ] or >
+          >>
+         ;OperandPushArrayLowerBound
+         oOperandSwapLeftAndDest
+         @OperandSubtractPop
+          @OperandAreLeftAndRightManifest
+           [ oOperandChooseMode (mManifest)
+           | mManifest:
+           oOperandSwap
+           [ oOperandChooseMode (mTemp)
+           | *:
+           oOperandSwap
+           >>no
+          ;OperandAreLeftAndRightManifest
+          [@OperandAreLeftAndRightManifest (no)
+          | no:
+          [ oOperandChooseManifestValue (one)
+          | one:
+          oOperandPop
+          @OperandForceIntoTemp
+           [ oOperandChooseMode (mTemp)
+           | mTemp:
+           ] or >
+           >>
+          ;OperandForceIntoTemp
+          oEmitSingle(iDec)
+          ] or >
+          ] or >
+          >>
+         ;OperandSubtractPop
+         oOperandSwap
+         [ oOperandChooseMode (mStatic)
+         | mStatic:
+         oOperandPushMode(mManifest)
+         oOperandSetLength(two)
+         oOperandSetValue(eight)
+         oEmitDouble(iShl)
+         oOperandPop
+         @OperandForceAddressIntoTemp
+          [ oOperandChooseMode (mStatic)
+          | mStatic:
+          @OperandPushTempWord
+           oTempAllocate
+           oOperandPushTemp
+           oOperandSetValue(zero)
+           oOperandSetLength(two)
+           >>
+          ;OperandPushTempWord
+          oOperandSwap
+          oEmitDouble(iLoada)
+          oOperandPop
+          ] or >
+          oOperandSetLength(two)
+          >>
+         ;OperandForceAddressIntoTemp
+         oEmitDouble(iAdd)
+         @OperandPopAndFreeTemp
+          [ oOperandChooseMode (mTemp)
+          | mTemp:
+          oTempFree
+          ] or >
+          oOperandPop
+          >>
+         ;OperandPopAndFreeTemp
+         ] or >
+         oOperandSetMode(mTempIndirect)
+         oOperandSetLength(one)
+         >>
+        ;OperandCheckedSubscriptNonManifestCharPop
+        ] or >
+        >>
+       ;OperandSubscriptNonManifestCharPop
+       oOperandSetLength(one)
+       >>
+      ;OperandSubscriptBooleanPop
+      ] or >
+      ] or >
+      [ (tLiteralAddress)
+      | *:
+      >>
+     ;OperandPushVariable
+     @OperandPushExpressionAssignPopPop
+      [ (tLiteralAddress)
+      | tLiteralAddress:
+      @OperandPushVariable
+       oOperandPushVariable
+       [ (tFetchBoolean)
+       | *:
+       [ (tFetchBoolean)
+       | *:
+       [ (tFetchBoolean)
+       | tFetchBoolean:
+       oOperandSetLength(one)
+       ] or >
+       >>
+      ;OperandPushVariable
+      ] or >
+      }
+      [ (tAssignBoolean)
+      | tAssignBoolean:
+      @OperandAssignBooleanPopPop
+       @OperandConvertJumpConditionToData
+        [ oOperandIsJumpCondition (no)
+        | no:
+        ] or >
+        >>
+       ;OperandConvertJumpConditionToData
+       oOperandSetLength(one)
+       @EmitMove
+        @OperandLeftOrRightIsTemp
+         [ oOperandChooseMode (mStatic)
+         | *:
+         oOperandSwap
+         [ oOperandChooseMode (mTempIndirect)
+         | *:
+         oOperandSwap
+         >>no
+        ;OperandLeftOrRightIsTemp
+        [@OperandLeftOrRightIsTemp (no)
+        | *:
+        [ oOperandChooseMode (mStatic)
+        | *:
+        oOperandPushCopy
+        @OperandForceIntoTemp
+         [ oOperandChooseMode (mStatic)
+         | *:
+         [ oOperandChooseLength (one)
+         | one:
+         @OperandPushTempByte
+          oTempAllocate
+          oOperandPushTemp
+          oOperandSetValue(zero)
+          oOperandSetLength(one)
+          >>
+         ;OperandPushTempByte
+         oOperandSwap
+         oEmitDouble(iMov)
+         @OperandPopAndFreeTemp
+          [ oOperandChooseMode (mStatic)
+          | *:
+          oOperandPop
+          >>
+         ;OperandPopAndFreeTemp
+         oOperandSetMode(mTemp)
+         ] or >
+         >>
+        ;OperandForceIntoTemp
+        oOperandSwapLeftAndDest
+        oEmitDouble(iMov)
+        @OperandPopAndFreeTemp
+         [ oOperandChooseMode (mTemp)
+         | mTemp:
+         oTempFree
+         ] or >
+         oOperandPop
+         >>
+        ;OperandPopAndFreeTemp
+        oOperandSwap
+        >>
+       ;EmitMove
+       @OperandPopAndFreeTemp
+        [ oOperandChooseMode (mStatic)
+        | *:
+        oOperandPop
+        >>
+       ;OperandPopAndFreeTemp
+       @OperandPopAndFreeTemp
+        [ oOperandChooseMode (mTempIndirect)
+        | mTempIndirect:
+        oTempFree
+        ] or >
+        oOperandPop
+        >>
+       ;OperandPopAndFreeTemp
+       >>
+      ;OperandAssignBooleanPopPop
+      ] or >
+      >>
+     ;OperandPushExpressionAssignPopPop
+     >>
+    ;AssignStmt
+    ] or >
+    }
+    [ (tProcedureEnd)
+    | *:
+    ] or >
+    >>
+   ;Block
+   ?tProcedureEnd (tProcedureEnd)
+   oEmitNone(iLeave)
+   oEmitNone(iReturn)
+   >>
+  ;Routine
+  oFixForwardBranch
+  oFixPopAddress
+  ] or >
+  }
+  [ (tSkipProc)
+  | tSkipProc:
+  oEmitUnconditionalForwardBranch
+  oFixPushLastAddress
+  @Routine
+   oEmitProcLabel(mProc)
+   oEmitNone(iEnter)
+   [ (tLiteralAddress)
+   | *:
+   oOperandPushMode(mArgument)
+   oOperandSetValue(four)
+   [ (tLiteralAddress)
+   | tLiteralAddress:
+   @OperandNextArgument
+    oOperandSetMode(mManifest)
+    oOperandPushMode(mManifest)
+    oOperandSetValue(four)
+    oOperandAddManifestValues
+    oOperandPop
+    oOperandSetMode(mArgument)
+    >>
+   ;OperandNextArgument
+   oOperandPushCopy
+   oOperandPushVariable
+   oOperandSwap
+   [ (tStoreAddress)
+   | tStoreAddress:
+   oOperandSetLength(two)
+   @OperandAssignIntegerPopPop
+    [ oOperandCompareLeftAndRight (no)
+    | no:
+    @EmitMove
+     @OperandLeftOrRightIsTemp
+      [ oOperandChooseMode (mArgument)
+      | *:
+      oOperandSwap
+      [ oOperandChooseMode (mStatic)
+      | *:
+      oOperandSwap
+      >>no
+     ;OperandLeftOrRightIsTemp
+     [@OperandLeftOrRightIsTemp (no)
+     | *:
+     [ oOperandChooseMode (mArgument)
+     | *:
+     oOperandPushCopy
+     @OperandForceIntoTemp
+      [ oOperandChooseMode (mArgument)
+      | *:
+      [ oOperandChooseLength (two)
+      | two:
+      @OperandPushTempWord
+       oTempAllocate
+       oOperandPushTemp
+       oOperandSetValue(zero)
+       oOperandSetLength(two)
+       >>
+      ;OperandPushTempWord
+      oOperandSwap
+      oEmitDouble(iMov)
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mArgument)
+       | *:
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      oOperandSetMode(mTemp)
+      ] or >
+      >>
+     ;OperandForceIntoTemp
+     oOperandSwapLeftAndDest
+     oEmitDouble(iMov)
+     @OperandPopAndFreeTemp
+      [ oOperandChooseMode (mTemp)
+      | mTemp:
+      oTempFree
+      ] or >
+      oOperandPop
+      >>
+     ;OperandPopAndFreeTemp
+     oOperandSwap
+     >>
+    ;EmitMove
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mArgument)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mStatic)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    ] or >
+    >>
+   ;OperandAssignIntegerPopPop
+   ] or >
+   ] or >
+   }
+   [ (tLiteralAddress)
+   | tLiteralAddress:
+   @OperandNextArgument
+    oOperandSetMode(mManifest)
+    oOperandPushMode(mManifest)
+    oOperandSetValue(four)
+    oOperandAddManifestValues
+    oOperandPop
+    oOperandSetMode(mArgument)
+    >>
+   ;OperandNextArgument
+   oOperandPushCopy
+   oOperandPushVariable
+   oOperandSwap
+   [ (tStoreInteger)
+   | tStoreInteger:
+   oOperandSetLength(two)
+   @OperandAssignIntegerPopPop
+    [ oOperandCompareLeftAndRight (no)
+    | no:
+    @EmitMove
+     @OperandLeftOrRightIsTemp
+      [ oOperandChooseMode (mArgument)
+      | *:
+      oOperandSwap
+      [ oOperandChooseMode (mStatic)
+      | *:
+      oOperandSwap
+      >>no
+     ;OperandLeftOrRightIsTemp
+     [@OperandLeftOrRightIsTemp (no)
+     | *:
+     [ oOperandChooseMode (mArgument)
+     | *:
+     oOperandPushCopy
+     @OperandForceIntoTemp
+      [ oOperandChooseMode (mArgument)
+      | *:
+      [ oOperandChooseLength (two)
+      | two:
+      @OperandPushTempWord
+       oTempAllocate
+       oOperandPushTemp
+       oOperandSetValue(zero)
+       oOperandSetLength(two)
+       >>
+      ;OperandPushTempWord
+      oOperandSwap
+      oEmitDouble(iMov)
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mArgument)
+       | *:
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      oOperandSetMode(mTemp)
+      ] or >
+      >>
+     ;OperandForceIntoTemp
+     oOperandSwapLeftAndDest
+     oEmitDouble(iMov)
+     @OperandPopAndFreeTemp
+      [ oOperandChooseMode (mTemp)
+      | mTemp:
+      oTempFree
+      ] or >
+      oOperandPop
+      >>
+     ;OperandPopAndFreeTemp
+     oOperandSwap
+     >>
+    ;EmitMove
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mArgument)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mStatic)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    ] or >
+    >>
+   ;OperandAssignIntegerPopPop
+   ] or >
+   ] or >
+   }
+   [ (tParmEnd)
+   | tParmEnd:
+   ] or >
+   oOperandPop
+   @Block
+    [ (tAssignBegin)
+    | tAssignBegin:
+    @AssignStmt
+     oEmitSourceCoordinate
+     ?tLiteralAddress (tLiteralAddress)
+     @OperandPushVariable
+      oOperandPushVariable
+      [ (tFetchAddress)
+      | tFetchAddress:
+      oOperandSetMode(mStatic)
+      @OperandForceIntoTemp
+       [ oOperandChooseMode (mStatic)
+       | *:
+       [ oOperandChooseLength (two)
+       | two:
+       @OperandPushTempWord
+        oTempAllocate
+        oOperandPushTemp
+        oOperandSetValue(zero)
+        oOperandSetLength(two)
+        >>
+       ;OperandPushTempWord
+       oOperandSwap
+       oEmitDouble(iMov)
+       @OperandPopAndFreeTemp
+        [ oOperandChooseMode (mStatic)
+        | *:
+        oOperandPop
+        >>
+       ;OperandPopAndFreeTemp
+       oOperandSetMode(mTemp)
+       ] or >
+       >>
+      ;OperandForceIntoTemp
+      oOperandSetMode(mTempIndirect)
+      ] or >
+      [ (tLiteralAddress)
+      | *:
+      [ (tLiteralAddress)
+      | *:
+      >>
+     ;OperandPushVariable
+     @OperandPushExpressionAssignPopPop
+      [ (tLiteralAddress)
+      | tLiteralAddress:
+      @OperandPushVariable
+       oOperandPushVariable
+       [ (tSubscriptBegin)
+       | *:
+       [ (tSubscriptBegin)
+       | tSubscriptBegin:
+       @OperandPushExpression
+        [ (tLiteralAddress)
+        | tLiteralAddress:
+        @OperandPushVariable
+         oOperandPushVariable
+         [ (tFetchInteger)
+         | *:
+         [ (tFetchInteger)
+         | *:
+         [ (tFetchInteger)
+         | tFetchInteger:
+         ] or >
+         >>
+        ;OperandPushVariable
+        ] or >
+        }
+        [ (tSubscriptBoolean)
+        | *:
+        ] or >
+        >>
+       ;OperandPushExpression
+       [ (tSubscriptBoolean)
+       | tSubscriptBoolean:
+       @OperandSubscriptBooleanPop
+        [ oOperandChooseMode (mStatic)
+        | *:
+        @OperandSubscriptNonManifestCharPop
+         [ oOptionTestChecking (yes)
+         | yes:
+         @OperandCheckedSubscriptNonManifestCharPop
+          @OperandForceIntoTemp
+           [ oOperandChooseMode (mStatic)
+           | *:
+           [ oOperandChooseLength (two)
+           | two:
+           @OperandPushTempWord
+            oTempAllocate
+            oOperandPushTemp
+            oOperandSetValue(zero)
+            oOperandSetLength(two)
+            >>
+           ;OperandPushTempWord
+           oOperandSwap
+           oEmitDouble(iMov)
+           @OperandPopAndFreeTemp
+            [ oOperandChooseMode (mStatic)
+            | *:
+            oOperandPop
+            >>
+           ;OperandPopAndFreeTemp
+           oOperandSetMode(mTemp)
+           ] or >
+           >>
+          ;OperandForceIntoTemp
+          [ oOptionTestChecking (yes)
+          | yes:
+          @EmitSubscriptRangeCheck
+           oOperandSwap
+           @OperandPushArrayUpperBound
+            [ oOperandChooseMode (mStatic)
+            | mStatic:
+            oOperandPushArrayUpperBound
+            ] or >
+            >>
+           ;OperandPushArrayUpperBound
+           oOperandSwapLeftAndDest
+           @EmitCmp
+            oOperandSwap
+            [ oOperandChooseMode (mTemp)
+            | *:
+            oOperandSwap
+            @OperandLeftOrRightIsTemp
+             [ oOperandChooseMode (mManifest)
+             | *:
+             oOperandSwap
+             [ oOperandChooseMode (mTemp)
+             | mTemp:
+             oOperandSwap
+             >>yes
+            ;OperandLeftOrRightIsTemp
+            [@OperandLeftOrRightIsTemp (yes)
+            | yes:
+            oEmitDouble(iCmp)
+            ] or >
+            >>
+           ;EmitCmp
+           oOperandPushJumpCondition(iJgt)
+           oEmitConditionalForwardBranch
+           oFixPushLastAddress
+           oOperandPop
+           oOperandPop
+           oOperandSwap
+           @OperandPushArrayLowerBound
+            [ oOperandChooseMode (mStatic)
+            | mStatic:
+            oOperandPushArrayLowerBound
+            ] or >
+            >>
+           ;OperandPushArrayLowerBound
+           oOperandSwapLeftAndDest
+           @EmitCmp
+            oOperandSwap
+            [ oOperandChooseMode (mTemp)
+            | *:
+            oOperandSwap
+            @OperandLeftOrRightIsTemp
+             [ oOperandChooseMode (mManifest)
+             | *:
+             oOperandSwap
+             [ oOperandChooseMode (mTemp)
+             | mTemp:
+             oOperandSwap
+             >>yes
+            ;OperandLeftOrRightIsTemp
+            [@OperandLeftOrRightIsTemp (yes)
+            | yes:
+            oEmitDouble(iCmp)
+            ] or >
+            >>
+           ;EmitCmp
+           oOperandPushJumpCondition(iJge)
+           oEmitConditionalForwardBranch
+           oFixPushLastAddress
+           oOperandPop
+           oOperandPop
+           oFixSwapAddresses
+           oFixForwardBranch
+           oFixPopAddress
+           @EmitSubscriptAbort
+            oOperandPushMode(mLineNum)
+            oOperandSetLength(two)
+            oEmitSingle(iPush)
+            oOperandPop
+            oOperandPushMode(mTrap)
+            oOperandSetValue(trSubscriptAbort)
+            oEmitSingle(iCall)
+            oOperandPop
+            >>
+           ;EmitSubscriptAbort
+           oFixForwardBranch
+           oFixPopAddress
+           >>
+          ;EmitSubscriptRangeCheck
+          ] or >
+          oOperandSwap
+          @OperandPushArrayLowerBound
+           [ oOperandChooseMode (mStatic)
+           | mStatic:
+           oOperandPushArrayLowerBound
+           ] or >
+           >>
+          ;OperandPushArrayLowerBound
+          oOperandSwapLeftAndDest
+          @OperandSubtractPop
+           @OperandAreLeftAndRightManifest
+            [ oOperandChooseMode (mManifest)
+            | mManifest:
+            oOperandSwap
+            [ oOperandChooseMode (mTemp)
+            | *:
+            oOperandSwap
+            >>no
+           ;OperandAreLeftAndRightManifest
+           [@OperandAreLeftAndRightManifest (no)
+           | no:
+           [ oOperandChooseManifestValue (one)
+           | one:
+           oOperandPop
+           @OperandForceIntoTemp
+            [ oOperandChooseMode (mTemp)
+            | mTemp:
+            ] or >
+            >>
+           ;OperandForceIntoTemp
+           oEmitSingle(iDec)
+           ] or >
+           ] or >
+           >>
+          ;OperandSubtractPop
+          oOperandSwap
+          [ oOperandChooseMode (mStatic)
+          | mStatic:
+          oOperandPushMode(mManifest)
+          oOperandSetLength(two)
+          oOperandSetValue(eight)
+          oEmitDouble(iShl)
+          oOperandPop
+          @OperandForceAddressIntoTemp
+           [ oOperandChooseMode (mStatic)
+           | mStatic:
+           @OperandPushTempWord
+            oTempAllocate
+            oOperandPushTemp
+            oOperandSetValue(zero)
+            oOperandSetLength(two)
+            >>
+           ;OperandPushTempWord
+           oOperandSwap
+           oEmitDouble(iLoada)
+           oOperandPop
+           ] or >
+           oOperandSetLength(two)
+           >>
+          ;OperandForceAddressIntoTemp
+          oEmitDouble(iAdd)
+          @OperandPopAndFreeTemp
+           [ oOperandChooseMode (mTemp)
+           | mTemp:
+           oTempFree
+           ] or >
+           oOperandPop
+           >>
+          ;OperandPopAndFreeTemp
+          ] or >
+          oOperandSetMode(mTempIndirect)
+          oOperandSetLength(one)
+          >>
+         ;OperandCheckedSubscriptNonManifestCharPop
+         ] or >
+         >>
+        ;OperandSubscriptNonManifestCharPop
+        oOperandSetLength(one)
+        >>
+       ;OperandSubscriptBooleanPop
+       ] or >
+       ] or >
+       [ (tFetchBoolean)
+       | tFetchBoolean:
+       oOperandSetLength(one)
+       ] or >
+       >>
+      ;OperandPushVariable
+      ] or >
+      }
+      [ (tAssignBoolean)
+      | tAssignBoolean:
+      @OperandAssignBooleanPopPop
+       @OperandConvertJumpConditionToData
+        [ oOperandIsJumpCondition (no)
+        | no:
+        ] or >
+        >>
+       ;OperandConvertJumpConditionToData
+       oOperandSetLength(one)
+       @EmitMove
+        @OperandLeftOrRightIsTemp
+         [ oOperandChooseMode (mTempIndirect)
+         | *:
+         oOperandSwap
+         [ oOperandChooseMode (mTempIndirect)
+         | *:
+         oOperandSwap
+         >>no
+        ;OperandLeftOrRightIsTemp
+        [@OperandLeftOrRightIsTemp (no)
+        | *:
+        [ oOperandChooseMode (mTempIndirect)
+        | *:
+        oOperandPushCopy
+        @OperandForceIntoTemp
+         [ oOperandChooseMode (mTempIndirect)
+         | mTempIndirect:
+         oOperandPushCopy
+         oOperandSetMode(mTemp)
+         oOperandSwap
+         oEmitDouble(iMov)
+         oOperandPop
+         ] or >
+         >>
+        ;OperandForceIntoTemp
+        oOperandSwapLeftAndDest
+        oEmitDouble(iMov)
+        @OperandPopAndFreeTemp
+         [ oOperandChooseMode (mTemp)
+         | mTemp:
+         oTempFree
+         ] or >
+         oOperandPop
+         >>
+        ;OperandPopAndFreeTemp
+        oOperandSwap
+        >>
+       ;EmitMove
+       @OperandPopAndFreeTemp
+        [ oOperandChooseMode (mTempIndirect)
+        | mTempIndirect:
+        oTempFree
+        ] or >
+        oOperandPop
+        >>
+       ;OperandPopAndFreeTemp
+       @OperandPopAndFreeTemp
+        [ oOperandChooseMode (mTempIndirect)
+        | mTempIndirect:
+        oTempFree
+        ] or >
+        oOperandPop
+        >>
+       ;OperandPopAndFreeTemp
+       >>
+      ;OperandAssignBooleanPopPop
+      ] or >
+      >>
+     ;OperandPushExpressionAssignPopPop
+     >>
+    ;AssignStmt
+    ] or >
+    }
+    [ (tProcedureEnd)
+    | *:
+    ] or >
+    >>
+   ;Block
+   ?tProcedureEnd (tProcedureEnd)
+   oEmitNone(iLeave)
+   oEmitNone(iReturn)
+   >>
+  ;Routine
+  oFixForwardBranch
+  oFixPopAddress
+  ] or >
+  }
+  [ (tInitialValue)
+  | tInitialValue:
+  @OperandPushExpression
+   [ (tLiteralInteger)
+   | tLiteralInteger:
+   oOperandPushInteger
+   ] or >
+   }
+   [ (tInitEnd)
+   | *:
+   ] or >
+   >>
+  ;OperandPushExpression
+  ?tInitEnd (tInitEnd)
+  ?tLiteralAddress (tLiteralAddress)
+  oOperandPushVariable
+  oOperandSwap
+  [ (tStoreInteger)
+  | tStoreInteger:
+  oOperandSetLength(two)
+  @OperandAssignIntegerPopPop
+   [ oOperandCompareLeftAndRight (no)
+   | no:
+   @EmitMove
+    @OperandLeftOrRightIsTemp
+     [ oOperandChooseMode (mManifest)
+     | *:
+     oOperandSwap
+     [ oOperandChooseMode (mStatic)
+     | *:
+     oOperandSwap
+     >>no
+    ;OperandLeftOrRightIsTemp
+    [@OperandLeftOrRightIsTemp (no)
+    | *:
+    [ oOperandChooseMode (mManifest)
+    | mManifest:
+    oEmitDouble(iMov)
+    ] or >
+    >>
+   ;EmitMove
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mManifest)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mStatic)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   ] or >
+   >>
+  ;OperandAssignIntegerPopPop
+  ] or >
+  ] or >
+  }
+  [ (tWhileBegin)
+  | tWhileBegin:
+  @WhileStmt
+   oFixPushAddress
+   oEmitMergeSourceCoordinate
+   @OperandPushBooleanControlExpression
+    @OperandPushExpression
+     [ (tLiteralAddress)
+     | tLiteralAddress:
+     @OperandPushVariable
+      oOperandPushVariable
+      [ (tFetchInteger)
+      | *:
+      [ (tFetchInteger)
+      | *:
+      [ (tFetchInteger)
+      | tFetchInteger:
+      ] or >
+      >>
+     ;OperandPushVariable
+     ] or >
+     }
+     [ (tLiteralInteger)
+     | tLiteralInteger:
+     oOperandPushInteger
+     ] or >
+     }
+     [ (tLE)
+     | tLE:
+     @OperandGreaterPop
+      [ oOperandCompareLeftAndRight (no)
+      | no:
+      [ oOperandChooseManifestValue ()
+      | *:
+      oOperandSwap
+      [ oOperandChooseManifestValue ()
+      | *:
+      oOperandSwap
+      @EmitCmp
+       oOperandSwap
+       [ oOperandChooseMode (mStatic)
+       | *:
+       oOperandSwap
+       @OperandLeftOrRightIsTemp
+        [ oOperandChooseMode (mManifest)
+        | *:
+        oOperandSwap
+        [ oOperandChooseMode (mStatic)
+        | *:
+        oOperandSwap
+        >>no
+       ;OperandLeftOrRightIsTemp
+       [@OperandLeftOrRightIsTemp (no)
+       | *:
+       [ oOperandChooseMode (mManifest)
+       | mManifest:
+       oEmitDouble(iCmp)
+       ] or >
+       >>
+      ;EmitCmp
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mManifest)
+       | *:
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mStatic)
+       | *:
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      oOperandPushJumpCondition(iJgt)
+      ] or >
+      >>
+     ;OperandGreaterPop
+     @OperandNot
+      @OperandForceToJumpCondition
+       [ oOperandIsJumpCondition (yes)
+       | yes:
+       ] or >
+       >>
+      ;OperandForceToJumpCondition
+      @OperandComplementJumpCondition
+       [ oOperandChooseJumpCondition (iJgt)
+       | *:
+       oOperandComplementJumpCondition
+       >>
+      ;OperandComplementJumpCondition
+      >>
+     ;OperandNot
+     ] or >
+     }
+     [ (tWhileTest)
+     | *:
+     ] or >
+     >>
+    ;OperandPushExpression
+    @OperandForceToJumpCondition
+     [ oOperandIsJumpCondition (yes)
+     | yes:
+     ] or >
+     >>
+    ;OperandForceToJumpCondition
+    >>
+   ;OperandPushBooleanControlExpression
+   ?tWhileTest (tWhileTest)
+   @OperandComplementJumpCondition
+    [ oOperandChooseJumpCondition (iJle)
+    | *:
+    oOperandComplementJumpCondition
+    >>
+   ;OperandComplementJumpCondition
+   [ oOperandChooseJumpCondition (iJgt)
+   | *:
+   @OperandInfixOr
+    @OperandForceToJumpCondition
+     [ oOperandIsJumpCondition (yes)
+     | yes:
+     ] or >
+     >>
+    ;OperandForceToJumpCondition
+    [ oOperandChooseJumpCondition (iJgt)
+    | *:
+    oEmitConditionalForwardBranch
+    oFixAndFreeFalseBranches
+    oFixPushLastAddress
+    oOperandMergeShuntsWithAddress
+    oFixPopAddress
+    >>
+   ;OperandInfixOr
+   @Statements
+    @Block
+     [ (tAssignBegin)
+     | tAssignBegin:
+     @AssignStmt
+      oEmitSourceCoordinate
+      ?tLiteralAddress (tLiteralAddress)
+      @OperandPushVariable
+       oOperandPushVariable
+       [ (tSubscriptBegin)
+       | *:
+       [ (tSubscriptBegin)
+       | tSubscriptBegin:
+       @OperandPushExpression
+        [ (tLiteralAddress)
+        | tLiteralAddress:
+        @OperandPushVariable
+         oOperandPushVariable
+         [ (tFetchInteger)
+         | *:
+         [ (tFetchInteger)
+         | *:
+         [ (tFetchInteger)
+         | tFetchInteger:
+         ] or >
+         >>
+        ;OperandPushVariable
+        ] or >
+        }
+        [ (tSubscriptBoolean)
+        | *:
+        ] or >
+        >>
+       ;OperandPushExpression
+       [ (tSubscriptBoolean)
+       | tSubscriptBoolean:
+       @OperandSubscriptBooleanPop
+        [ oOperandChooseMode (mStatic)
+        | *:
+        @OperandSubscriptNonManifestCharPop
+         [ oOptionTestChecking (yes)
+         | yes:
+         @OperandCheckedSubscriptNonManifestCharPop
+          @OperandForceIntoTemp
+           [ oOperandChooseMode (mStatic)
+           | *:
+           [ oOperandChooseLength (two)
+           | two:
+           @OperandPushTempWord
+            oTempAllocate
+            oOperandPushTemp
+            oOperandSetValue(zero)
+            oOperandSetLength(two)
+            >>
+           ;OperandPushTempWord
+           oOperandSwap
+           oEmitDouble(iMov)
+           @OperandPopAndFreeTemp
+            [ oOperandChooseMode (mStatic)
+            | *:
+            oOperandPop
+            >>
+           ;OperandPopAndFreeTemp
+           oOperandSetMode(mTemp)
+           ] or >
+           >>
+          ;OperandForceIntoTemp
+          [ oOptionTestChecking (yes)
+          | yes:
+          @EmitSubscriptRangeCheck
+           oOperandSwap
+           @OperandPushArrayUpperBound
+            [ oOperandChooseMode (mStatic)
+            | mStatic:
+            oOperandPushArrayUpperBound
+            ] or >
+            >>
+           ;OperandPushArrayUpperBound
+           oOperandSwapLeftAndDest
+           @EmitCmp
+            oOperandSwap
+            [ oOperandChooseMode (mTemp)
+            | *:
+            oOperandSwap
+            @OperandLeftOrRightIsTemp
+             [ oOperandChooseMode (mManifest)
+             | *:
+             oOperandSwap
+             [ oOperandChooseMode (mTemp)
+             | mTemp:
+             oOperandSwap
+             >>yes
+            ;OperandLeftOrRightIsTemp
+            [@OperandLeftOrRightIsTemp (yes)
+            | yes:
+            oEmitDouble(iCmp)
+            ] or >
+            >>
+           ;EmitCmp
+           oOperandPushJumpCondition(iJgt)
+           oEmitConditionalForwardBranch
+           oFixPushLastAddress
+           oOperandPop
+           oOperandPop
+           oOperandSwap
+           @OperandPushArrayLowerBound
+            [ oOperandChooseMode (mStatic)
+            | mStatic:
+            oOperandPushArrayLowerBound
+            ] or >
+            >>
+           ;OperandPushArrayLowerBound
+           oOperandSwapLeftAndDest
+           @EmitCmp
+            oOperandSwap
+            [ oOperandChooseMode (mTemp)
+            | *:
+            oOperandSwap
+            @OperandLeftOrRightIsTemp
+             [ oOperandChooseMode (mManifest)
+             | *:
+             oOperandSwap
+             [ oOperandChooseMode (mTemp)
+             | mTemp:
+             oOperandSwap
+             >>yes
+            ;OperandLeftOrRightIsTemp
+            [@OperandLeftOrRightIsTemp (yes)
+            | yes:
+            oEmitDouble(iCmp)
+            ] or >
+            >>
+           ;EmitCmp
+           oOperandPushJumpCondition(iJge)
+           oEmitConditionalForwardBranch
+           oFixPushLastAddress
+           oOperandPop
+           oOperandPop
+           oFixSwapAddresses
+           oFixForwardBranch
+           oFixPopAddress
+           @EmitSubscriptAbort
+            oOperandPushMode(mLineNum)
+            oOperandSetLength(two)
+            oEmitSingle(iPush)
+            oOperandPop
+            oOperandPushMode(mTrap)
+            oOperandSetValue(trSubscriptAbort)
+            oEmitSingle(iCall)
+            oOperandPop
+            >>
+           ;EmitSubscriptAbort
+           oFixForwardBranch
+           oFixPopAddress
+           >>
+          ;EmitSubscriptRangeCheck
+          ] or >
+          oOperandSwap
+          @OperandPushArrayLowerBound
+           [ oOperandChooseMode (mStatic)
+           | mStatic:
+           oOperandPushArrayLowerBound
+           ] or >
+           >>
+          ;OperandPushArrayLowerBound
+          oOperandSwapLeftAndDest
+          @OperandSubtractPop
+           @OperandAreLeftAndRightManifest
+            [ oOperandChooseMode (mManifest)
+            | mManifest:
+            oOperandSwap
+            [ oOperandChooseMode (mTemp)
+            | *:
+            oOperandSwap
+            >>no
+           ;OperandAreLeftAndRightManifest
+           [@OperandAreLeftAndRightManifest (no)
+           | no:
+           [ oOperandChooseManifestValue (one)
+           | one:
+           oOperandPop
+           @OperandForceIntoTemp
+            [ oOperandChooseMode (mTemp)
+            | mTemp:
+            ] or >
+            >>
+           ;OperandForceIntoTemp
+           oEmitSingle(iDec)
+           ] or >
+           ] or >
+           >>
+          ;OperandSubtractPop
+          oOperandSwap
+          [ oOperandChooseMode (mStatic)
+          | mStatic:
+          oOperandPushMode(mManifest)
+          oOperandSetLength(two)
+          oOperandSetValue(eight)
+          oEmitDouble(iShl)
+          oOperandPop
+          @OperandForceAddressIntoTemp
+           [ oOperandChooseMode (mStatic)
+           | mStatic:
+           @OperandPushTempWord
+            oTempAllocate
+            oOperandPushTemp
+            oOperandSetValue(zero)
+            oOperandSetLength(two)
+            >>
+           ;OperandPushTempWord
+           oOperandSwap
+           oEmitDouble(iLoada)
+           oOperandPop
+           ] or >
+           oOperandSetLength(two)
+           >>
+          ;OperandForceAddressIntoTemp
+          oEmitDouble(iAdd)
+          @OperandPopAndFreeTemp
+           [ oOperandChooseMode (mTemp)
+           | mTemp:
+           oTempFree
+           ] or >
+           oOperandPop
+           >>
+          ;OperandPopAndFreeTemp
+          ] or >
+          oOperandSetMode(mTempIndirect)
+          oOperandSetLength(one)
+          >>
+         ;OperandCheckedSubscriptNonManifestCharPop
+         ] or >
+         >>
+        ;OperandSubscriptNonManifestCharPop
+        oOperandSetLength(one)
+        >>
+       ;OperandSubscriptBooleanPop
+       ] or >
+       ] or >
+       [ (tLiteralBoolean)
+       | *:
+       >>
+      ;OperandPushVariable
+      @OperandPushExpressionAssignPopPop
+       [ (tLiteralBoolean)
+       | tLiteralBoolean:
+       oOperandPushBoolean
+       ] or >
+       }
+       [ (tAssignBoolean)
+       | tAssignBoolean:
+       @OperandAssignBooleanPopPop
+        @OperandConvertJumpConditionToData
+         [ oOperandIsJumpCondition (no)
+         | no:
+         ] or >
+         >>
+        ;OperandConvertJumpConditionToData
+        oOperandSetLength(one)
+        @EmitMove
+         @OperandLeftOrRightIsTemp
+          [ oOperandChooseMode (mManifest)
+          | *:
+          oOperandSwap
+          [ oOperandChooseMode (mTempIndirect)
+          | *:
+          oOperandSwap
+          >>no
+         ;OperandLeftOrRightIsTemp
+         [@OperandLeftOrRightIsTemp (no)
+         | *:
+         [ oOperandChooseMode (mManifest)
+         | mManifest:
+         oEmitDouble(iMov)
+         ] or >
+         >>
+        ;EmitMove
+        @OperandPopAndFreeTemp
+         [ oOperandChooseMode (mManifest)
+         | *:
+         oOperandPop
+         >>
+        ;OperandPopAndFreeTemp
+        @OperandPopAndFreeTemp
+         [ oOperandChooseMode (mTempIndirect)
+         | mTempIndirect:
+         oTempFree
+         ] or >
+         oOperandPop
+         >>
+        ;OperandPopAndFreeTemp
+        >>
+       ;OperandAssignBooleanPopPop
+       ] or >
+       >>
+      ;OperandPushExpressionAssignPopPop
+      >>
+     ;AssignStmt
+     ] or >
+     }
+     [ (tAssignBegin)
+     | tAssignBegin:
+     @AssignStmt
+      oEmitSourceCoordinate
+      ?tLiteralAddress (tLiteralAddress)
+      @OperandPushVariable
+       oOperandPushVariable
+       [ (tLiteralAddress)
+       | *:
+       [ (tLiteralAddress)
+       | *:
+       [ (tLiteralAddress)
+       | *:
+       >>
+      ;OperandPushVariable
+      @OperandPushExpressionAssignPopPop
+       [ (tLiteralAddress)
+       | tLiteralAddress:
+       @OperandPushVariable
+        oOperandPushVariable
+        [ (tFetchInteger)
+        | *:
+        [ (tFetchInteger)
+        | *:
+        [ (tFetchInteger)
+        | tFetchInteger:
+        ] or >
+        >>
+       ;OperandPushVariable
+       ] or >
+       }
+       [ (tLiteralInteger)
+       | tLiteralInteger:
+       oOperandPushInteger
+       ] or >
+       }
+       [ (tAdd)
+       | tAdd:
+       [ (tAssignInteger)
+       | tAssignInteger:
+       @OperandAddAssignPopPopPop
+        [ oOperandCompareRightAndDest (no)
+        | *:
+        oOperandSwap
+        [ oOperandCompareRightAndDest (yes)
+        | yes:
+        oOperandPop
+        @OperandAddRightToLeftPop
+         [ oOperandChooseManifestValue (one)
+         | one:
+         oOperandPop
+         oEmitSingle(iInc)
+         ] or >
+         >>
+        ;OperandAddRightToLeftPop
+        @OperandPopAndFreeTemp
+         [ oOperandChooseMode (mStatic)
+         | *:
+         oOperandPop
+         >>
+        ;OperandPopAndFreeTemp
+        ] or >
+        >>
+       ;OperandAddAssignPopPopPop
+       ] or >
+       >>
+      ;OperandPushExpressionAssignPopPop
+      >>
+     ;AssignStmt
+     ] or >
+     }
+     [ (tWhileEnd)
+     | *:
+     ] or >
+     >>
+    ;Block
+    >>
+   ;Statements
+   ?tWhileEnd (tWhileEnd)
+   oEmitUnconditionalBackwardBranch
+   oFixPopAddress
+   oFixAndFreeShuntList
+   oOperandPop
+   >>
+  ;WhileStmt
+  ] or >
+  }
+  [ (tInitialValue)
+  | tInitialValue:
+  @OperandPushExpression
+   [ (tLiteralInteger)
+   | tLiteralInteger:
+   oOperandPushInteger
+   ] or >
+   }
+   [ (tInitEnd)
+   | *:
+   ] or >
+   >>
+  ;OperandPushExpression
+  ?tInitEnd (tInitEnd)
+  ?tLiteralAddress (tLiteralAddress)
+  oOperandPushVariable
+  oOperandSwap
+  [ (tStoreInteger)
+  | tStoreInteger:
+  oOperandSetLength(two)
+  @OperandAssignIntegerPopPop
+   [ oOperandCompareLeftAndRight (no)
+   | no:
+   @EmitMove
+    @OperandLeftOrRightIsTemp
+     [ oOperandChooseMode (mManifest)
+     | *:
+     oOperandSwap
+     [ oOperandChooseMode (mStatic)
+     | *:
+     oOperandSwap
+     >>no
+    ;OperandLeftOrRightIsTemp
+    [@OperandLeftOrRightIsTemp (no)
+    | *:
+    [ oOperandChooseMode (mManifest)
+    | mManifest:
+    oEmitDouble(iMov)
+    ] or >
+    >>
+   ;EmitMove
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mManifest)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mStatic)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   ] or >
+   >>
+  ;OperandAssignIntegerPopPop
+  ] or >
+  ] or >
+  }
+  [ (tInitialValue)
+  | tInitialValue:
+  @OperandPushExpression
+   [ (tLiteralInteger)
+   | tLiteralInteger:
+   oOperandPushInteger
+   ] or >
+   }
+   [ (tInitEnd)
+   | *:
+   ] or >
+   >>
+  ;OperandPushExpression
+  ?tInitEnd (tInitEnd)
+  ?tLiteralAddress (tLiteralAddress)
+  oOperandPushVariable
+  oOperandSwap
+  [ (tStoreInteger)
+  | tStoreInteger:
+  oOperandSetLength(two)
+  @OperandAssignIntegerPopPop
+   [ oOperandCompareLeftAndRight (no)
+   | no:
+   @EmitMove
+    @OperandLeftOrRightIsTemp
+     [ oOperandChooseMode (mManifest)
+     | *:
+     oOperandSwap
+     [ oOperandChooseMode (mStatic)
+     | *:
+     oOperandSwap
+     >>no
+    ;OperandLeftOrRightIsTemp
+    [@OperandLeftOrRightIsTemp (no)
+    | *:
+    [ oOperandChooseMode (mManifest)
+    | mManifest:
+    oEmitDouble(iMov)
+    ] or >
+    >>
+   ;EmitMove
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mManifest)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mStatic)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   ] or >
+   >>
+  ;OperandAssignIntegerPopPop
+  ] or >
+  ] or >
+  }
+  [ (tWhileBegin)
+  | tWhileBegin:
+  @WhileStmt
+   oFixPushAddress
+   oEmitMergeSourceCoordinate
+   @OperandPushBooleanControlExpression
+    @OperandPushExpression
+     [ (tLiteralAddress)
+     | tLiteralAddress:
+     @OperandPushVariable
+      oOperandPushVariable
+      [ (tFetchInteger)
+      | *:
+      [ (tFetchInteger)
+      | *:
+      [ (tFetchInteger)
+      | tFetchInteger:
+      ] or >
+      >>
+     ;OperandPushVariable
+     ] or >
+     }
+     [ (tLiteralAddress)
+     | tLiteralAddress:
+     @OperandPushVariable
+      oOperandPushVariable
+      [ (tFetchInteger)
+      | *:
+      [ (tFetchInteger)
+      | *:
+      [ (tFetchInteger)
+      | tFetchInteger:
+      ] or >
+      >>
+     ;OperandPushVariable
+     ] or >
+     }
+     [ (tLE)
+     | tLE:
+     @OperandGreaterPop
+      [ oOperandCompareLeftAndRight (no)
+      | no:
+      [ oOperandChooseManifestValue ()
+      | *:
+      oOperandSwap
+      [ oOperandChooseManifestValue ()
+      | *:
+      oOperandSwap
+      @EmitCmp
+       oOperandSwap
+       [ oOperandChooseMode (mStatic)
+       | *:
+       oOperandSwap
+       @OperandLeftOrRightIsTemp
+        [ oOperandChooseMode (mStatic)
+        | *:
+        oOperandSwap
+        [ oOperandChooseMode (mStatic)
+        | *:
+        oOperandSwap
+        >>no
+       ;OperandLeftOrRightIsTemp
+       [@OperandLeftOrRightIsTemp (no)
+       | *:
+       [ oOperandChooseMode (mStatic)
+       | *:
+       oOperandPushCopy
+       @OperandForceIntoTemp
+        [ oOperandChooseMode (mStatic)
+        | *:
+        [ oOperandChooseLength (two)
+        | two:
+        @OperandPushTempWord
+         oTempAllocate
+         oOperandPushTemp
+         oOperandSetValue(zero)
+         oOperandSetLength(two)
+         >>
+        ;OperandPushTempWord
+        oOperandSwap
+        oEmitDouble(iMov)
+        @OperandPopAndFreeTemp
+         [ oOperandChooseMode (mStatic)
+         | *:
+         oOperandPop
+         >>
+        ;OperandPopAndFreeTemp
+        oOperandSetMode(mTemp)
+        ] or >
+        >>
+       ;OperandForceIntoTemp
+       oOperandSwapLeftAndDest
+       oEmitDouble(iCmp)
+       @OperandPopAndFreeTemp
+        [ oOperandChooseMode (mTemp)
+        | mTemp:
+        oTempFree
+        ] or >
+        oOperandPop
+        >>
+       ;OperandPopAndFreeTemp
+       oOperandSwap
+       >>
+      ;EmitCmp
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mStatic)
+       | *:
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mStatic)
+       | *:
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      oOperandPushJumpCondition(iJgt)
+      ] or >
+      >>
+     ;OperandGreaterPop
+     @OperandNot
+      @OperandForceToJumpCondition
+       [ oOperandIsJumpCondition (yes)
+       | yes:
+       ] or >
+       >>
+      ;OperandForceToJumpCondition
+      @OperandComplementJumpCondition
+       [ oOperandChooseJumpCondition (iJgt)
+       | *:
+       oOperandComplementJumpCondition
+       >>
+      ;OperandComplementJumpCondition
+      >>
+     ;OperandNot
+     ] or >
+     }
+     [ (tWhileTest)
+     | *:
+     ] or >
+     >>
+    ;OperandPushExpression
+    @OperandForceToJumpCondition
+     [ oOperandIsJumpCondition (yes)
+     | yes:
+     ] or >
+     >>
+    ;OperandForceToJumpCondition
+    >>
+   ;OperandPushBooleanControlExpression
+   ?tWhileTest (tWhileTest)
+   @OperandComplementJumpCondition
+    [ oOperandChooseJumpCondition (iJle)
+    | *:
+    oOperandComplementJumpCondition
+    >>
+   ;OperandComplementJumpCondition
+   [ oOperandChooseJumpCondition (iJgt)
+   | *:
+   @OperandInfixOr
+    @OperandForceToJumpCondition
+     [ oOperandIsJumpCondition (yes)
+     | yes:
+     ] or >
+     >>
+    ;OperandForceToJumpCondition
+    [ oOperandChooseJumpCondition (iJgt)
+    | *:
+    oEmitConditionalForwardBranch
+    oFixAndFreeFalseBranches
+    oFixPushLastAddress
+    oOperandMergeShuntsWithAddress
+    oFixPopAddress
+    >>
+   ;OperandInfixOr
+   @Statements
+    @Block
+     [ (tAssignBegin)
+     | tAssignBegin:
+     @AssignStmt
+      oEmitSourceCoordinate
+      ?tLiteralAddress (tLiteralAddress)
+      @OperandPushVariable
+       oOperandPushVariable
+       [ (tLiteralAddress)
+       | *:
+       [ (tLiteralAddress)
+       | *:
+       [ (tLiteralAddress)
+       | *:
+       >>
+      ;OperandPushVariable
+      @OperandPushExpressionAssignPopPop
+       [ (tLiteralAddress)
+       | tLiteralAddress:
+       @OperandPushVariable
+        oOperandPushVariable
+        [ (tFetchInteger)
+        | *:
+        [ (tFetchInteger)
+        | *:
+        [ (tFetchInteger)
+        | tFetchInteger:
+        ] or >
+        >>
+       ;OperandPushVariable
+       ] or >
+       }
+       [ (tLiteralAddress)
+       | tLiteralAddress:
+       @OperandPushVariable
+        oOperandPushVariable
+        [ (tFetchInteger)
+        | *:
+        [ (tFetchInteger)
+        | *:
+        [ (tFetchInteger)
+        | tFetchInteger:
+        ] or >
+        >>
+       ;OperandPushVariable
+       ] or >
+       }
+       [ (tAdd)
+       | tAdd:
+       [ (tAssignInteger)
+       | tAssignInteger:
+       @OperandAddAssignPopPopPop
+        [ oOperandCompareRightAndDest (no)
+        | *:
+        oOperandSwap
+        [ oOperandCompareRightAndDest (no)
+        | *:
+        oOperandSwap
+        @OperandAddPop
+         @OperandAreLeftAndRightManifest
+          [ oOperandChooseMode (mStatic)
+          | *:
+          >>no
+         ;OperandAreLeftAndRightManifest
+         [@OperandAreLeftAndRightManifest (no)
+         | no:
+         [ oOperandChooseManifestValue ()
+         | *:
+         oOperandSwap
+         [ oOperandChooseManifestValue ()
+         | *:
+         [ oOperandChooseMode (mStatic)
+         | *:
+         @OperandForceLeftIntoTemp
+          oOperandSwap
+          [ oOperandChooseMode (mStatic)
+          | *:
+          @OperandForceIntoTemp
+           [ oOperandChooseMode (mStatic)
+           | *:
+           [ oOperandChooseLength (two)
+           | two:
+           @OperandPushTempWord
+            oTempAllocate
+            oOperandPushTemp
+            oOperandSetValue(zero)
+            oOperandSetLength(two)
+            >>
+           ;OperandPushTempWord
+           oOperandSwap
+           oEmitDouble(iMov)
+           @OperandPopAndFreeTemp
+            [ oOperandChooseMode (mStatic)
+            | *:
+            oOperandPop
+            >>
+           ;OperandPopAndFreeTemp
+           oOperandSetMode(mTemp)
+           ] or >
+           >>
+          ;OperandForceIntoTemp
+          oOperandSwap
+          >>
+         ;OperandForceLeftIntoTemp
+         oEmitDouble(iAdd)
+         @OperandPopAndFreeTemp
+          [ oOperandChooseMode (mStatic)
+          | *:
+          oOperandPop
+          >>
+         ;OperandPopAndFreeTemp
+         ] or >
+         >>
+        ;OperandAddPop
+        @OperandAssignIntegerPopPop
+         [ oOperandCompareLeftAndRight (no)
+         | no:
+         @EmitMove
+          @OperandLeftOrRightIsTemp
+           [ oOperandChooseMode (mTemp)
+           | mTemp:
+           >>yes
+          ;OperandLeftOrRightIsTemp
+          [@OperandLeftOrRightIsTemp (yes)
+          | yes:
+          oEmitDouble(iMov)
+          ] or >
+          >>
+         ;EmitMove
+         @OperandPopAndFreeTemp
+          [ oOperandChooseMode (mTemp)
+          | mTemp:
+          oTempFree
+          ] or >
+          oOperandPop
+          >>
+         ;OperandPopAndFreeTemp
+         @OperandPopAndFreeTemp
+          [ oOperandChooseMode (mStatic)
+          | *:
+          oOperandPop
+          >>
+         ;OperandPopAndFreeTemp
+         ] or >
+         >>
+        ;OperandAssignIntegerPopPop
+        >>
+       ;OperandAddAssignPopPopPop
+       ] or >
+       >>
+      ;OperandPushExpressionAssignPopPop
+      >>
+     ;AssignStmt
+     ] or >
+     }
+     [ (tWhileBegin)
+     | tWhileBegin:
+     @WhileStmt
+      oFixPushAddress
+      oEmitMergeSourceCoordinate
+      @OperandPushBooleanControlExpression
+       @OperandPushExpression
+        [ (tLiteralAddress)
+        | tLiteralAddress:
+        @OperandPushVariable
+         oOperandPushVariable
+         [ (tFetchInteger)
+         | *:
+         [ (tFetchInteger)
+         | *:
+         [ (tFetchInteger)
+         | tFetchInteger:
+         ] or >
+         >>
+        ;OperandPushVariable
+        ] or >
+        }
+        [ (tLiteralInteger)
+        | tLiteralInteger:
+        oOperandPushInteger
+        ] or >
+        }
+        [ (tLE)
+        | tLE:
+        @OperandGreaterPop
+         [ oOperandCompareLeftAndRight (no)
+         | no:
+         [ oOperandChooseManifestValue ()
+         | *:
+         oOperandSwap
+         [ oOperandChooseManifestValue ()
+         | *:
+         oOperandSwap
+         @EmitCmp
+          oOperandSwap
+          [ oOperandChooseMode (mStatic)
+          | *:
+          oOperandSwap
+          @OperandLeftOrRightIsTemp
+           [ oOperandChooseMode (mManifest)
+           | *:
+           oOperandSwap
+           [ oOperandChooseMode (mStatic)
+           | *:
+           oOperandSwap
+           >>no
+          ;OperandLeftOrRightIsTemp
+          [@OperandLeftOrRightIsTemp (no)
+          | *:
+          [ oOperandChooseMode (mManifest)
+          | mManifest:
+          oEmitDouble(iCmp)
+          ] or >
+          >>
+         ;EmitCmp
+         @OperandPopAndFreeTemp
+          [ oOperandChooseMode (mManifest)
+          | *:
+          oOperandPop
+          >>
+         ;OperandPopAndFreeTemp
+         @OperandPopAndFreeTemp
+          [ oOperandChooseMode (mStatic)
+          | *:
+          oOperandPop
+          >>
+         ;OperandPopAndFreeTemp
+         oOperandPushJumpCondition(iJgt)
+         ] or >
+         >>
+        ;OperandGreaterPop
+        @OperandNot
+         @OperandForceToJumpCondition
+          [ oOperandIsJumpCondition (yes)
+          | yes:
+          ] or >
+          >>
+         ;OperandForceToJumpCondition
+         @OperandComplementJumpCondition
+          [ oOperandChooseJumpCondition (iJgt)
+          | *:
+          oOperandComplementJumpCondition
+          >>
+         ;OperandComplementJumpCondition
+         >>
+        ;OperandNot
+        ] or >
+        }
+        [ (tWhileTest)
+        | *:
+        ] or >
+        >>
+       ;OperandPushExpression
+       @OperandForceToJumpCondition
+        [ oOperandIsJumpCondition (yes)
+        | yes:
+        ] or >
+        >>
+       ;OperandForceToJumpCondition
+       >>
+      ;OperandPushBooleanControlExpression
+      ?tWhileTest (tWhileTest)
+      @OperandComplementJumpCondition
+       [ oOperandChooseJumpCondition (iJle)
+       | *:
+       oOperandComplementJumpCondition
+       >>
+      ;OperandComplementJumpCondition
+      [ oOperandChooseJumpCondition (iJgt)
+      | *:
+      @OperandInfixOr
+       @OperandForceToJumpCondition
+        [ oOperandIsJumpCondition (yes)
+        | yes:
+        ] or >
+        >>
+       ;OperandForceToJumpCondition
+       [ oOperandChooseJumpCondition (iJgt)
+       | *:
+       oEmitConditionalForwardBranch
+       oFixAndFreeFalseBranches
+       oFixPushLastAddress
+       oOperandMergeShuntsWithAddress
+       oFixPopAddress
+       >>
+      ;OperandInfixOr
+      @Statements
+       @Block
+        [ (tCallBegin)
+        | tCallBegin:
+        @CallStmt
+         oEmitSourceCoordinate
+         oOperandPushMode(mManifest)
+         oOperandSetLength(two)
+         oOperandSetValue(zero)
+         [ (tLiteralAddress)
+         | *:
+         @OperandPushExpression
+          [ (tLiteralAddress)
+          | tLiteralAddress:
+          @OperandPushVariable
+           oOperandPushVariable
+           [ (tFetchInteger)
+           | *:
+           [ (tFetchInteger)
+           | *:
+           [ (tFetchInteger)
+           | tFetchInteger:
+           ] or >
+           >>
+          ;OperandPushVariable
+          ] or >
+          }
+          [ (tParmEnd)
+          | *:
+          ] or >
+          >>
+         ;OperandPushExpression
+         @OperandConvertJumpConditionToData
+          [ oOperandIsJumpCondition (no)
+          | no:
+          ] or >
+          >>
+         ;OperandConvertJumpConditionToData
+         [ (tParmEnd)
+         | *:
+         @OperandForceToStack
+          [ oOperandChooseLength (two)
+          | two:
+          ] or >
+          oEmitSingle(iPush)
+          @OperandPopAndFreeTemp
+           [ oOperandChooseMode (mStatic)
+           | *:
+           oOperandPop
+           >>
+          ;OperandPopAndFreeTemp
+          oOperandPushMode(mStack)
+          >>
+         ;OperandForceToStack
+         @OperandPopAndFreeTemp
+          [ oOperandChooseMode (mStack)
+          | *:
+          oOperandPop
+          >>
+         ;OperandPopAndFreeTemp
+         ?tParmEnd (tParmEnd)
+         oOperandPushMode(mManifest)
+         oOperandSetLength(two)
+         oOperandSetValue(four)
+         oOperandAddManifestValues
+         oOperandPop
+         }
+         [ (tLiteralBoolean)
+         | *:
+         @OperandPushExpression
+          [ (tLiteralBoolean)
+          | tLiteralBoolean:
+          oOperandPushBoolean
+          ] or >
+          }
+          [ (tParmEnd)
+          | *:
+          ] or >
+          >>
+         ;OperandPushExpression
+         @OperandConvertJumpConditionToData
+          [ oOperandIsJumpCondition (no)
+          | no:
+          ] or >
+          >>
+         ;OperandConvertJumpConditionToData
+         [ (tParmEnd)
+         | *:
+         @OperandForceToStack
+          [ oOperandChooseLength (one)
+          | one:
+          @OperandForceIntoTemp
+           [ oOperandChooseMode (mManifest)
+           | *:
+           [ oOperandChooseLength (one)
+           | one:
+           @OperandPushTempByte
+            oTempAllocate
+            oOperandPushTemp
+            oOperandSetValue(zero)
+            oOperandSetLength(one)
+            >>
+           ;OperandPushTempByte
+           oOperandSwap
+           oEmitDouble(iMov)
+           @OperandPopAndFreeTemp
+            [ oOperandChooseMode (mManifest)
+            | *:
+            oOperandPop
+            >>
+           ;OperandPopAndFreeTemp
+           oOperandSetMode(mTemp)
+           ] or >
+           >>
+          ;OperandForceIntoTemp
+          oOperandSetLength(two)
+          ] or >
+          oEmitSingle(iPush)
+          @OperandPopAndFreeTemp
+           [ oOperandChooseMode (mTemp)
+           | mTemp:
+           oTempFree
+           ] or >
+           oOperandPop
+           >>
+          ;OperandPopAndFreeTemp
+          oOperandPushMode(mStack)
+          >>
+         ;OperandForceToStack
+         @OperandPopAndFreeTemp
+          [ oOperandChooseMode (mStack)
+          | *:
+          oOperandPop
+          >>
+         ;OperandPopAndFreeTemp
+         ?tParmEnd (tParmEnd)
+         oOperandPushMode(mManifest)
+         oOperandSetLength(two)
+         oOperandSetValue(four)
+         oOperandAddManifestValues
+         oOperandPop
+         }
+         [ (tCallEnd)
+         | tCallEnd:
+         ] or >
+         oOperandPushProcedure
+         oOperandSetMode(mProc)
+         oEmitSingle(iCall)
+         oOperandPop
+         oOperandPushMode(mStackReg)
+         oOperandSetLength(two)
+         oOperandSwap
+         oEmitDouble(iAdd)
+         oOperandPop
+         oOperandPop
+         oEmitMergeSourceCoordinate
+         >>
+        ;CallStmt
+        ] or >
+        }
+        [ (tAssignBegin)
+        | tAssignBegin:
+        @AssignStmt
+         oEmitSourceCoordinate
+         ?tLiteralAddress (tLiteralAddress)
+         @OperandPushVariable
+          oOperandPushVariable
+          [ (tLiteralAddress)
+          | *:
+          [ (tLiteralAddress)
+          | *:
+          [ (tLiteralAddress)
+          | *:
+          >>
+         ;OperandPushVariable
+         @OperandPushExpressionAssignPopPop
+          [ (tLiteralAddress)
+          | tLiteralAddress:
+          @OperandPushVariable
+           oOperandPushVariable
+           [ (tFetchInteger)
+           | *:
+           [ (tFetchInteger)
+           | *:
+           [ (tFetchInteger)
+           | tFetchInteger:
+           ] or >
+           >>
+          ;OperandPushVariable
+          ] or >
+          }
+          [ (tLiteralAddress)
+          | tLiteralAddress:
+          @OperandPushVariable
+           oOperandPushVariable
+           [ (tFetchInteger)
+           | *:
+           [ (tFetchInteger)
+           | *:
+           [ (tFetchInteger)
+           | tFetchInteger:
+           ] or >
+           >>
+          ;OperandPushVariable
+          ] or >
+          }
+          [ (tAdd)
+          | tAdd:
+          [ (tAssignInteger)
+          | tAssignInteger:
+          @OperandAddAssignPopPopPop
+           [ oOperandCompareRightAndDest (no)
+           | *:
+           oOperandSwap
+           [ oOperandCompareRightAndDest (yes)
+           | yes:
+           oOperandPop
+           @OperandAddRightToLeftPop
+            [ oOperandChooseManifestValue ()
+            | *:
+            @EmitAdd
+             @OperandLeftOrRightIsTemp
+              [ oOperandChooseMode (mStatic)
+              | *:
+              oOperandSwap
+              [ oOperandChooseMode (mStatic)
+              | *:
+              oOperandSwap
+              >>no
+             ;OperandLeftOrRightIsTemp
+             [@OperandLeftOrRightIsTemp (no)
+             | *:
+             @OperandForceIntoTemp
+              [ oOperandChooseMode (mStatic)
+              | *:
+              [ oOperandChooseLength (two)
+              | two:
+              @OperandPushTempWord
+               oTempAllocate
+               oOperandPushTemp
+               oOperandSetValue(zero)
+               oOperandSetLength(two)
+               >>
+              ;OperandPushTempWord
+              oOperandSwap
+              oEmitDouble(iMov)
+              @OperandPopAndFreeTemp
+               [ oOperandChooseMode (mStatic)
+               | *:
+               oOperandPop
+               >>
+              ;OperandPopAndFreeTemp
+              oOperandSetMode(mTemp)
+              ] or >
+              >>
+             ;OperandForceIntoTemp
+             oEmitDouble(iAdd)
+             >>
+            ;EmitAdd
+            @OperandPopAndFreeTemp
+             [ oOperandChooseMode (mTemp)
+             | mTemp:
+             oTempFree
+             ] or >
+             oOperandPop
+             >>
+            ;OperandPopAndFreeTemp
+            >>
+           ;OperandAddRightToLeftPop
+           @OperandPopAndFreeTemp
+            [ oOperandChooseMode (mStatic)
+            | *:
+            oOperandPop
+            >>
+           ;OperandPopAndFreeTemp
+           ] or >
+           >>
+          ;OperandAddAssignPopPopPop
+          ] or >
+          >>
+         ;OperandPushExpressionAssignPopPop
+         >>
+        ;AssignStmt
+        ] or >
+        }
+        [ (tWhileEnd)
+        | *:
+        ] or >
+        >>
+       ;Block
+       >>
+      ;Statements
+      ?tWhileEnd (tWhileEnd)
+      oEmitUnconditionalBackwardBranch
+      oFixPopAddress
+      oFixAndFreeShuntList
+      oOperandPop
+      >>
+     ;WhileStmt
+     ] or >
+     }
+     [ (tInitialValue)
+     | tInitialValue:
+     @OperandPushExpression
+      [ (tLiteralAddress)
+      | tLiteralAddress:
+      @OperandPushVariable
+       oOperandPushVariable
+       [ (tFetchInteger)
+       | *:
+       [ (tFetchInteger)
+       | *:
+       [ (tFetchInteger)
+       | tFetchInteger:
+       ] or >
+       >>
+      ;OperandPushVariable
+      ] or >
+      }
+      [ (tLiteralInteger)
+      | tLiteralInteger:
+      oOperandPushInteger
+      ] or >
+      }
+      [ (tAdd)
+      | tAdd:
+      @OperandAddPop
+       @OperandAreLeftAndRightManifest
+        [ oOperandChooseMode (mManifest)
+        | mManifest:
+        oOperandSwap
+        [ oOperandChooseMode (mStatic)
+        | *:
+        oOperandSwap
+        >>no
+       ;OperandAreLeftAndRightManifest
+       [@OperandAreLeftAndRightManifest (no)
+       | no:
+       [ oOperandChooseManifestValue (one)
+       | one:
+       oOperandPop
+       @OperandForceIntoTemp
+        [ oOperandChooseMode (mStatic)
+        | *:
+        [ oOperandChooseLength (two)
+        | two:
+        @OperandPushTempWord
+         oTempAllocate
+         oOperandPushTemp
+         oOperandSetValue(zero)
+         oOperandSetLength(two)
+         >>
+        ;OperandPushTempWord
+        oOperandSwap
+        oEmitDouble(iMov)
+        @OperandPopAndFreeTemp
+         [ oOperandChooseMode (mStatic)
+         | *:
+         oOperandPop
+         >>
+        ;OperandPopAndFreeTemp
+        oOperandSetMode(mTemp)
+        ] or >
+        >>
+       ;OperandForceIntoTemp
+       oEmitSingle(iInc)
+       ] or >
+       ] or >
+       >>
+      ;OperandAddPop
+      ] or >
+      }
+      [ (tInitEnd)
+      | *:
+      ] or >
+      >>
+     ;OperandPushExpression
+     ?tInitEnd (tInitEnd)
+     ?tLiteralAddress (tLiteralAddress)
+     oOperandPushVariable
+     oOperandSwap
+     [ (tStoreInteger)
+     | tStoreInteger:
+     oOperandSetLength(two)
+     @OperandAssignIntegerPopPop
+      [ oOperandCompareLeftAndRight (no)
+      | no:
+      @EmitMove
+       @OperandLeftOrRightIsTemp
+        [ oOperandChooseMode (mTemp)
+        | mTemp:
+        >>yes
+       ;OperandLeftOrRightIsTemp
+       [@OperandLeftOrRightIsTemp (yes)
+       | yes:
+       oEmitDouble(iMov)
+       ] or >
+       >>
+      ;EmitMove
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mTemp)
+       | mTemp:
+       oTempFree
+       ] or >
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mStatic)
+       | *:
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      ] or >
+      >>
+     ;OperandAssignIntegerPopPop
+     ] or >
+     ] or >
+     }
+     [ (tCallBegin)
+     | tCallBegin:
+     @CallStmt
+      oEmitSourceCoordinate
+      oOperandPushMode(mManifest)
+      oOperandSetLength(two)
+      oOperandSetValue(zero)
+      [ (tLiteralAddress)
+      | *:
+      @OperandPushExpression
+       [ (tLiteralAddress)
+       | tLiteralAddress:
+       @OperandPushVariable
+        oOperandPushVariable
+        [ (tFetchInteger)
+        | *:
+        [ (tFetchInteger)
+        | *:
+        [ (tFetchInteger)
+        | tFetchInteger:
+        ] or >
+        >>
+       ;OperandPushVariable
+       ] or >
+       }
+       [ (tParmEnd)
+       | *:
+       ] or >
+       >>
+      ;OperandPushExpression
+      @OperandConvertJumpConditionToData
+       [ oOperandIsJumpCondition (no)
+       | no:
+       ] or >
+       >>
+      ;OperandConvertJumpConditionToData
+      [ (tParmEnd)
+      | *:
+      @OperandForceToStack
+       [ oOperandChooseLength (two)
+       | two:
+       ] or >
+       oEmitSingle(iPush)
+       @OperandPopAndFreeTemp
+        [ oOperandChooseMode (mStatic)
+        | *:
+        oOperandPop
+        >>
+       ;OperandPopAndFreeTemp
+       oOperandPushMode(mStack)
+       >>
+      ;OperandForceToStack
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mStack)
+       | *:
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      ?tParmEnd (tParmEnd)
+      oOperandPushMode(mManifest)
+      oOperandSetLength(two)
+      oOperandSetValue(four)
+      oOperandAddManifestValues
+      oOperandPop
+      }
+      [ (tLiteralAddress)
+      | *:
+      @OperandPushExpression
+       [ (tLiteralAddress)
+       | tLiteralAddress:
+       @OperandPushVariable
+        oOperandPushVariable
+        [ (tVarParm)
+        | *:
+        [ (tVarParm)
+        | *:
+        [ (tVarParm)
+        | *:
+        >>
+       ;OperandPushVariable
+       ] or >
+       }
+       [ (tVarParm)
+       | *:
+       ] or >
+       >>
+      ;OperandPushExpression
+      @OperandConvertJumpConditionToData
+       [ oOperandIsJumpCondition (no)
+       | no:
+       ] or >
+       >>
+      ;OperandConvertJumpConditionToData
+      [ (tVarParm)
+      | tVarParm:
+      @OperandForceAddressIntoTemp
+       [ oOperandChooseMode (mStatic)
+       | mStatic:
+       @OperandPushTempWord
+        oTempAllocate
+        oOperandPushTemp
+        oOperandSetValue(zero)
+        oOperandSetLength(two)
+        >>
+       ;OperandPushTempWord
+       oOperandSwap
+       oEmitDouble(iLoada)
+       oOperandPop
+       ] or >
+       oOperandSetLength(two)
+       >>
+      ;OperandForceAddressIntoTemp
+      @OperandForceToStack
+       [ oOperandChooseLength (two)
+       | two:
+       ] or >
+       oEmitSingle(iPush)
+       @OperandPopAndFreeTemp
+        [ oOperandChooseMode (mTemp)
+        | mTemp:
+        oTempFree
+        ] or >
+        oOperandPop
+        >>
+       ;OperandPopAndFreeTemp
+       oOperandPushMode(mStack)
+       >>
+      ;OperandForceToStack
+      ] or >
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mStack)
+       | *:
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      ?tParmEnd (tParmEnd)
+      oOperandPushMode(mManifest)
+      oOperandSetLength(two)
+      oOperandSetValue(four)
+      oOperandAddManifestValues
+      oOperandPop
+      }
+      [ (tCallEnd)
+      | tCallEnd:
+      ] or >
+      oOperandPushProcedure
+      oOperandSetMode(mProc)
+      oEmitSingle(iCall)
+      oOperandPop
+      oOperandPushMode(mStackReg)
+      oOperandSetLength(two)
+      oOperandSwap
+      oEmitDouble(iAdd)
+      oOperandPop
+      oOperandPop
+      oEmitMergeSourceCoordinate
+      >>
+     ;CallStmt
+     ] or >
+     }
+     [ (tWhileBegin)
+     | tWhileBegin:
+     @WhileStmt
+      oFixPushAddress
+      oEmitMergeSourceCoordinate
+      @OperandPushBooleanControlExpression
+       @OperandPushExpression
+        [ (tLiteralAddress)
+        | tLiteralAddress:
+        @OperandPushVariable
+         oOperandPushVariable
+         [ (tFetchInteger)
+         | *:
+         [ (tFetchInteger)
+         | *:
+         [ (tFetchInteger)
+         | tFetchInteger:
+         ] or >
+         >>
+        ;OperandPushVariable
+        ] or >
+        }
+        [ (tLiteralInteger)
+        | tLiteralInteger:
+        oOperandPushInteger
+        ] or >
+        }
+        [ (tLE)
+        | tLE:
+        @OperandGreaterPop
+         [ oOperandCompareLeftAndRight (no)
+         | no:
+         [ oOperandChooseManifestValue ()
+         | *:
+         oOperandSwap
+         [ oOperandChooseManifestValue ()
+         | *:
+         oOperandSwap
+         @EmitCmp
+          oOperandSwap
+          [ oOperandChooseMode (mStatic)
+          | *:
+          oOperandSwap
+          @OperandLeftOrRightIsTemp
+           [ oOperandChooseMode (mManifest)
+           | *:
+           oOperandSwap
+           [ oOperandChooseMode (mStatic)
+           | *:
+           oOperandSwap
+           >>no
+          ;OperandLeftOrRightIsTemp
+          [@OperandLeftOrRightIsTemp (no)
+          | *:
+          [ oOperandChooseMode (mManifest)
+          | mManifest:
+          oEmitDouble(iCmp)
+          ] or >
+          >>
+         ;EmitCmp
+         @OperandPopAndFreeTemp
+          [ oOperandChooseMode (mManifest)
+          | *:
+          oOperandPop
+          >>
+         ;OperandPopAndFreeTemp
+         @OperandPopAndFreeTemp
+          [ oOperandChooseMode (mStatic)
+          | *:
+          oOperandPop
+          >>
+         ;OperandPopAndFreeTemp
+         oOperandPushJumpCondition(iJgt)
+         ] or >
+         >>
+        ;OperandGreaterPop
+        @OperandNot
+         @OperandForceToJumpCondition
+          [ oOperandIsJumpCondition (yes)
+          | yes:
+          ] or >
+          >>
+         ;OperandForceToJumpCondition
+         @OperandComplementJumpCondition
+          [ oOperandChooseJumpCondition (iJgt)
+          | *:
+          oOperandComplementJumpCondition
+          >>
+         ;OperandComplementJumpCondition
+         >>
+        ;OperandNot
+        ] or >
+        }
+        [ (tInfixAnd)
+        | tInfixAnd:
+        @OperandNot
+         @OperandForceToJumpCondition
+          [ oOperandIsJumpCondition (yes)
+          | yes:
+          ] or >
+          >>
+         ;OperandForceToJumpCondition
+         @OperandComplementJumpCondition
+          [ oOperandChooseJumpCondition (iJle)
+          | *:
+          oOperandComplementJumpCondition
+          >>
+         ;OperandComplementJumpCondition
+         >>
+        ;OperandNot
+        @OperandInfixOr
+         @OperandForceToJumpCondition
+          [ oOperandIsJumpCondition (yes)
+          | yes:
+          ] or >
+          >>
+         ;OperandForceToJumpCondition
+         [ oOperandChooseJumpCondition (iJgt)
+         | *:
+         oEmitConditionalForwardBranch
+         oFixAndFreeFalseBranches
+         oFixPushLastAddress
+         oOperandMergeShuntsWithAddress
+         oFixPopAddress
+         >>
+        ;OperandInfixOr
+        ] or >
+        }
+        [ (tLiteralAddress)
+        | tLiteralAddress:
+        @OperandPushVariable
+         oOperandPushVariable
+         [ (tFetchBoolean)
+         | *:
+         [ (tFetchBoolean)
+         | *:
+         [ (tFetchBoolean)
+         | tFetchBoolean:
+         oOperandSetLength(one)
+         ] or >
+         >>
+        ;OperandPushVariable
+        ] or >
+        }
+        [ (tNot)
+        | tNot:
+        @OperandNot
+         @OperandForceToJumpCondition
+          [ oOperandIsJumpCondition (no)
+          | *:
+          [ oOperandChooseManifestValue ()
+          | *:
+          @EmitTst
+           [ oOperandChooseLength (one)
+           | one:
+           oOperandPushMode(mManifest)
+           oOperandSetValue(zero)
+           oOperandSetLength(one)
+           ] or >
+           @EmitCmp
+            oOperandSwap
+            [ oOperandChooseMode (mStatic)
+            | *:
+            oOperandSwap
+            @OperandLeftOrRightIsTemp
+             [ oOperandChooseMode (mManifest)
+             | *:
+             oOperandSwap
+             [ oOperandChooseMode (mStatic)
+             | *:
+             oOperandSwap
+             >>no
+            ;OperandLeftOrRightIsTemp
+            [@OperandLeftOrRightIsTemp (no)
+            | *:
+            [ oOperandChooseMode (mManifest)
+            | mManifest:
+            oEmitDouble(iCmp)
+            ] or >
+            >>
+           ;EmitCmp
+           oOperandPop
+           >>
+          ;EmitTst
+          @OperandPopAndFreeTemp
+           [ oOperandChooseMode (mStatic)
+           | *:
+           oOperandPop
+           >>
+          ;OperandPopAndFreeTemp
+          oOperandPushJumpCondition(iJne)
+          >>
+         ;OperandForceToJumpCondition
+         @OperandComplementJumpCondition
+          [ oOperandChooseJumpCondition (iJne)
+          | *:
+          oOperandComplementJumpCondition
+          >>
+         ;OperandComplementJumpCondition
+         >>
+        ;OperandNot
+        ] or >
+        }
+        [ (tAnd)
+        | tAnd:
+        @OperandNot
+         @OperandForceToJumpCondition
+          [ oOperandIsJumpCondition (yes)
+          | yes:
+          ] or >
+          >>
+         ;OperandForceToJumpCondition
+         @OperandComplementJumpCondition
+          [ oOperandChooseJumpCondition (iJeq)
+          | *:
+          oOperandComplementJumpCondition
+          >>
+         ;OperandComplementJumpCondition
+         >>
+        ;OperandNot
+        @OperandOrPop
+         @OperandForceToJumpCondition
+          [ oOperandIsJumpCondition (yes)
+          | yes:
+          ] or >
+          >>
+         ;OperandForceToJumpCondition
+         oOperandSwap
+         [ oOperandChooseJumpCondition ()
+         | *:
+         oOperandSwap
+         oOperandMergeShunts
+         oOperandSwap
+         oOperandPop
+         >>
+        ;OperandOrPop
+        @OperandNot
+         @OperandForceToJumpCondition
+          [ oOperandIsJumpCondition (yes)
+          | yes:
+          ] or >
+          >>
+         ;OperandForceToJumpCondition
+         @OperandComplementJumpCondition
+          [ oOperandChooseJumpCondition (iJne)
+          | *:
+          oOperandComplementJumpCondition
+          >>
+         ;OperandComplementJumpCondition
+         >>
+        ;OperandNot
+        ] or >
+        }
+        [ (tWhileTest)
+        | *:
+        ] or >
+        >>
+       ;OperandPushExpression
+       @OperandForceToJumpCondition
+        [ oOperandIsJumpCondition (yes)
+        | yes:
+        ] or >
+        >>
+       ;OperandForceToJumpCondition
+       >>
+      ;OperandPushBooleanControlExpression
+      ?tWhileTest (tWhileTest)
+      @OperandComplementJumpCondition
+       [ oOperandChooseJumpCondition (iJeq)
+       | *:
+       oOperandComplementJumpCondition
+       >>
+      ;OperandComplementJumpCondition
+      [ oOperandChooseJumpCondition (iJne)
+      | *:
+      @OperandInfixOr
+       @OperandForceToJumpCondition
+        [ oOperandIsJumpCondition (yes)
+        | yes:
+        ] or >
+        >>
+       ;OperandForceToJumpCondition
+       [ oOperandChooseJumpCondition (iJne)
+       | *:
+       oEmitConditionalForwardBranch
+       oFixAndFreeFalseBranches
+       oFixPushLastAddress
+       oOperandMergeShuntsWithAddress
+       oFixPopAddress
+       >>
+      ;OperandInfixOr
+      @Statements
+       @Block
+        [ (tAssignBegin)
+        | tAssignBegin:
+        @AssignStmt
+         oEmitSourceCoordinate
+         ?tLiteralAddress (tLiteralAddress)
+         @OperandPushVariable
+          oOperandPushVariable
+          [ (tLiteralAddress)
+          | *:
+          [ (tLiteralAddress)
+          | *:
+          [ (tLiteralAddress)
+          | *:
+          >>
+         ;OperandPushVariable
+         @OperandPushExpressionAssignPopPop
+          [ (tLiteralAddress)
+          | tLiteralAddress:
+          @OperandPushVariable
+           oOperandPushVariable
+           [ (tFetchInteger)
+           | *:
+           [ (tFetchInteger)
+           | *:
+           [ (tFetchInteger)
+           | tFetchInteger:
+           ] or >
+           >>
+          ;OperandPushVariable
+          ] or >
+          }
+          [ (tLiteralInteger)
+          | tLiteralInteger:
+          oOperandPushInteger
+          ] or >
+          }
+          [ (tAdd)
+          | tAdd:
+          [ (tAssignInteger)
+          | tAssignInteger:
+          @OperandAddAssignPopPopPop
+           [ oOperandCompareRightAndDest (no)
+           | *:
+           oOperandSwap
+           [ oOperandCompareRightAndDest (yes)
+           | yes:
+           oOperandPop
+           @OperandAddRightToLeftPop
+            [ oOperandChooseManifestValue (one)
+            | one:
+            oOperandPop
+            oEmitSingle(iInc)
+            ] or >
+            >>
+           ;OperandAddRightToLeftPop
+           @OperandPopAndFreeTemp
+            [ oOperandChooseMode (mStatic)
+            | *:
+            oOperandPop
+            >>
+           ;OperandPopAndFreeTemp
+           ] or >
+           >>
+          ;OperandAddAssignPopPopPop
+          ] or >
+          >>
+         ;OperandPushExpressionAssignPopPop
+         >>
+        ;AssignStmt
+        ] or >
+        }
+        [ (tCallBegin)
+        | tCallBegin:
+        @CallStmt
+         oEmitSourceCoordinate
+         oOperandPushMode(mManifest)
+         oOperandSetLength(two)
+         oOperandSetValue(zero)
+         [ (tLiteralAddress)
+         | *:
+         @OperandPushExpression
+          [ (tLiteralAddress)
+          | tLiteralAddress:
+          @OperandPushVariable
+           oOperandPushVariable
+           [ (tFetchInteger)
+           | *:
+           [ (tFetchInteger)
+           | *:
+           [ (tFetchInteger)
+           | tFetchInteger:
+           ] or >
+           >>
+          ;OperandPushVariable
+          ] or >
+          }
+          [ (tParmEnd)
+          | *:
+          ] or >
+          >>
+         ;OperandPushExpression
+         @OperandConvertJumpConditionToData
+          [ oOperandIsJumpCondition (no)
+          | no:
+          ] or >
+          >>
+         ;OperandConvertJumpConditionToData
+         [ (tParmEnd)
+         | *:
+         @OperandForceToStack
+          [ oOperandChooseLength (two)
+          | two:
+          ] or >
+          oEmitSingle(iPush)
+          @OperandPopAndFreeTemp
+           [ oOperandChooseMode (mStatic)
+           | *:
+           oOperandPop
+           >>
+          ;OperandPopAndFreeTemp
+          oOperandPushMode(mStack)
+          >>
+         ;OperandForceToStack
+         @OperandPopAndFreeTemp
+          [ oOperandChooseMode (mStack)
+          | *:
+          oOperandPop
+          >>
+         ;OperandPopAndFreeTemp
+         ?tParmEnd (tParmEnd)
+         oOperandPushMode(mManifest)
+         oOperandSetLength(two)
+         oOperandSetValue(four)
+         oOperandAddManifestValues
+         oOperandPop
+         }
+         [ (tLiteralAddress)
+         | *:
+         @OperandPushExpression
+          [ (tLiteralAddress)
+          | tLiteralAddress:
+          @OperandPushVariable
+           oOperandPushVariable
+           [ (tVarParm)
+           | *:
+           [ (tVarParm)
+           | *:
+           [ (tVarParm)
+           | *:
+           >>
+          ;OperandPushVariable
+          ] or >
+          }
+          [ (tVarParm)
+          | *:
+          ] or >
+          >>
+         ;OperandPushExpression
+         @OperandConvertJumpConditionToData
+          [ oOperandIsJumpCondition (no)
+          | no:
+          ] or >
+          >>
+         ;OperandConvertJumpConditionToData
+         [ (tVarParm)
+         | tVarParm:
+         @OperandForceAddressIntoTemp
+          [ oOperandChooseMode (mStatic)
+          | mStatic:
+          @OperandPushTempWord
+           oTempAllocate
+           oOperandPushTemp
+           oOperandSetValue(zero)
+           oOperandSetLength(two)
+           >>
+          ;OperandPushTempWord
+          oOperandSwap
+          oEmitDouble(iLoada)
+          oOperandPop
+          ] or >
+          oOperandSetLength(two)
+          >>
+         ;OperandForceAddressIntoTemp
+         @OperandForceToStack
+          [ oOperandChooseLength (two)
+          | two:
+          ] or >
+          oEmitSingle(iPush)
+          @OperandPopAndFreeTemp
+           [ oOperandChooseMode (mTemp)
+           | mTemp:
+           oTempFree
+           ] or >
+           oOperandPop
+           >>
+          ;OperandPopAndFreeTemp
+          oOperandPushMode(mStack)
+          >>
+         ;OperandForceToStack
+         ] or >
+         @OperandPopAndFreeTemp
+          [ oOperandChooseMode (mStack)
+          | *:
+          oOperandPop
+          >>
+         ;OperandPopAndFreeTemp
+         ?tParmEnd (tParmEnd)
+         oOperandPushMode(mManifest)
+         oOperandSetLength(two)
+         oOperandSetValue(four)
+         oOperandAddManifestValues
+         oOperandPop
+         }
+         [ (tCallEnd)
+         | tCallEnd:
+         ] or >
+         oOperandPushProcedure
+         oOperandSetMode(mProc)
+         oEmitSingle(iCall)
+         oOperandPop
+         oOperandPushMode(mStackReg)
+         oOperandSetLength(two)
+         oOperandSwap
+         oEmitDouble(iAdd)
+         oOperandPop
+         oOperandPop
+         oEmitMergeSourceCoordinate
+         >>
+        ;CallStmt
+        ] or >
+        }
+        [ (tWhileEnd)
+        | *:
+        ] or >
+        >>
+       ;Block
+       >>
+      ;Statements
+      ?tWhileEnd (tWhileEnd)
+      oEmitUnconditionalBackwardBranch
+      oFixPopAddress
+      oFixAndFreeShuntList
+      oOperandPop
+      >>
+     ;WhileStmt
+     ] or >
+     }
+     [ (tAssignBegin)
+     | tAssignBegin:
+     @AssignStmt
+      oEmitSourceCoordinate
+      ?tLiteralAddress (tLiteralAddress)
+      @OperandPushVariable
+       oOperandPushVariable
+       [ (tLiteralAddress)
+       | *:
+       [ (tLiteralAddress)
+       | *:
+       [ (tLiteralAddress)
+       | *:
+       >>
+      ;OperandPushVariable
+      @OperandPushExpressionAssignPopPop
+       [ (tLiteralAddress)
+       | tLiteralAddress:
+       @OperandPushVariable
+        oOperandPushVariable
+        [ (tFetchInteger)
+        | *:
+        [ (tFetchInteger)
+        | *:
+        [ (tFetchInteger)
+        | tFetchInteger:
+        ] or >
+        >>
+       ;OperandPushVariable
+       ] or >
+       }
+       [ (tAssignInteger)
+       | tAssignInteger:
+       @OperandAssignIntegerPopPop
+        [ oOperandCompareLeftAndRight (no)
+        | no:
+        @EmitMove
+         @OperandLeftOrRightIsTemp
+          [ oOperandChooseMode (mStatic)
+          | *:
+          oOperandSwap
+          [ oOperandChooseMode (mStatic)
+          | *:
+          oOperandSwap
+          >>no
+         ;OperandLeftOrRightIsTemp
+         [@OperandLeftOrRightIsTemp (no)
+         | *:
+         [ oOperandChooseMode (mStatic)
+         | *:
+         oOperandPushCopy
+         @OperandForceIntoTemp
+          [ oOperandChooseMode (mStatic)
+          | *:
+          [ oOperandChooseLength (two)
+          | two:
+          @OperandPushTempWord
+           oTempAllocate
+           oOperandPushTemp
+           oOperandSetValue(zero)
+           oOperandSetLength(two)
+           >>
+          ;OperandPushTempWord
+          oOperandSwap
+          oEmitDouble(iMov)
+          @OperandPopAndFreeTemp
+           [ oOperandChooseMode (mStatic)
+           | *:
+           oOperandPop
+           >>
+          ;OperandPopAndFreeTemp
+          oOperandSetMode(mTemp)
+          ] or >
+          >>
+         ;OperandForceIntoTemp
+         oOperandSwapLeftAndDest
+         oEmitDouble(iMov)
+         @OperandPopAndFreeTemp
+          [ oOperandChooseMode (mTemp)
+          | mTemp:
+          oTempFree
+          ] or >
+          oOperandPop
+          >>
+         ;OperandPopAndFreeTemp
+         oOperandSwap
+         >>
+        ;EmitMove
+        @OperandPopAndFreeTemp
+         [ oOperandChooseMode (mStatic)
+         | *:
+         oOperandPop
+         >>
+        ;OperandPopAndFreeTemp
+        @OperandPopAndFreeTemp
+         [ oOperandChooseMode (mStatic)
+         | *:
+         oOperandPop
+         >>
+        ;OperandPopAndFreeTemp
+        ] or >
+        >>
+       ;OperandAssignIntegerPopPop
+       ] or >
+       >>
+      ;OperandPushExpressionAssignPopPop
+      >>
+     ;AssignStmt
+     ] or >
+     }
+     [ (tWhileEnd)
+     | *:
+     ] or >
+     >>
+    ;Block
+    >>
+   ;Statements
+   ?tWhileEnd (tWhileEnd)
+   oEmitUnconditionalBackwardBranch
+   oFixPopAddress
+   oFixAndFreeShuntList
+   oOperandPop
+   >>
+  ;WhileStmt
+  ] or >
+  }
+  [ (tWriteBegin)
+  | tWriteBegin:
+  @WriteProc
+   oEmitSourceCoordinate
+   [ (tTrapBegin)
+   | *:
+   @WriteParameter
+    ?tTrapBegin (tTrapBegin)
+    ?tLiteralAddress (tLiteralAddress)
+    @OperandPushVariable
+     oOperandPushVariable
+     [ (tVarParm)
+     | *:
+     [ (tVarParm)
+     | *:
+     [ (tVarParm)
+     | *:
+     >>
+    ;OperandPushVariable
+    @OperandForceToStack
+     [ oOperandChooseLength (two)
+     | two:
+     ] or >
+     oEmitSingle(iPush)
+     @OperandPopAndFreeTemp
+      [ oOperandChooseMode (mStatic)
+      | *:
+      oOperandPop
+      >>
+     ;OperandPopAndFreeTemp
+     oOperandPushMode(mStack)
+     >>
+    ;OperandForceToStack
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mStack)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    ?tVarParm (tVarParm)
+    ?tParmEnd (tParmEnd)
+    @OperandPushExpression
+     [ (tSkipString)
+     | tSkipString:
+     oEmitNone(iData)
+     ?tStringData (tStringData)
+     oEmitString
+     oEmitNone(iText)
+     ] or >
+     }
+     [ (tLiteralAddress)
+     | tLiteralAddress:
+     @OperandPushVariable
+      oOperandPushVariable
+      [ (tFetchChar)
+      | *:
+      [ (tFetchChar)
+      | *:
+      [ (tFetchChar)
+      | tFetchChar:
+      oOperandSetLength(regCX)
+      ] or >
+      >>
+     ;OperandPushVariable
+     ] or >
+     }
+     [ (tParmEnd)
+     | *:
+     ] or >
+     >>
+    ;OperandPushExpression
+    [ (tParmEnd)
+    | *:
+    @OperandForceToStack
+     [ oOperandChooseLength (regCX)
+     | regCX:
+     @OperandForceAddressIntoTemp
+      [ oOperandChooseMode (mStatic)
+      | mStatic:
+      @OperandPushTempWord
+       oTempAllocate
+       oOperandPushTemp
+       oOperandSetValue(zero)
+       oOperandSetLength(two)
+       >>
+      ;OperandPushTempWord
+      oOperandSwap
+      oEmitDouble(iLoada)
+      oOperandPop
+      ] or >
+      oOperandSetLength(two)
+      >>
+     ;OperandForceAddressIntoTemp
+     ] or >
+     oEmitSingle(iPush)
+     @OperandPopAndFreeTemp
+      [ oOperandChooseMode (mTemp)
+      | mTemp:
+      oTempFree
+      ] or >
+      oOperandPop
+      >>
+     ;OperandPopAndFreeTemp
+     oOperandPushMode(mStack)
+     >>
+    ;OperandForceToStack
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mStack)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    ?tParmEnd (tParmEnd)
+    @OperandPushExpression
+     [ (tLiteralInteger)
+     | tLiteralInteger:
+     oOperandPushInteger
+     ] or >
+     }
+     [ (tParmEnd)
+     | *:
+     ] or >
+     >>
+    ;OperandPushExpression
+    @OperandForceToStack
+     [ oOperandChooseLength (two)
+     | two:
+     ] or >
+     oEmitSingle(iPush)
+     @OperandPopAndFreeTemp
+      [ oOperandChooseMode (mManifest)
+      | *:
+      oOperandPop
+      >>
+     ;OperandPopAndFreeTemp
+     oOperandPushMode(mStack)
+     >>
+    ;OperandForceToStack
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mStack)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    ?tParmEnd (tParmEnd)
+    ?tTrap (tTrap)
+    oOperandPushTrap
+    oEmitSingle(iCall)
+    oOperandPop
+    oOperandPushMode(mStackReg)
+    oOperandSetLength(two)
+    oOperandPushMode(mManifest)
+    oOperandSetLength(two)
+    oOperandSetValue(twelve)
+    oEmitDouble(iAdd)
+    oOperandPop
+    oOperandPop
+    >>
+   ;WriteParameter
+   }
+   [ (tTrapBegin)
+   | *:
+   @WriteParameter
+    ?tTrapBegin (tTrapBegin)
+    ?tLiteralAddress (tLiteralAddress)
+    @OperandPushVariable
+     oOperandPushVariable
+     [ (tVarParm)
+     | *:
+     [ (tVarParm)
+     | *:
+     [ (tVarParm)
+     | *:
+     >>
+    ;OperandPushVariable
+    @OperandForceToStack
+     [ oOperandChooseLength (two)
+     | two:
+     ] or >
+     oEmitSingle(iPush)
+     @OperandPopAndFreeTemp
+      [ oOperandChooseMode (mStatic)
+      | *:
+      oOperandPop
+      >>
+     ;OperandPopAndFreeTemp
+     oOperandPushMode(mStack)
+     >>
+    ;OperandForceToStack
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mStack)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    ?tVarParm (tVarParm)
+    ?tParmEnd (tParmEnd)
+    @OperandPushExpression
+     [ (tLiteralInteger)
+     | tLiteralInteger:
+     oOperandPushInteger
+     ] or >
+     }
+     [ (tParmEnd)
+     | *:
+     ] or >
+     >>
+    ;OperandPushExpression
+    [ (tParmEnd)
+    | *:
+    @OperandForceToStack
+     [ oOperandChooseLength (two)
+     | two:
+     ] or >
+     oEmitSingle(iPush)
+     @OperandPopAndFreeTemp
+      [ oOperandChooseMode (mManifest)
+      | *:
+      oOperandPop
+      >>
+     ;OperandPopAndFreeTemp
+     oOperandPushMode(mStack)
+     >>
+    ;OperandForceToStack
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mStack)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    ?tParmEnd (tParmEnd)
+    @OperandPushExpression
+     [ (tLiteralInteger)
+     | tLiteralInteger:
+     oOperandPushInteger
+     ] or >
+     }
+     [ (tParmEnd)
+     | *:
+     ] or >
+     >>
+    ;OperandPushExpression
+    @OperandForceToStack
+     [ oOperandChooseLength (two)
+     | two:
+     ] or >
+     oEmitSingle(iPush)
+     @OperandPopAndFreeTemp
+      [ oOperandChooseMode (mManifest)
+      | *:
+      oOperandPop
+      >>
+     ;OperandPopAndFreeTemp
+     oOperandPushMode(mStack)
+     >>
+    ;OperandForceToStack
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mStack)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    ?tParmEnd (tParmEnd)
+    ?tTrap (tTrap)
+    oOperandPushTrap
+    oEmitSingle(iCall)
+    oOperandPop
+    oOperandPushMode(mStackReg)
+    oOperandSetLength(two)
+    oOperandPushMode(mManifest)
+    oOperandSetLength(two)
+    oOperandSetValue(twelve)
+    oEmitDouble(iAdd)
+    oOperandPop
+    oOperandPop
+    >>
+   ;WriteParameter
+   }
+   [ (tTrapBegin)
+   | *:
+   @WriteParameter
+    ?tTrapBegin (tTrapBegin)
+    ?tLiteralAddress (tLiteralAddress)
+    @OperandPushVariable
+     oOperandPushVariable
+     [ (tVarParm)
+     | *:
+     [ (tVarParm)
+     | *:
+     [ (tVarParm)
+     | *:
+     >>
+    ;OperandPushVariable
+    @OperandForceToStack
+     [ oOperandChooseLength (two)
+     | two:
+     ] or >
+     oEmitSingle(iPush)
+     @OperandPopAndFreeTemp
+      [ oOperandChooseMode (mStatic)
+      | *:
+      oOperandPop
+      >>
+     ;OperandPopAndFreeTemp
+     oOperandPushMode(mStack)
+     >>
+    ;OperandForceToStack
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mStack)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    ?tVarParm (tVarParm)
+    ?tParmEnd (tParmEnd)
+    @OperandPushExpression
+     [ (tSkipString)
+     | tSkipString:
+     oEmitNone(iData)
+     ?tStringData (tStringData)
+     oEmitString
+     oEmitNone(iText)
+     ] or >
+     }
+     [ (tLiteralAddress)
+     | tLiteralAddress:
+     @OperandPushVariable
+      oOperandPushVariable
+      [ (tFetchChar)
+      | *:
+      [ (tFetchChar)
+      | *:
+      [ (tFetchChar)
+      | tFetchChar:
+      oOperandSetLength(regCX)
+      ] or >
+      >>
+     ;OperandPushVariable
+     ] or >
+     }
+     [ (tParmEnd)
+     | *:
+     ] or >
+     >>
+    ;OperandPushExpression
+    [ (tParmEnd)
+    | *:
+    @OperandForceToStack
+     [ oOperandChooseLength (regCX)
+     | regCX:
+     @OperandForceAddressIntoTemp
+      [ oOperandChooseMode (mStatic)
+      | mStatic:
+      @OperandPushTempWord
+       oTempAllocate
+       oOperandPushTemp
+       oOperandSetValue(zero)
+       oOperandSetLength(two)
+       >>
+      ;OperandPushTempWord
+      oOperandSwap
+      oEmitDouble(iLoada)
+      oOperandPop
+      ] or >
+      oOperandSetLength(two)
+      >>
+     ;OperandForceAddressIntoTemp
+     ] or >
+     oEmitSingle(iPush)
+     @OperandPopAndFreeTemp
+      [ oOperandChooseMode (mTemp)
+      | mTemp:
+      oTempFree
+      ] or >
+      oOperandPop
+      >>
+     ;OperandPopAndFreeTemp
+     oOperandPushMode(mStack)
+     >>
+    ;OperandForceToStack
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mStack)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    ?tParmEnd (tParmEnd)
+    @OperandPushExpression
+     [ (tLiteralInteger)
+     | tLiteralInteger:
+     oOperandPushInteger
+     ] or >
+     }
+     [ (tParmEnd)
+     | *:
+     ] or >
+     >>
+    ;OperandPushExpression
+    @OperandForceToStack
+     [ oOperandChooseLength (two)
+     | two:
+     ] or >
+     oEmitSingle(iPush)
+     @OperandPopAndFreeTemp
+      [ oOperandChooseMode (mManifest)
+      | *:
+      oOperandPop
+      >>
+     ;OperandPopAndFreeTemp
+     oOperandPushMode(mStack)
+     >>
+    ;OperandForceToStack
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mStack)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    ?tParmEnd (tParmEnd)
+    ?tTrap (tTrap)
+    oOperandPushTrap
+    oEmitSingle(iCall)
+    oOperandPop
+    oOperandPushMode(mStackReg)
+    oOperandSetLength(two)
+    oOperandPushMode(mManifest)
+    oOperandSetLength(two)
+    oOperandSetValue(twelve)
+    oEmitDouble(iAdd)
+    oOperandPop
+    oOperandPop
+    >>
+   ;WriteParameter
+   }
+   [ (tWriteEnd)
+   | tWriteEnd:
+   ] or >
+   >>
+  ;WriteProc
+  ] or >
+  }
+  [ (tTrapBegin)
+  | tTrapBegin:
+  @TrapStmt
+   oEmitSourceCoordinate
+   [ (tLiteralAddress)
+   | tLiteralAddress:
+   @OperandPushVariable
+    oOperandPushVariable
+    [ (tVarParm)
+    | *:
+    [ (tVarParm)
+    | *:
+    [ (tVarParm)
+    | *:
+    >>
+   ;OperandPushVariable
+   oOperandPushCopy
+   @OperandForceToStack
+    [ oOperandChooseLength (two)
+    | two:
+    ] or >
+    oEmitSingle(iPush)
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mStatic)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    oOperandPushMode(mStack)
+    >>
+   ;OperandForceToStack
+   oOperandPop
+   ?tVarParm (tVarParm)
+   ?tParmEnd (tParmEnd)
+   [ (tTrap)
+   | tTrap:
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mStatic)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   oOperandPushTrap
+   oEmitSingle(iCall)
+   oOperandPop
+   oOperandPushMode(mStackReg)
+   oOperandSetLength(two)
+   oOperandPushMode(mManifest)
+   oOperandSetLength(two)
+   oOperandSetValue(four)
+   oEmitDouble(iAdd)
+   oOperandPop
+   oOperandPop
+   ] or >
+   ] or >
+   >>
+  ;TrapStmt
+  ] or >
+  }
+  [ (tInitialValue)
+  | tInitialValue:
+  @OperandPushExpression
+   [ (tLiteralInteger)
+   | tLiteralInteger:
+   oOperandPushInteger
+   ] or >
+   }
+   [ (tInitEnd)
+   | *:
+   ] or >
+   >>
+  ;OperandPushExpression
+  ?tInitEnd (tInitEnd)
+  ?tLiteralAddress (tLiteralAddress)
+  oOperandPushVariable
+  oOperandSwap
+  [ (tStoreInteger)
+  | tStoreInteger:
+  oOperandSetLength(two)
+  @OperandAssignIntegerPopPop
+   [ oOperandCompareLeftAndRight (no)
+   | no:
+   @EmitMove
+    @OperandLeftOrRightIsTemp
+     [ oOperandChooseMode (mManifest)
+     | *:
+     oOperandSwap
+     [ oOperandChooseMode (mStatic)
+     | *:
+     oOperandSwap
+     >>no
+    ;OperandLeftOrRightIsTemp
+    [@OperandLeftOrRightIsTemp (no)
+    | *:
+    [ oOperandChooseMode (mManifest)
+    | mManifest:
+    oEmitDouble(iMov)
+    ] or >
+    >>
+   ;EmitMove
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mManifest)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mStatic)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   ] or >
+   >>
+  ;OperandAssignIntegerPopPop
+  ] or >
+  ] or >
+  }
+  [ (tWhileBegin)
+  | tWhileBegin:
+  @WhileStmt
+   oFixPushAddress
+   oEmitMergeSourceCoordinate
+   @OperandPushBooleanControlExpression
+    @OperandPushExpression
+     [ (tLiteralAddress)
+     | tLiteralAddress:
+     @OperandPushVariable
+      oOperandPushVariable
+      [ (tFetchInteger)
+      | *:
+      [ (tFetchInteger)
+      | *:
+      [ (tFetchInteger)
+      | tFetchInteger:
+      ] or >
+      >>
+     ;OperandPushVariable
+     ] or >
+     }
+     [ (tLiteralInteger)
+     | tLiteralInteger:
+     oOperandPushInteger
+     ] or >
+     }
+     [ (tLE)
+     | tLE:
+     @OperandGreaterPop
+      [ oOperandCompareLeftAndRight (no)
+      | no:
+      [ oOperandChooseManifestValue ()
+      | *:
+      oOperandSwap
+      [ oOperandChooseManifestValue ()
+      | *:
+      oOperandSwap
+      @EmitCmp
+       oOperandSwap
+       [ oOperandChooseMode (mStatic)
+       | *:
+       oOperandSwap
+       @OperandLeftOrRightIsTemp
+        [ oOperandChooseMode (mManifest)
+        | *:
+        oOperandSwap
+        [ oOperandChooseMode (mStatic)
+        | *:
+        oOperandSwap
+        >>no
+       ;OperandLeftOrRightIsTemp
+       [@OperandLeftOrRightIsTemp (no)
+       | *:
+       [ oOperandChooseMode (mManifest)
+       | mManifest:
+       oEmitDouble(iCmp)
+       ] or >
+       >>
+      ;EmitCmp
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mManifest)
+       | *:
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mStatic)
+       | *:
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      oOperandPushJumpCondition(iJgt)
+      ] or >
+      >>
+     ;OperandGreaterPop
+     @OperandNot
+      @OperandForceToJumpCondition
+       [ oOperandIsJumpCondition (yes)
+       | yes:
+       ] or >
+       >>
+      ;OperandForceToJumpCondition
+      @OperandComplementJumpCondition
+       [ oOperandChooseJumpCondition (iJgt)
+       | *:
+       oOperandComplementJumpCondition
+       >>
+      ;OperandComplementJumpCondition
+      >>
+     ;OperandNot
+     ] or >
+     }
+     [ (tWhileTest)
+     | *:
+     ] or >
+     >>
+    ;OperandPushExpression
+    @OperandForceToJumpCondition
+     [ oOperandIsJumpCondition (yes)
+     | yes:
+     ] or >
+     >>
+    ;OperandForceToJumpCondition
+    >>
+   ;OperandPushBooleanControlExpression
+   ?tWhileTest (tWhileTest)
+   @OperandComplementJumpCondition
+    [ oOperandChooseJumpCondition (iJle)
+    | *:
+    oOperandComplementJumpCondition
+    >>
+   ;OperandComplementJumpCondition
+   [ oOperandChooseJumpCondition (iJgt)
+   | *:
+   @OperandInfixOr
+    @OperandForceToJumpCondition
+     [ oOperandIsJumpCondition (yes)
+     | yes:
+     ] or >
+     >>
+    ;OperandForceToJumpCondition
+    [ oOperandChooseJumpCondition (iJgt)
+    | *:
+    oEmitConditionalForwardBranch
+    oFixAndFreeFalseBranches
+    oFixPushLastAddress
+    oOperandMergeShuntsWithAddress
+    oFixPopAddress
+    >>
+   ;OperandInfixOr
+   @Statements
+    @Block
+     [ (tCallBegin)
+     | tCallBegin:
+     @CallStmt
+      oEmitSourceCoordinate
+      oOperandPushMode(mManifest)
+      oOperandSetLength(two)
+      oOperandSetValue(zero)
+      [ (tLiteralAddress)
+      | *:
+      @OperandPushExpression
+       [ (tLiteralAddress)
+       | tLiteralAddress:
+       @OperandPushVariable
+        oOperandPushVariable
+        [ (tFetchInteger)
+        | *:
+        [ (tFetchInteger)
+        | *:
+        [ (tFetchInteger)
+        | tFetchInteger:
+        ] or >
+        >>
+       ;OperandPushVariable
+       ] or >
+       }
+       [ (tParmEnd)
+       | *:
+       ] or >
+       >>
+      ;OperandPushExpression
+      @OperandConvertJumpConditionToData
+       [ oOperandIsJumpCondition (no)
+       | no:
+       ] or >
+       >>
+      ;OperandConvertJumpConditionToData
+      [ (tParmEnd)
+      | *:
+      @OperandForceToStack
+       [ oOperandChooseLength (two)
+       | two:
+       ] or >
+       oEmitSingle(iPush)
+       @OperandPopAndFreeTemp
+        [ oOperandChooseMode (mStatic)
+        | *:
+        oOperandPop
+        >>
+       ;OperandPopAndFreeTemp
+       oOperandPushMode(mStack)
+       >>
+      ;OperandForceToStack
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mStack)
+       | *:
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      ?tParmEnd (tParmEnd)
+      oOperandPushMode(mManifest)
+      oOperandSetLength(two)
+      oOperandSetValue(four)
+      oOperandAddManifestValues
+      oOperandPop
+      }
+      [ (tLiteralAddress)
+      | *:
+      @OperandPushExpression
+       [ (tLiteralAddress)
+       | tLiteralAddress:
+       @OperandPushVariable
+        oOperandPushVariable
+        [ (tVarParm)
+        | *:
+        [ (tVarParm)
+        | *:
+        [ (tVarParm)
+        | *:
+        >>
+       ;OperandPushVariable
+       ] or >
+       }
+       [ (tVarParm)
+       | *:
+       ] or >
+       >>
+      ;OperandPushExpression
+      @OperandConvertJumpConditionToData
+       [ oOperandIsJumpCondition (no)
+       | no:
+       ] or >
+       >>
+      ;OperandConvertJumpConditionToData
+      [ (tVarParm)
+      | tVarParm:
+      @OperandForceAddressIntoTemp
+       [ oOperandChooseMode (mStatic)
+       | mStatic:
+       @OperandPushTempWord
+        oTempAllocate
+        oOperandPushTemp
+        oOperandSetValue(zero)
+        oOperandSetLength(two)
+        >>
+       ;OperandPushTempWord
+       oOperandSwap
+       oEmitDouble(iLoada)
+       oOperandPop
+       ] or >
+       oOperandSetLength(two)
+       >>
+      ;OperandForceAddressIntoTemp
+      @OperandForceToStack
+       [ oOperandChooseLength (two)
+       | two:
+       ] or >
+       oEmitSingle(iPush)
+       @OperandPopAndFreeTemp
+        [ oOperandChooseMode (mTemp)
+        | mTemp:
+        oTempFree
+        ] or >
+        oOperandPop
+        >>
+       ;OperandPopAndFreeTemp
+       oOperandPushMode(mStack)
+       >>
+      ;OperandForceToStack
+      ] or >
+      @OperandPopAndFreeTemp
+       [ oOperandChooseMode (mStack)
+       | *:
+       oOperandPop
+       >>
+      ;OperandPopAndFreeTemp
+      ?tParmEnd (tParmEnd)
+      oOperandPushMode(mManifest)
+      oOperandSetLength(two)
+      oOperandSetValue(four)
+      oOperandAddManifestValues
+      oOperandPop
+      }
+      [ (tCallEnd)
+      | tCallEnd:
+      ] or >
+      oOperandPushProcedure
+      oOperandSetMode(mProc)
+      oEmitSingle(iCall)
+      oOperandPop
+      oOperandPushMode(mStackReg)
+      oOperandSetLength(two)
+      oOperandSwap
+      oEmitDouble(iAdd)
+      oOperandPop
+      oOperandPop
+      oEmitMergeSourceCoordinate
+      >>
+     ;CallStmt
+     ] or >
+     }
+     [ (tIfBegin)
+     | tIfBegin:
+     @IfStmt
+      oEmitSourceCoordinate
+      @OperandPushBooleanControlExpression
+       @OperandPushExpression
+        [ (tLiteralAddress)
+        | tLiteralAddress:
+        @OperandPushVariable
+         oOperandPushVariable
+         [ (tFetchBoolean)
+         | *:
+         [ (tFetchBoolean)
+         | *:
+         [ (tFetchBoolean)
+         | tFetchBoolean:
+         oOperandSetLength(one)
+         ] or >
+         >>
+        ;OperandPushVariable
+        ] or >
+        }
+        [ (tIfThen)
+        | *:
+        ] or >
+        >>
+       ;OperandPushExpression
+       @OperandForceToJumpCondition
+        [ oOperandIsJumpCondition (no)
+        | *:
+        [ oOperandChooseManifestValue ()
+        | *:
+        @EmitTst
+         [ oOperandChooseLength (one)
+         | one:
+         oOperandPushMode(mManifest)
+         oOperandSetValue(zero)
+         oOperandSetLength(one)
+         ] or >
+         @EmitCmp
+          oOperandSwap
+          [ oOperandChooseMode (mStatic)
+          | *:
+          oOperandSwap
+          @OperandLeftOrRightIsTemp
+           [ oOperandChooseMode (mManifest)
+           | *:
+           oOperandSwap
+           [ oOperandChooseMode (mStatic)
+           | *:
+           oOperandSwap
+           >>no
+          ;OperandLeftOrRightIsTemp
+          [@OperandLeftOrRightIsTemp (no)
+          | *:
+          [ oOperandChooseMode (mManifest)
+          | mManifest:
+          oEmitDouble(iCmp)
+          ] or >
+          >>
+         ;EmitCmp
+         oOperandPop
+         >>
+        ;EmitTst
+        @OperandPopAndFreeTemp
+         [ oOperandChooseMode (mStatic)
+         | *:
+         oOperandPop
+         >>
+        ;OperandPopAndFreeTemp
+        oOperandPushJumpCondition(iJne)
+        >>
+       ;OperandForceToJumpCondition
+       >>
+      ;OperandPushBooleanControlExpression
+      ?tIfThen (tIfThen)
+      [ oOperandChooseJumpCondition (iJne)
+      | *:
+      @OperandComplementJumpCondition
+       [ oOperandChooseJumpCondition (iJne)
+       | *:
+       oOperandComplementJumpCondition
+       >>
+      ;OperandComplementJumpCondition
+      @OperandInfixOr
+       @OperandForceToJumpCondition
+        [ oOperandIsJumpCondition (yes)
+        | yes:
+        ] or >
+        >>
+       ;OperandForceToJumpCondition
+       [ oOperandChooseJumpCondition (iJeq)
+       | *:
+       oEmitConditionalForwardBranch
+       oFixAndFreeFalseBranches
+       oFixPushLastAddress
+       oOperandMergeShuntsWithAddress
+       oFixPopAddress
+       >>
+      ;OperandInfixOr
+      @Statements
+       @Block
+        [ (tWriteBegin)
+        | tWriteBegin:
+        @WriteProc
+         oEmitSourceCoordinate
+         [ (tTrapBegin)
+         | *:
+         @WriteParameter
+          ?tTrapBegin (tTrapBegin)
+          ?tLiteralAddress (tLiteralAddress)
+          @OperandPushVariable
+           oOperandPushVariable
+           [ (tVarParm)
+           | *:
+           [ (tVarParm)
+           | *:
+           [ (tVarParm)
+           | *:
+           >>
+          ;OperandPushVariable
+          @OperandForceToStack
+           [ oOperandChooseLength (two)
+           | two:
+           ] or >
+           oEmitSingle(iPush)
+           @OperandPopAndFreeTemp
+            [ oOperandChooseMode (mStatic)
+            | *:
+            oOperandPop
+            >>
+           ;OperandPopAndFreeTemp
+           oOperandPushMode(mStack)
+           >>
+          ;OperandForceToStack
+          @OperandPopAndFreeTemp
+           [ oOperandChooseMode (mStack)
+           | *:
+           oOperandPop
+           >>
+          ;OperandPopAndFreeTemp
+          ?tVarParm (tVarParm)
+          ?tParmEnd (tParmEnd)
+          @OperandPushExpression
+           [ (tLiteralAddress)
+           | tLiteralAddress:
+           @OperandPushVariable
+            oOperandPushVariable
+            [ (tFetchInteger)
+            | *:
+            [ (tFetchInteger)
+            | *:
+            [ (tFetchInteger)
+            | tFetchInteger:
+            ] or >
+            >>
+           ;OperandPushVariable
+           ] or >
+           }
+           [ (tParmEnd)
+           | *:
+           ] or >
+           >>
+          ;OperandPushExpression
+          [ (tParmEnd)
+          | *:
+          @OperandForceToStack
+           [ oOperandChooseLength (two)
+           | two:
+           ] or >
+           oEmitSingle(iPush)
+           @OperandPopAndFreeTemp
+            [ oOperandChooseMode (mStatic)
+            | *:
+            oOperandPop
+            >>
+           ;OperandPopAndFreeTemp
+           oOperandPushMode(mStack)
+           >>
+          ;OperandForceToStack
+          @OperandPopAndFreeTemp
+           [ oOperandChooseMode (mStack)
+           | *:
+           oOperandPop
+           >>
+          ;OperandPopAndFreeTemp
+          ?tParmEnd (tParmEnd)
+          @OperandPushExpression
+           [ (tLiteralInteger)
+           | tLiteralInteger:
+           oOperandPushInteger
+           ] or >
+           }
+           [ (tParmEnd)
+           | *:
+           ] or >
+           >>
+          ;OperandPushExpression
+          @OperandForceToStack
+           [ oOperandChooseLength (two)
+           | two:
+           ] or >
+           oEmitSingle(iPush)
+           @OperandPopAndFreeTemp
+            [ oOperandChooseMode (mManifest)
+            | *:
+            oOperandPop
+            >>
+           ;OperandPopAndFreeTemp
+           oOperandPushMode(mStack)
+           >>
+          ;OperandForceToStack
+          @OperandPopAndFreeTemp
+           [ oOperandChooseMode (mStack)
+           | *:
+           oOperandPop
+           >>
+          ;OperandPopAndFreeTemp
+          ?tParmEnd (tParmEnd)
+          ?tTrap (tTrap)
+          oOperandPushTrap
+          oEmitSingle(iCall)
+          oOperandPop
+          oOperandPushMode(mStackReg)
+          oOperandSetLength(two)
+          oOperandPushMode(mManifest)
+          oOperandSetLength(two)
+          oOperandSetValue(twelve)
+          oEmitDouble(iAdd)
+          oOperandPop
+          oOperandPop
+          >>
+         ;WriteParameter
+         }
+         [ (tWriteEnd)
+         | tWriteEnd:
+         ] or >
+         >>
+        ;WriteProc
+        ] or >
+        }
+        [ (tIfEnd)
+        | *:
+        ] or >
+        >>
+       ;Block
+       >>
+      ;Statements
+      [ (tIfEnd)
+      | tIfEnd:
+      oFixAndFreeShuntList
+      oOperandPop
+      oEmitMergeSourceCoordinate
+      ] or >
+      >>
+     ;IfStmt
+     ] or >
+     }
+     [ (tAssignBegin)
+     | tAssignBegin:
+     @AssignStmt
+      oEmitSourceCoordinate
+      ?tLiteralAddress (tLiteralAddress)
+      @OperandPushVariable
+       oOperandPushVariable
+       [ (tLiteralAddress)
+       | *:
+       [ (tLiteralAddress)
+       | *:
+       [ (tLiteralAddress)
+       | *:
+       >>
+      ;OperandPushVariable
+      @OperandPushExpressionAssignPopPop
+       [ (tLiteralAddress)
+       | tLiteralAddress:
+       @OperandPushVariable
+        oOperandPushVariable
+        [ (tFetchInteger)
+        | *:
+        [ (tFetchInteger)
+        | *:
+        [ (tFetchInteger)
+        | tFetchInteger:
+        ] or >
+        >>
+       ;OperandPushVariable
+       ] or >
+       }
+       [ (tLiteralInteger)
+       | tLiteralInteger:
+       oOperandPushInteger
+       ] or >
+       }
+       [ (tAdd)
+       | tAdd:
+       [ (tAssignInteger)
+       | tAssignInteger:
+       @OperandAddAssignPopPopPop
+        [ oOperandCompareRightAndDest (no)
+        | *:
+        oOperandSwap
+        [ oOperandCompareRightAndDest (yes)
+        | yes:
+        oOperandPop
+        @OperandAddRightToLeftPop
+         [ oOperandChooseManifestValue (one)
+         | one:
+         oOperandPop
+         oEmitSingle(iInc)
+         ] or >
+         >>
+        ;OperandAddRightToLeftPop
+        @OperandPopAndFreeTemp
+         [ oOperandChooseMode (mStatic)
+         | *:
+         oOperandPop
+         >>
+        ;OperandPopAndFreeTemp
+        ] or >
+        >>
+       ;OperandAddAssignPopPopPop
+       ] or >
+       >>
+      ;OperandPushExpressionAssignPopPop
+      >>
+     ;AssignStmt
+     ] or >
+     }
+     [ (tWhileEnd)
+     | *:
+     ] or >
+     >>
+    ;Block
+    >>
+   ;Statements
+   ?tWhileEnd (tWhileEnd)
+   oEmitUnconditionalBackwardBranch
+   oFixPopAddress
+   oFixAndFreeShuntList
+   oOperandPop
+   >>
+  ;WhileStmt
+  ] or >
+  }
+  [ (tTrapBegin)
+  | tTrapBegin:
+  @TrapStmt
+   oEmitSourceCoordinate
+   [ (tLiteralAddress)
+   | tLiteralAddress:
+   @OperandPushVariable
+    oOperandPushVariable
+    [ (tVarParm)
+    | *:
+    [ (tVarParm)
+    | *:
+    [ (tVarParm)
+    | *:
+    >>
+   ;OperandPushVariable
+   oOperandPushCopy
+   @OperandForceToStack
+    [ oOperandChooseLength (two)
+    | two:
+    ] or >
+    oEmitSingle(iPush)
+    @OperandPopAndFreeTemp
+     [ oOperandChooseMode (mStatic)
+     | *:
+     oOperandPop
+     >>
+    ;OperandPopAndFreeTemp
+    oOperandPushMode(mStack)
+    >>
+   ;OperandForceToStack
+   oOperandPop
+   ?tVarParm (tVarParm)
+   ?tParmEnd (tParmEnd)
+   [ (tTrap)
+   | tTrap:
+   @OperandPopAndFreeTemp
+    [ oOperandChooseMode (mStatic)
+    | *:
+    oOperandPop
+    >>
+   ;OperandPopAndFreeTemp
+   oOperandPushTrap
+   oEmitSingle(iCall)
+   oOperandPop
+   oOperandPushMode(mStackReg)
+   oOperandSetLength(two)
+   oOperandPushMode(mManifest)
+   oOperandSetLength(two)
+   oOperandSetValue(four)
+   oEmitDouble(iAdd)
+   oOperandPop
+   oOperandPop
+   ] or >
+   ] or >
+   >>
+  ;TrapStmt
+  ] or >
+  }
+  [ (tTrapBegin)
+  | tTrapBegin:
+  @TrapStmt
+   oEmitSourceCoordinate
+   [ (tTrap)
+   | *:
+   ?tTrap (tTrap)
+   oOperandPushTrap
+   oEmitSingle(iCall)
+   oOperandPop
+   >>
+  ;TrapStmt
+  ] or >
+  }
+  [ (tEndOfFile)
+  | *:
+  ] or >
+  >>
+ ;Block
+ @EmitProgramEpilogue
+  oEmitNone(iLeave)
+  oEmitNone(iReturn)
+  >>
+ ;EmitProgramEpilogue
+ >>
+;Program
