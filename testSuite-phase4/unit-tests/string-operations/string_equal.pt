@@ -1,3 +1,5 @@
 using input;
 
-put ("Hello" == "World");
+var x = "Hello";
+
+put (x == "World");

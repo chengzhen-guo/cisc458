@@ -5,6 +5,11 @@ do
     rm $f
 done
 
+for f in $(find . -name '*.out')
+do
+    rm $f
+done
+
 for f in $(find . -name '*.pt')
 do
     i=${f#.}

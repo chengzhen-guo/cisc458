@@ -1,3 +1,5 @@
 using input;
 
-put (# "Hello");
+var x = "Hello";
+
+put (# x);
