@@ -2214,7 +2214,7 @@ OperandSubstringPopPop:
     oOperandSetLength(word)
     oOperandPushMode(mManifest)
     oOperandSetLength(word)
-    oOperandSetValue(12)      % ... %esp, 1arg*4
+    oOperandSetValue(twelve)      % ... %esp, 1arg*4
     oEmitDouble(iAdd)           %       addl    $4, %esp
 
     oOperandPop
