@@ -2316,7 +2316,7 @@ OperandStringEqualPop:
     @RestoreTempRegsFromStack
 
     @OperandForceIntoTemp       %       movl    %S1, %T
-    oOperandSetLength(word);
+    oOperandSetLength(byte);
 
 OperandNegateAssignPopPop:
     % Assign the negation of the right (top) operand's value to
