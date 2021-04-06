@@ -732,47 +732,12 @@
          ;EmitSubscriptRangeCheck
          ] or >
          oOperandSwap
-         @OperandPushArrayLowerBound
-          [ oOperandChooseMode (mStatic)
-          | mStatic:
-          oOperandPushArrayLowerBound
-          ] or >
-          >>
-         ;OperandPushArrayLowerBound
-         oOperandSwapLeftAndDest
-         @OperandSubtractPop
-          @OperandAreLeftAndRightManifest
-           [ oOperandChooseMode (mManifest)
-           | mManifest:
-           oOperandSwap
-           [ oOperandChooseMode (mTemp)
-           | *:
-           oOperandSwap
-           >>no
-          ;OperandAreLeftAndRightManifest
-          [@OperandAreLeftAndRightManifest (no)
-          | no:
-          [ oOperandChooseManifestValue (one)
-          | one:
-          oOperandPop
-          @OperandForceIntoTemp
-           [ oOperandChooseMode (mTemp)
-           | mTemp:
-           ] or >
-           >>
-          ;OperandForceIntoTemp
-          oEmitSingle(iDec)
-          ] or >
-          ] or >
-          >>
-         ;OperandSubtractPop
-         oOperandSwap
          [ oOperandChooseMode (mStatic)
          | mStatic:
          oOperandPushMode(mManifest)
          oOperandSetLength(two)
          oOperandSetValue(eight)
-         oEmitDouble(iShl)
+         oOperandAddManifestValues
          oOperandPop
          @OperandForceAddressIntoTemp
           [ oOperandChooseMode (mStatic)
@@ -1325,47 +1290,12 @@
           ;EmitSubscriptRangeCheck
           ] or >
           oOperandSwap
-          @OperandPushArrayLowerBound
-           [ oOperandChooseMode (mStatic)
-           | mStatic:
-           oOperandPushArrayLowerBound
-           ] or >
-           >>
-          ;OperandPushArrayLowerBound
-          oOperandSwapLeftAndDest
-          @OperandSubtractPop
-           @OperandAreLeftAndRightManifest
-            [ oOperandChooseMode (mManifest)
-            | mManifest:
-            oOperandSwap
-            [ oOperandChooseMode (mTemp)
-            | *:
-            oOperandSwap
-            >>no
-           ;OperandAreLeftAndRightManifest
-           [@OperandAreLeftAndRightManifest (no)
-           | no:
-           [ oOperandChooseManifestValue (one)
-           | one:
-           oOperandPop
-           @OperandForceIntoTemp
-            [ oOperandChooseMode (mTemp)
-            | mTemp:
-            ] or >
-            >>
-           ;OperandForceIntoTemp
-           oEmitSingle(iDec)
-           ] or >
-           ] or >
-           >>
-          ;OperandSubtractPop
-          oOperandSwap
           [ oOperandChooseMode (mStatic)
           | mStatic:
           oOperandPushMode(mManifest)
           oOperandSetLength(two)
           oOperandSetValue(eight)
-          oEmitDouble(iShl)
+          oOperandAddManifestValues
           oOperandPop
           @OperandForceAddressIntoTemp
            [ oOperandChooseMode (mStatic)
@@ -1850,47 +1780,12 @@
           ;EmitSubscriptRangeCheck
           ] or >
           oOperandSwap
-          @OperandPushArrayLowerBound
-           [ oOperandChooseMode (mStatic)
-           | mStatic:
-           oOperandPushArrayLowerBound
-           ] or >
-           >>
-          ;OperandPushArrayLowerBound
-          oOperandSwapLeftAndDest
-          @OperandSubtractPop
-           @OperandAreLeftAndRightManifest
-            [ oOperandChooseMode (mManifest)
-            | mManifest:
-            oOperandSwap
-            [ oOperandChooseMode (mTemp)
-            | *:
-            oOperandSwap
-            >>no
-           ;OperandAreLeftAndRightManifest
-           [@OperandAreLeftAndRightManifest (no)
-           | no:
-           [ oOperandChooseManifestValue (one)
-           | one:
-           oOperandPop
-           @OperandForceIntoTemp
-            [ oOperandChooseMode (mTemp)
-            | mTemp:
-            ] or >
-            >>
-           ;OperandForceIntoTemp
-           oEmitSingle(iDec)
-           ] or >
-           ] or >
-           >>
-          ;OperandSubtractPop
-          oOperandSwap
           [ oOperandChooseMode (mStatic)
           | mStatic:
           oOperandPushMode(mManifest)
           oOperandSetLength(two)
           oOperandSetValue(eight)
-          oEmitDouble(iShl)
+          oOperandAddManifestValues
           oOperandPop
           @OperandForceAddressIntoTemp
            [ oOperandChooseMode (mStatic)

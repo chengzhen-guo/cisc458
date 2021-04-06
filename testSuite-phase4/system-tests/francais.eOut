@@ -997,6 +997,6 @@
         | *:
 ### Coder S/SL program failure: Semantic choice failed
 while processing line         14
-Table index 4261;  Operation 11;  Argument 12
+Table index 4253;  Operation 11;  Argument 12
 ### Coder assertion 8 failed: while processing line         14
 
