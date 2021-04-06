@@ -384,7 +384,11 @@ fun player is
 
     var softhand : like true;
 
+    put("1");
+
     evaluate (playerscards, playershand, softhand, playerscount);
+
+    put("2");
 
     if playerscount == 21 then
         writeplayersname;
@@ -405,6 +409,8 @@ fun player is
             playerjoenaive;
         end;
     end;
+
+    put("3");
 
     if playerstops then
         writeplayersname;
