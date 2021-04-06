@@ -1542,6 +1542,16 @@ OperandPushExpression:
             @OperandEolnFunction
         | tEOF:
             @OperandEofFunction
+        | tConcatenate:
+            @OperandConcatenatePop
+        | tRepeatString:
+            @OperandRepeatStringPop
+        | tSubstring:
+            @OperandSubstringPopPop
+        | tLength:
+            @OperandLength
+        | tStringEQ:
+            @OperandStringEqualPop
         | *:
             >
     ]};
@@ -2076,8 +2086,32 @@ OperandPushExpressionAssignPopPop:
             @OperandEolnFunction
         | tEOF:
             @OperandEofFunction
+        | tConcatenate:
+            @OperandConcatenatePop
+        | tRepeatString:
+            @OperandRepeatStringPop
+        | tSubstring:
+            @OperandSubstringPopPop
+        | tLength:
+            @OperandLength
+        | tStringEQ:
+            @OperandStringEqualPop
     ]};
 
+OperandConcatenatePop:
+    ;
+
+OperandRepeatStringPop:
+    ;
+
+OperandSubstringPopPop:
+    ;
+
+OperandLength:
+    ;
+
+OperandStringEqualPop:
+    ;
 
 OperandNegateAssignPopPop:
     % Assign the negation of the right (top) operand's value to
