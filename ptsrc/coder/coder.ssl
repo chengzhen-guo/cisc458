@@ -2267,7 +2267,7 @@ OperandLength:
     @RestoreTempRegsFromStack
 
     @OperandForceIntoTemp       %       movl    %S1, %T
-    oOperandSetLength(byte);
+    oOperandSetLength(word);
 
 OperandStringEqualPop:
     % First save the temp registers, since we are called in an
