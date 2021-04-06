@@ -198,6 +198,7 @@
         trReadln = 4;
         trWrite = 5;
         trWriteln = 6;
+        trReadString = 108;
         trWriteString = 109;
         trWriteInteger = 8;
         trWriteChar = 9;
@@ -214,7 +215,6 @@
         trSubstring = 104;
         trLength = 105;
         trStringEqual = 107;
-        trReadString = 108;
         trRepeatString = 110;
         byte = 1;
         word = 2;
