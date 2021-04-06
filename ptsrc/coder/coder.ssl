@@ -2155,16 +2155,228 @@ OperandConcatenatePop:
     oOperandSetLength(byte); 
 
 OperandRepeatStringPop:
-    ;
+    % First save the temp registers, since we are called in an
+    % expression, they  may be in use
+    @SaveTempRegsToStack        %       pushl %eax .. %edx
+
+    % Now send the arguments
+    @OperandForceAddressIntoTemp
+    @OperandForcetoStack
+    @OperandPopAndFreeTemp
+
+    @OperandForceAddressIntoTemp
+    @OperandForcetoStack
+    @OperandPopAndFreeTemp
+
+    % Call the trAssignString trap routine to test the end of line condition
+    oOperandPushMode(mTrap)
+    oOperandSetValue(trRepeatString)
+    oOperandSetLength(word)
+    oEmitSingle(iCall)          %       call    pttrapNN
+    oOperandPop
+
+    % Pop argument
+    oOperandPushMode(mStackReg)
+    oOperandSetLength(word)
+    oOperandPushMode(mManifest)
+    oOperandSetLength(word)
+    oOperandSetValue(eight)      % ... %esp, 1arg*4
+    oEmitDouble(iAdd)           %       addl    $4, %esp
+
+    oOperandPop
+    oOperandPop
+
+    oOperandPushMode(mStackReg)
+    oOperandSetLength(word)
+    oOperandPushMode(mManifest)
+    oOperandSetLength(word)
+    oOperandSetValue(eight)      % ... %esp, 1arg*4
+    oEmitDouble(iAdd)           %       addl    $4, %esp
+
+    oOperandPop
+    oOperandPop
+
+    % Accept result
+    oOperandPushMode(mScratchReg1)
+    oOperandSetLength(word)
+    oOperandPushMode(mResultReg)
+    oOperandSetLength(word)
+    oEmitDouble(iMov)           %       movl    %eax, %S1
+    oOperandPop %eax
+
+    % Restore temp regs
+    @RestoreTempRegsFromStack
+
+    @OperandForceIntoTemp       %       movl    %S1, %T
+    oOperandSetLength(byte);
 
 OperandSubstringPopPop:
-    ;
+    % First save the temp registers, since we are called in an
+    % expression, they  may be in use
+    @SaveTempRegsToStack        %       pushl %eax .. %edx
+
+    % Now send the arguments
+    @OperandForceAddressIntoTemp
+    @OperandForcetoStack
+    @OperandPopAndFreeTemp
+
+    @OperandForceAddressIntoTemp
+    @OperandForcetoStack
+    @OperandPopAndFreeTemp
+
+    % Call the trAssignString trap routine to test the end of line condition
+    oOperandPushMode(mTrap)
+    oOperandSetValue(trSubstring)
+    oOperandSetLength(word)
+    oEmitSingle(iCall)          %       call    pttrapNN
+    oOperandPop
+
+    % Pop argument
+    oOperandPushMode(mStackReg)
+    oOperandSetLength(word)
+    oOperandPushMode(mManifest)
+    oOperandSetLength(word)
+    oOperandSetValue(eight)      % ... %esp, 1arg*4
+    oEmitDouble(iAdd)           %       addl    $4, %esp
+
+    oOperandPop
+    oOperandPop
+
+    oOperandPushMode(mStackReg)
+    oOperandSetLength(word)
+    oOperandPushMode(mManifest)
+    oOperandSetLength(word)
+    oOperandSetValue(eight)      % ... %esp, 1arg*4
+    oEmitDouble(iAdd)           %       addl    $4, %esp
+
+    oOperandPop
+    oOperandPop
+
+    % Accept result
+    oOperandPushMode(mScratchReg1)
+    oOperandSetLength(word)
+    oOperandPushMode(mResultReg)
+    oOperandSetLength(word)
+    oEmitDouble(iMov)           %       movl    %eax, %S1
+    oOperandPop %eax
+
+    % Restore temp regs
+    @RestoreTempRegsFromStack
+
+    @OperandForceIntoTemp       %       movl    %S1, %T
+    oOperandSetLength(byte);
 
 OperandLength:
-    ;
+    % First save the temp registers, since we are called in an
+    % expression, they  may be in use
+    @SaveTempRegsToStack        %       pushl %eax .. %edx
+
+    % Now send the arguments
+    @OperandForceAddressIntoTemp
+    @OperandForcetoStack
+    @OperandPopAndFreeTemp
+
+    @OperandForceAddressIntoTemp
+    @OperandForcetoStack
+    @OperandPopAndFreeTemp
+
+    % Call the trAssignString trap routine to test the end of line condition
+    oOperandPushMode(mTrap)
+    oOperandSetValue(trLength)
+    oOperandSetLength(word)
+    oEmitSingle(iCall)          %       call    pttrapNN
+    oOperandPop
+
+    % Pop argument
+    oOperandPushMode(mStackReg)
+    oOperandSetLength(word)
+    oOperandPushMode(mManifest)
+    oOperandSetLength(word)
+    oOperandSetValue(eight)      % ... %esp, 1arg*4
+    oEmitDouble(iAdd)           %       addl    $4, %esp
+
+    oOperandPop
+    oOperandPop
+
+    oOperandPushMode(mStackReg)
+    oOperandSetLength(word)
+    oOperandPushMode(mManifest)
+    oOperandSetLength(word)
+    oOperandSetValue(eight)      % ... %esp, 1arg*4
+    oEmitDouble(iAdd)           %       addl    $4, %esp
+
+    oOperandPop
+    oOperandPop
+
+    % Accept result
+    oOperandPushMode(mScratchReg1)
+    oOperandSetLength(word)
+    oOperandPushMode(mResultReg)
+    oOperandSetLength(word)
+    oEmitDouble(iMov)           %       movl    %eax, %S1
+    oOperandPop %eax
+
+    % Restore temp regs
+    @RestoreTempRegsFromStack
+
+    @OperandForceIntoTemp       %       movl    %S1, %T
+    oOperandSetLength(byte);
 
 OperandStringEqualPop:
-    ;
+    % First save the temp registers, since we are called in an
+    % expression, they  may be in use
+    @SaveTempRegsToStack        %       pushl %eax .. %edx
+
+    % Now send the arguments
+    @OperandForceAddressIntoTemp
+    @OperandForcetoStack
+    @OperandPopAndFreeTemp
+
+    @OperandForceAddressIntoTemp
+    @OperandForcetoStack
+    @OperandPopAndFreeTemp
+
+    % Call the trAssignString trap routine to test the end of line condition
+    oOperandPushMode(mTrap)
+    oOperandSetValue(trStringEqual)
+    oOperandSetLength(word)
+    oEmitSingle(iCall)          %       call    pttrapNN
+    oOperandPop
+
+    % Pop argument
+    oOperandPushMode(mStackReg)
+    oOperandSetLength(word)
+    oOperandPushMode(mManifest)
+    oOperandSetLength(word)
+    oOperandSetValue(eight)      % ... %esp, 1arg*4
+    oEmitDouble(iAdd)           %       addl    $4, %esp
+
+    oOperandPop
+    oOperandPop
+
+    oOperandPushMode(mStackReg)
+    oOperandSetLength(word)
+    oOperandPushMode(mManifest)
+    oOperandSetLength(word)
+    oOperandSetValue(eight)      % ... %esp, 1arg*4
+    oEmitDouble(iAdd)           %       addl    $4, %esp
+
+    oOperandPop
+    oOperandPop
+
+    % Accept result
+    oOperandPushMode(mScratchReg1)
+    oOperandSetLength(word)
+    oOperandPushMode(mResultReg)
+    oOperandSetLength(word)
+    oEmitDouble(iMov)           %       movl    %eax, %S1
+    oOperandPop %eax
+
+    % Restore temp regs
+    @RestoreTempRegsFromStack
+
+    @OperandForceIntoTemp       %       movl    %S1, %T
+    oOperandSetLength(byte);
 
 OperandNegateAssignPopPop:
     % Assign the negation of the right (top) operand's value to

@@ -1,0 +1,5 @@
+using input;
+
+var x = "Hello";
+
+var y = x / 4 : 5;
