@@ -292,7 +292,11 @@ fun dealer is
 
     var softhand : like true;
 
+    put("evaluate"); putln;
+
     evaluate (dealerscards, dealershand, softhand, dealerscount);
+
+    put("if dealerscount > 21 then"); putln;
 
     if dealerscount > 21 then
         put ("Dealer goes bust."); putln;
@@ -308,6 +312,8 @@ fun dealer is
         else 
             dealerstops = true;
         end;
+
+        put("if dealerstops then"); putln;
 
         if dealerstops then
             put ("Dealer stands with ", dealerscount:1, "."); putln;
