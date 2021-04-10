@@ -418,8 +418,15 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
         trReadln = 4;
         trWrite = 5;
         trWriteln = 6;
+        trAssignString = 101;
+        trChrString = 102;
+        trConcatenate = 103;
+        trSubstring = 104;
+        trLength = 105;
+        trStringEqual = 107;
         trReadString = 108;
         trWriteString = 109;
+        trRepeatString = 110;
         trWriteInteger = 8;
         trWriteChar = 9;
         trReadInteger = 10;
