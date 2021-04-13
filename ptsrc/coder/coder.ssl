@@ -2805,9 +2805,9 @@ OperandChr:
 OperandOrd:
     % Byte operand is on top of operand stack
     % Fill a register with integer zero
-    oOperandPushMode(mManifest)
+    oOperandPushMode(mTempIndirect)
     oOperandSetValue(zero)
-    oOperandSetLength(word)
+    oOperandSetLength(byte)
     @OperandForceIntoTemp       %       movl    $0, %T
     % Move the character value into the low order byte
     oOperandSetLength(byte)
