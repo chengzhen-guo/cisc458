@@ -1,6 +1,5 @@
 using output;
 
-var x = "Hello";
-var y = x == "World";
-
-put (y); putln;
+if "Hello" == "Hello" then
+    put ("String equal test."); putln;
+end;

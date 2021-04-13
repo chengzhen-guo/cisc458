@@ -1,6 +1,5 @@
 using output;
 
-var x = "Hello";
-var y = x != "World";
-
-put (y); putln;
+if "Hello" != "World" then
+    put ("String not equal test."); putln;
+end;
