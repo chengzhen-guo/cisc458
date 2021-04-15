@@ -1,0 +1,10 @@
+using input, output;
+var word = "";
+
+put ("I like anything you say (end with 'bye'):"); putln;
+repeat
+    get (word);
+    put ("I like " | word | "!");
+    putln;
+    getln;
+while word != "bye";
