@@ -1,0 +1,22 @@
+using output;
+
+val radius = 10;
+var i : like 1;
+var j : like 1;
+var sum : like 1;
+
+i = radius;
+
+repeat while i >= 0 - radius
+    j = 0 - radius;
+    repeat while j <= radius
+	if i * i + j * j == radius * radius then 
+            put("#");            
+	else
+	    put(" ");
+	end;
+	j += 1;
+    end;
+    putln;
+    i -= 2;
+end;

@@ -1,0 +1,27 @@
+using output;
+
+val arraySize = 5;
+
+var arr [arraySize] : like 1;
+var brr [arraySize] : like 1;
+
+var i = 1;
+
+repeat while (i <= arraySize)
+    arr[i] = i;
+    brr[i] = i;
+
+    i += 1;
+end;
+
+i = 1;
+var dotProduct = 0;
+
+repeat
+    dotProduct += arr[i] * brr[i];
+    i += 1;
+while (i <= arraySize);
+
+("the dot product of two array is  is: ", dotProduct);
+
+putln;
