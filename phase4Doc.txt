@@ -1,0 +1,64 @@
+Interface with the Semantic phase
+
+1. In coder.ssl, added all the new Like T-codes (tStringEQ, tConcatenate, tInitialValue, tCaseElse, and so on), the list of T-codes is identical to the output tokens in the one in semantic.ssl.
+
+2. In coder.ssl, added the trap codes with correct values from the Phase 4 handout for the new Like run time library string operation traps to the trap codes.
+
+3. In coder.ssl, added a string kind to the Data Kinds with value of 256.
+
+4. In coder.ssl, added the constant twofiftysix with value of 256 to the type Integer. 
+
+
+
+Mixed Declarations and Statements
+
+1. In coder.ssl, the old assumption in the rule Block that statements follow declarations is modified, so that it accepts all the statement T-codes directly in its main declaration-handling loop by copying all the alternatives in the Statements rule directly into it. Since in Like there is no distinction between statements and declarations, statement T-codes get mixed in with declaration initialization T-codes,
+
+2. In coder.ssl, replaced the body of the Statements rule with a simple call to the new Block rule. Since wherever statements can appear in Like, declarations can.
+
+
+
+Initial Values
+
+1. In coder.ssl, in the Block rule, added an alternative for tInitialValue that accepts the initial value expression (OperandPushExpression), the variable to be assigned to (tLiteralAddress) and the assignment operation (tStoreInteger, tStoreAddress, tStoreChar or tStoreBoolean). Appropriate assignment rules are used for the type to smit the assignment code (OperandAssignIntegerPopOp etc.).
+
+2. In coder.ssl, the variable and value are placed on the Operand stack in the rule's expected order, and that the top operand is set to the appropriate operand length (byte, word, string).
+
+
+
+Choose Statement Else Clauses
+
+1. In coder.ssl, changed the EmitDefaultCaseAbort rule to check for tCaseElsebefore emitting the call to the case abort trap. If there is a tCaseElse, then use the Statements rule to handle its statements. Accept the tCaseElseEnd following, and emit a case merge branch since execution is counted after the Like choose statement. If there is no tCaseElse, then emit a call to the case abort trap just as before.
+
+
+
+String Constants, Variables and Arrays
+
+1. In coder.ssl and coder.pt, removed the alternatives handling tLiteralChar and tLiteralString, since the PT Pascal char typr and fake strings are not used in Like.
+
+2. In coder.ssl, added an alternative for tSkipString to OperandPushExpression-AssignPopPop similar to the one in OperandPushExpression.
+
+3. In coder.pt, added reading of the trailing null character (zero) for tStringData in AcceptInputToken
+
+4. In coder.ssl, changed the result lengths of tStoreChar, tFetchChar and OperandSubscriptChar to specify string rather than byte. Since the old char T-codes (tFetchChar, tStoreChar, tSubscriptChar, etc) are reused to represent strings in Like, the operand sizes need to be changed in the result of such operations.
+
+5. In coder.ssl, in OperandForceToStack, added an alternative for operand length string that calls OperandForceAddressIntoTemp before emitting the code to push the operand. Since Like strings do not fit in X86 registers and stack elements, strings variables and values are represented as temporaries and arguments using their addresses.
+
+6. In coder.ssl, in OperandForceIntoTemp, added an alternative for operand length string which calls OperandForceAddressIntoTemp and then exits the rule.
+
+7. In coder.ssl, modified OperandChecked-SubscriptNonManifestCharPop and OperandUncheckedSubscriptNonManifestCharPopto scale of the normalized subscript by string size, like the scaling by word size in OperandCheckedSubscriptNonManifestIntegerPop, but scaling by 256 (2**8) rather than 4 (2**2). Since strings in Like take up 256 bytes in memory, the subscripting of string arrays needs to be changed to scale the subscript by the correct string size.
+
+8. In coder.ssl, in OperandUncheckedSubscriptNonManifestCharPop, added scaling of the lower bound by string size before subtraction, like the scaling by word size in OperandUncheckedSubscriptNonManifestIntegerPop.
+
+9. In coder.pt, added a definition for stringSize (256) after wordSize, and added offset scaling by stringSize (256) to OperandFoldManifestSubscript if the array operand’s length is string, similarly to the existing scaling by wordSize when the array operand’s length is word.
+
+10. In coder.ssl, in OperandAssignCharPopPop, replaced the single byte assignment with the emission of code to call the new trAssignString trap. The trap is called after the OperandEolnFunction rule, without a result value since assignment isn't a function.
+
+
+
+String Operations
+
+1. In coder.ssl, added alternatives for the new string operations tConcatenate, tRepeatString, tSubstring, tLength and tStringEQ to both the OperandPushExpression and OperandPushExpressionAssignPopPop rules. A new rule for each operation is called in each case (e.g., OperandConcatenatePop for tConcatenate).
+
+2. In coder.ssl, implemented each of the new rules to be used by the string operations, OperandConcatenatePop, OperandSubstringPopPop, OperandRepeatStringPop, OperandLength, OperandChr, and OperandStringEqualPop, they are modelled after the OperandAssignCharPopPop rule, using its corresponding trap code.
+
