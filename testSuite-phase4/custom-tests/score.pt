@@ -14,4 +14,4 @@ elseif (score > 60) then
     put ("D - What a s**ty work, but you can still graduate."); putln;
 else
     put ("F - You cannot graduate."); putln;
-end
+end;
