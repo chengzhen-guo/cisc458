@@ -9,7 +9,7 @@ if (score > 90) then
 elseif (score > 80) then
     put ("B - It is acceptable.");
 elseif (score > 70) then
-    put ("C - It is OK.")
+    put ("C - It is OK.");
 elseif (score > 60) then
     put ("D - What a s**ty work, but you can still graduate.");
 else
