@@ -16,3 +16,8 @@ This test is to initiate a string variable with given values.
 6. String-variable.pt
 Purpose:
 This test is to declare a string variable without an initial value. Unit test 3 is a upgraded version of it.
+
+Results: in this phase results are written accumulatively becuase the results are essentially the outputs of programs. However, since all unit tests here do not have put/putln, there
+is nothing printed out on screen. Therefore, it should work as expected (under this folder) if we can compile and run them without any error. All unit tests were compiled and
+executed successfully.
+

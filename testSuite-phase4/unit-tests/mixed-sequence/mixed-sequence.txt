@@ -17,3 +17,7 @@ Its purpose is similar to that of the mixed-parameter despite of having no param
 5. Mixed-while.pt
 Purpose:
 Its purpose is similar to that of the mixed-repeat except that the form of it is in repeat while ...
+
+Results: in this phase results are written accumulatively becuase the results are essentially the outputs of programs. However, since all unit tests here do not have put/putln, there
+is nothing printed out on screen. Therefore, it should work as expected (under this folder) if we can compile and run them without any error. All unit tests were compiled and
+executed successfully.

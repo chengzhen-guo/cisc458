@@ -18,3 +18,8 @@ This is to test whether the special character ‘||’ can be identified correct
 6. String-substring.pt
 Purpose:
 This is to test whether a substring can be correctly generated given a specific range.
+
+Results: in this phase results are written accumulatively becuase the results are essentially the outputs of programs. However, since all unit tests here have put/putln, we can examine accuracy of programs by looking at outputs. 
+It should work as expected (under this folder) if we can compile and run them to generate expected output. All unit tests were compiled and
+executed successfully. For example, the output of String-length.pt is 5, which is indeed the length of "Hello".
+
