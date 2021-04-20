@@ -22,6 +22,6 @@ repeat
     i += 1;
 while (i <= arraySize);
 
-put ("the dot product of two array is  is: ", dotProduct);
+put ("the dot product of two array is: ", dotProduct);
 
 putln;

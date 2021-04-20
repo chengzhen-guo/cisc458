@@ -5,16 +5,13 @@ put ("Please input your score of the CISC/CMPE 458 course:"); putln;
 get (score);
 
 if (score > 90) then
-    put ("A - Good job, you are from team E right?");
+    put ("A - Good job, you are from team E right?"); putln;
 elseif (score > 80) then
-    put ("B - It is acceptable.");
+    put ("B - It is acceptable."); putln;
 elseif (score > 70) then
-    put ("C - It is OK.");
+    put ("C - It is OK."); putln;
 elseif (score > 60) then
-    put ("D - What a s**ty work, but you can still graduate.");
+    put ("D - What a s**ty work, but you can still graduate."); putln;
 else
-    put ("F - You cannot graduate.");
+    put ("F - You cannot graduate."); putln;
 end
-
-putln;
-getln;
