@@ -2805,6 +2805,8 @@ OperandChr:
 OperandOrd:
     % Byte operand is on top of operand stack
     % Fill a register with integer zero
+    @OperandForceAddressIntoTemp
+    @OperandForceIntoTemp
     oOperandPushMode(mTempIndirect)
     oOperandSetValue(zero)
     oOperandSetLength(byte)
