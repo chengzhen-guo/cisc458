@@ -1,0 +1,6 @@
+This test folder contains one test: including choose-else-statement.pt. Here is the purpose and result.
+1. choose-else-statement.pt
+Purpose:
+Test if choose when else statement can work properly.
+Result:
+No errors are detected. The output sequence is matched as expected. The tokens tCaseElse, tCaseEnd are generated as expected.

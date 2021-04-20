@@ -1,0 +1,11 @@
+Like.pt
+Like.pt is a testcase that we made to test a few functionalities together. The program repeats users’ input with a concatenation of predefined strings, and exits with receiving predefined string “bye”. This testcase involves user input, string concatenation, repeat...while, string comparison, and so on.
+
+Score.pt
+Score.pt is a testcase that receives a user input number and outputs corresponding lines. It mainly tests the if elseif statements.
+
+VectorMultiplication.pt
+VectorMultiplication.pt is a testcase that does dot product to two arrays. It mainly tests basic operations, as well as array manipulations.
+
+DrawCircle.pt
+Drawcircle.pt is a testcase that mainly test nested repeat while statements and print statements. Given radius of a size, the program will output a circle with the given radius. 

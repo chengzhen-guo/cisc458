@@ -1,0 +1,19 @@
+1. Mixed-if.pt
+Purpose:
+Test to see if an if statement can be executed without any error
+Result:
+In the output, two integers after keyword ‘if’ were pushed into the operand stack, along with invoked mechanisms like ‘ifStmt’, ‘FoldIfStmt’ because we know 1 == 1 is always true.
+2. Mixed-parameter.pt
+Purpose:
+Test to see if a function can be initialized and be invoked correctly without any error.
+Result:
+3. Mixed-repeat.pt
+Purpose:
+Test to see if a repeat … while statement can be executed with correct number of loops.
+Result:
+4. Mixed-routine.pt
+Purpose:
+Its purpose is similar to that of the mixed-parameter despite of having no parameters in the declaration.
+5. Mixed-while.pt
+Purpose:
+Its purpose is similar to that of the mixed-repeat except that the form of it is in repeat while ...

@@ -1,0 +1,48 @@
+This test folder contains eight tests: including parameter.pt, programs.pt, routine.pt, statment-if.pt, statment-val.pt, statment-var.pt, statments-repeat.pt, and statments-while.pt. Here are their corresponding purposes and results respectively.
+1. parameter.pt
+Purpose:
+Test if the function routine with passed-in parameters can work properly.
+Result:
+No errors are detected. The output sequence is matched as expected. 
+
+2. programs.pt
+Purpose:
+Test if the keyword of function ‘using output’ can work properly.
+Result:
+No errors are detected. The output sequence is matched as expected. The @Program is called as expected.
+
+3. routine.pt
+Purpose:
+Test if the function routine ‘fun F is … end’ can work properly.
+Result:
+No errors are detected. The output sequence is matched as expected. The @Program is called as expected.
+
+4. statment-if.pt
+Purpose:
+Test the if statement routine can work properly.
+Result:
+No errors are detected. The output sequence is matched as expected. The @ IfStmt is called as expected.
+
+5. statment-val.pt
+Purpose:
+Test the if val assignment (with integer and boolean type) can work properly.
+Result:
+No errors are detected. The output sequence is matched as expected. The @Block is called as expected.
+
+6. statment-var.pt
+Purpose:
+Test the if var assignment (with integer and boolean type) can work properly.
+Result:
+No errors are detected. The output sequence is matched as expected. The @Block is called as expected.
+
+7. statments-repeat.pt
+Purpose:
+Test the if the scope ‘repeat … while...’ can work properly.
+Result:
+No errors are detected. The output sequence is matched as expected. The @RepeatStmt is called as expected.
+
+8. statments-while.pt
+Purpose:
+Test the if the scope ‘repeat while … end’ can work properly.
+Result:
+No errors are detected. The output sequence is matched as expected. The @ WhileStmt is called as expected.

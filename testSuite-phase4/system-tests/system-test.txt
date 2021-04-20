@@ -1,0 +1,1 @@
+The tests inside of this folder are all taken from Professor Cordy to ensure the compiler can work properly. All test results are matched as expected. No errors are detected.

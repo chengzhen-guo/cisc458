@@ -1,0 +1,18 @@
+1. String-array-declare.pt
+Purpose:
+This test is to declare an empty string array with a fixed size.
+2. String-array-fill.pt
+Purpose:
+This test is to declare an empty string array with a fixed size, and then fill in elements.
+3. String-assignment.pt
+Purpose:
+This test is to declare a string variable and then assign a value.
+4. String-constant.pt
+Purpose:
+This test is to declare a string constant.
+5. String-initialvalue.pt
+Purpose: 
+This test is to initiate a string variable with given values.
+6. String-variable.pt
+Purpose:
+This test is to declare a string variable without an initial value. Unit test 3 is a upgraded version of it.

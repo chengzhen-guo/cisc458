@@ -1,0 +1,21 @@
+This test folder contains four tests: including init-bool.pt, init-exp.pt, init-identifier.pt, and init-int.pt. Here are their corresponding purposes and results respectively.
+1. init-bool.pt
+Purpose:
+Test if Boolean type initialization can work properly.
+Result:
+No errors are detected. The output sequence is matched as expected. @OperandAssignBooleanPopPop is called as expected.
+2. init-exp.pt
+Purpose:
+Test if expression initialization can work properly.
+Result:
+No errors are detected. The output sequence is matched as expected. 
+3. init-identifier.pt 
+Purpose:
+Test if a variable can be initialized with a defined variable.
+Result:
+No errors are detected. The output sequence is matched as expected.
+4. init-int.pt.
+Purpose:
+Test if a variable can be initialized with an integer.
+Result:
+No errors are detected. The output sequence is matched as expected. 

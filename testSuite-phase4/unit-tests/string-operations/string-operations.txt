@@ -1,0 +1,20 @@
+1. String-concatenate.pt
+Purpose:
+The program prints out the result of string concatenation by using special character ‘|’.
+2. String-equal.pt
+Purpose:
+This is to test whether two strings having same characters can be tested to equal to each other. Therefore, the expression was put in an if statement to achieve such purposes.
+3. String-length.pt
+Purpose:
+This is to test whether the special character ‘#’ can be identified properly to count the number of characters of a string.
+Result:
+The output is 5, which corresponds to the number of characters in “Hello”.
+4. String-not-equal.pt
+Purpose:
+Similar to String-equal, this is to test whether two different strings can be correctly compared.
+5. String-repeat.pt
+Purpose:
+This is to test whether the special character ‘||’ can be identified correctly to repeat the string for desired number of times.
+6. String-substring.pt
+Purpose:
+This is to test whether a substring can be correctly generated given a specific range.
