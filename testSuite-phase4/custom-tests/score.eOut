@@ -1,2 +1,2 @@
 @Program
- scan/parse error, line 13: syntax error at: elseif
+ scan/parse error, line 19: syntax error at: putln
